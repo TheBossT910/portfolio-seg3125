@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&family=Open+Sans:ital@0;1&display=swap&family=Open+Sans:ital,wght@0,700;1,700&display=swap');
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* open-sans, bowlby-one fonts from https://fonts.google.com */
+.open-sans-regular {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
+}
+
+.open-sans-bold {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }
+
+.bowlby-one-regular {
+    font-family: "Bowlby One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}

@@ -1,0 +1,332 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<title>SEG 3125 Portfolio</title>
+	</head>
+
+	<body class="open-sans-regular">
+		<!-- Navbar from https://daisyui.com/components/navbar/-->
+		<div
+			class="max-lg:collapse bg-base-200 shadow-sm w-full rounded-md sticky top-0 z-50"
+		>
+			<input id="navbar-1-toggle" class="peer hidden" type="checkbox" />
+			<label
+				for="navbar-1-toggle"
+				class="fixed inset-0 hidden max-lg:peer-checked:block"></label>
+			<div class="collapse-title navbar">
+				<div class="navbar-start">
+					<label
+						for="navbar-1-toggle"
+						class="btn btn-ghost lg:hidden"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-5 w-5"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							><path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M4 6h16M4 12h8m-8 6h16"></path></svg
+						>
+					</label>
+					<button class="btn btn-ghost text-xl">Taha Rashid</button>
+				</div>
+				<div class="navbar-center hidden lg:flex">
+					<ul class="menu menu-horizontal px-1">
+						<li><button>Home</button></li>
+						<li><button>Experiences</button></li>
+						<li>
+							<details>
+								<summary>Case Studies</summary>
+								<ul class="p-2 bg-base-100 w-40 z-1">
+									<li><button>Case 1</button></li>
+									<li><button>Case 2</button></li>
+									<li><button>Case 3</button></li>
+									<li><button>Case 4</button></li>
+								</ul>
+							</details>
+						</li>
+					</ul>
+				</div>
+				<div class="navbar-end"></div>
+			</div>
+
+			<div class="collapse-content lg:hidden z-1">
+				<ul class="menu">
+					<li><button>Item 1</button></li>
+					<li>
+						<button>Parent</button>
+						<ul>
+							<li><button>Submenu 1</button></li>
+							<li><button>Submenu 2</button></li>
+						</ul>
+					</li>
+					<li><button>Item 3</button></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Hero -->
+		<div class="bg-red-500 flex h-[50%]">
+			<!-- Left -->
+			<div class="bg-blue-500 w-[50%] px-15 py-10">
+				<div class="bowlby-one-regular text-7xl">
+					Hey!
+					<br />
+					I'm Taha Rashid,
+				</div>
+				<div class="pt-5">
+					<span class="text-2xl"
+						>2nd Year Software Engineering Student</span
+					>
+					<br />
+					<span>@ uOttawa, ON, Canada • Car Enthusiast & Gamer</span>
+				</div>
+			</div>
+
+			<!-- Right -->
+			<div class="bg-green-500 flex w-[50%] px-15 py-10">
+				<img
+					class="w-full object-cover"
+					src="https://taharashid.com/pfp.jpg"
+					alt=""
+				/>
+			</div>
+		</div>
+
+		<!-- Experiences -->
+		<div class="mx-15 my-10">
+			<!-- Title -->
+			<div class="bowlby-one-regular text-2xl">Experiences</div>
+
+			<!-- Text -->
+			<div>
+				I'm currently taking a UX/UI course (SEG3125 @ uOttawa) to help
+				me grow as a developer.
+				<br />
+				I have informal experience as a UX/UI designer from my various projects
+				+ internships
+				<br /><br />
+				<span class="open-sans-bold">My (informal) workflow:</span>
+				<ul>
+					<li>
+						Look at the project, and take notes about its central
+						themes, reasons, and call to actions
+					</li>
+					<li>
+						Look for examples from similar projects/competitors
+						online & create a collage of design elements I liked
+					</li>
+					<li>Select theming, fonts, colours</li>
+					<li>
+						Hop onto Figma to create a low-fidelity design and
+						figure out the flow, interactivity, ease-of-use, and
+						other UX elements of the design whilst gathering
+						feedback to refine my work
+					</li>
+					<li>Create a high-fidelity concept, and implement!</li>
+				</ul>
+				<br />
+				<span class="open-sans-bold">My tools include:</span>
+				<ul>
+					<li>Figma</li>
+					<li>Gimp</li>
+					<li>Pen & Paper</li>
+				</ul>
+				<br />
+				Feel free to take a look at my work & case studies below!
+			</div>
+
+			<!-- TODO: make images/captions into components -->
+			<div>
+				<!-- Images -->
+				<div class="h-[500px] bg-red-500 flex">
+					<div class="w-1/4 p-10">
+						<img
+							class="rotate-[13.3deg] z-0 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+						<img
+							class="rotate-[-13.3deg] z-1 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+						<img
+							class="rotate-[13.3deg] z-2 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+					</div>
+
+					<div class="w-1/4 p-10">
+						<img
+							class="rotate-[-13.3deg] z-0 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+						<img
+							class="rotate-[13.3deg] z-1 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+						<img
+							class="rotate-[-13.3deg] z-2 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+					</div>
+
+					<div class="w-1/4 p-10">
+						<img
+							class="rotate-[13.3deg] z-0 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+						<img
+							class="rotate-[-13.3deg] z-1 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+						<img
+							class="rotate-[13.3deg] z-2 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+					</div>
+
+					<div class="w-1/4 p-10">
+						<img
+							class="rotate-[-13.3deg] z-0 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+						<img
+							class="rotate-[13.3deg] z-1 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+						<img
+							class="rotate-[-13.3deg] z-2 h-1/3 w-full object-cover"
+							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+							alt=""
+						/>
+					</div>
+				</div>
+
+				<!-- Captions -->
+				<div class="w-full flex">
+					<div class="w-1/4">
+						<button class="btn btn-primary w-full">GitHub</button>
+
+						<div>The NSX-R Project 1</div>
+					</div>
+
+					<div class="w-1/4">
+						<button class="btn btn-primary w-full">GitHub</button>
+
+						<div>The NSX-R Project 2</div>
+					</div>
+
+					<div class="w-1/4">
+						<button class="btn btn-primary w-full">GitHub</button>
+
+						<div>The NSX-R Project 3</div>
+					</div>
+
+					<div class="w-1/4">
+						<button class="btn btn-primary w-full">GitHub</button>
+
+						<div>The NSX-R Project 4 </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Case Studies -->
+		<div class="mx-15 my-10">
+			<!-- Title -->
+			<div class="bowlby-one-regular text-2xl">Case Studies</div>
+
+			<!-- Content -->
+			<div>
+				<!-- TODO: make this into a component -->
+				<div
+					class="h-[500px] bg-red-500 mb-10 flex border-8 border-blue-500 rounded-md"
+				>
+					<!-- Imgs -->
+					<div class="w-2/3 flex">
+						<div class="h-full w-4/5">
+							<img
+								class="h-full w-full object-cover"
+								src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143180804-ITE8EZW9ED6H2SVD2ZKR/art-mg-hondansxrgt1.jpg"
+								alt=""
+							/>
+						</div>
+						<div class="h-full w-1/5">
+							<img
+								class="h-1/3 w-full object-cover"
+								src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143200141-4CQD30YERVW4YNHJ0FZU/art-mg-hondansxrgt2.jpg?format=2500w"
+								alt=""
+							/>
+							<img
+								class="h-1/3 w-full object-cover"
+								src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143235742-5JZ9PD2OGPGS7SOT3O41/art-mg-hondansxrgt5.jpg?format=1000w"
+								alt=""
+							/>
+							<img
+								class="h-1/3 w-full object-cover"
+								src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+								alt=""
+							/>
+						</div>
+					</div>
+
+					<div class="w-1/3">
+						<!-- Top -->
+						<div class="bg-orange-500 h-2/3 px-5 py-5">
+							<span class="bowlby-one-regular text-2xl"
+								>The NSX-R Project</span
+							>
+							<br />
+							represented the ultimate expression of the art form of
+							engineering and racing as expressed from Honda's finest
+							and brightest engineers.
+						</div>
+
+						<!-- Bottom -->
+						<div class="bg-purple-500 h-1/3 px-5 py-5">
+							<button class="w-full h-full btn btn-primary"
+								>Go to Site</button
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Inserted content -->
+		<!-- <slot /> -->
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>
