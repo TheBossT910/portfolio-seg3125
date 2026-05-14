@@ -9,8 +9,8 @@ interface CaseStudyProps {
 export default function CaseStudy({ title, description, link, linkBtn, images }: CaseStudyProps) {
 
     return (
-        <div>
-            <div className="h-[500px] mb-10 flex border-8 border-[#219EBC] bg-[#219EBC] rounded-2xl">
+        <div className="h-full">
+            <div className="h-full flex border-8 border-[#219EBC] bg-[#219EBC] rounded-2xl">
                 <div className="w-2/3 flex">
                     <div className={images.length > 1 ? 'h-full w-4/5' : 'h-full w-full'}>
                         <img

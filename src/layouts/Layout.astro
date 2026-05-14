@@ -28,10 +28,10 @@ const caseStudies: CaseStudyProps[] = [
 		link: "",
 		linkBtn: "x",
 		images: [
-			'https://media.magnetomagazine.com/app/uploads/2025/12/05165623/JAS-TENSEI-03-1000x500.jpg',
-			'https://hips.hearstapps.com/hmg-prod/images/whattobuy-2007hondas2000-jan2023-008-1671295199.jpg',
-			'https://www.acura.com/-/media/Acura-Platform/Vehicle-Pages/INTEGRA/2026/features-page/Performance/geared-for-performance/Type-S/2026_Acura_Integra_Features_Performance_Type-S_S.jpg',
-			'https://www.mugen-power.com/files/user/carparts/product/news/XPD20260108_%E3%82%A8%E3%82%A2%E3%83%AD%20%E3%82%B9%E3%83%9D%E3%83%BC%E3%83%84%E3%82%A8%E3%82%AD%E3%82%BE%E3%83%BC%E3%82%B9%E3%83%88%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E7%99%BA%E8%A1%A8/Prelude_Rear_1200x800.jpg'
+			"https://media.magnetomagazine.com/app/uploads/2025/12/05165623/JAS-TENSEI-03-1000x500.jpg",
+			"https://hips.hearstapps.com/hmg-prod/images/whattobuy-2007hondas2000-jan2023-008-1671295199.jpg",
+			"https://www.acura.com/-/media/Acura-Platform/Vehicle-Pages/INTEGRA/2026/features-page/Performance/geared-for-performance/Type-S/2026_Acura_Integra_Features_Performance_Type-S_S.jpg",
+			"https://www.mugen-power.com/files/user/carparts/product/news/XPD20260108_%E3%82%A8%E3%82%A2%E3%83%AD%20%E3%82%B9%E3%83%9D%E3%83%BC%E3%83%84%E3%82%A8%E3%82%AD%E3%82%BE%E3%83%BC%E3%82%B9%E3%83%88%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E7%99%BA%E8%A1%A8/Prelude_Rear_1200x800.jpg",
 		],
 	},
 	{
@@ -39,14 +39,16 @@ const caseStudies: CaseStudyProps[] = [
 		description: "Case Study 2 - (coming soon)",
 		link: "",
 		linkBtn: "x",
-		images: ['https://media.istockphoto.com/id/171357703/photo/head-on-chalkboard-with-light-bulb-notes-inside.jpg?s=612x612&w=0&k=20&c=mOW2sZ96mRxqvRkvjROf-l8CcqkNHgdMT-5TKSM46vA='],
+		images: [
+			"https://media.istockphoto.com/id/171357703/photo/head-on-chalkboard-with-light-bulb-notes-inside.jpg?s=612x612&w=0&k=20&c=mOW2sZ96mRxqvRkvjROf-l8CcqkNHgdMT-5TKSM46vA=",
+		],
 	},
 	{
 		title: "e-Commerce Site",
 		description: "Case Study 3 - (coming soon)",
 		link: "",
 		linkBtn: "x",
-		images: ['https://cmsmart.net/images/community/8382/banner.jpg'],
+		images: ["https://cmsmart.net/images/community/8382/banner.jpg"],
 	},
 	{
 		title: "Analytics Site",
@@ -132,7 +134,8 @@ const experienceCards: ExperienceCardProps[] = [
 	},
 	{
 		title: "Market Analysis System",
-		subtitle: "AI-driven multi-agent financial investment advisor, built for uOttaHack8",
+		subtitle:
+			"AI-driven multi-agent financial investment advisor, built for uOttaHack8",
 		link: "https://github.com/Tony-octopus/UOttaHack8",
 		image: "/public/experiences/col_4/mas.png",
 	},
@@ -368,7 +371,7 @@ const images = [
 		<!-- Experiences collage -->
 		<!-- Image collage inspired from https://flowbite.com/docs/components/gallery/ -->
 		<div class="p-11">
-			<div class="bg-[#8ECAE6] rounded-2xl flex">
+			<div class="bg-[#8ECAE6] rounded-2xl flex h-[800px]">
 				<div class="w-1/4">
 					<div class="h-3/7">
 						<ExperienceCard
@@ -497,42 +500,50 @@ const images = [
 			<div class="bowlby-one-regular text-2xl">Case Studies</div>
 
 			<!-- Content -->
-			<div>
-				<CaseStudy
-					client:load
-					title={caseStudies[0].title}
-					description={caseStudies[0].description}
-					link={caseStudies[0].link}
-					linkBtn={caseStudies[0].linkBtn}
-					images={caseStudies[0].images}
-				/>
+			<div class="h-full">
+				<div class="h-[500px] mb-10">
+					<CaseStudy
+						client:load
+						title={caseStudies[0].title}
+						description={caseStudies[0].description}
+						link={caseStudies[0].link}
+						linkBtn={caseStudies[0].linkBtn}
+						images={caseStudies[0].images}
+					/>
+				</div>
 
-				<CaseStudy
-					client:load
-					title={caseStudies[1].title}
-					description={caseStudies[1].description}
-					link={caseStudies[1].link}
-					linkBtn={caseStudies[1].linkBtn}
-					images={caseStudies[1].images}
-				/>
+				<div class="h-[300px] mb-10">
+					<CaseStudy
+						client:load
+						title={caseStudies[1].title}
+						description={caseStudies[1].description}
+						link={caseStudies[1].link}
+						linkBtn={caseStudies[1].linkBtn}
+						images={caseStudies[1].images}
+					/>
+				</div>
 
-				<CaseStudy
-					client:load
-					title={caseStudies[2].title}
-					description={caseStudies[2].description}
-					link={caseStudies[2].link}
-					linkBtn={caseStudies[2].linkBtn}
-					images={caseStudies[2].images}
-				/>
+				<div class="h-[300px] mb-10">
+					<CaseStudy
+						client:load
+						title={caseStudies[2].title}
+						description={caseStudies[2].description}
+						link={caseStudies[2].link}
+						linkBtn={caseStudies[2].linkBtn}
+						images={caseStudies[2].images}
+					/>
+				</div>
 
-				<CaseStudy
-					client:load
-					title={caseStudies[3].title}
-					description={caseStudies[3].description}
-					link={caseStudies[3].link}
-					linkBtn={caseStudies[3].linkBtn}
-					images={caseStudies[3].images}
-				/>
+				<div class="h-[500px] mb-10">
+					<CaseStudy
+						client:load
+						title={caseStudies[3].title}
+						description={caseStudies[3].description}
+						link={caseStudies[3].link}
+						linkBtn={caseStudies[3].linkBtn}
+						images={caseStudies[3].images}
+					/>
+				</div>
 			</div>
 		</div>
 
