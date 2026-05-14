@@ -1,5 +1,32 @@
 ---
+import CaseStudy from "../components/CaseStudy";
+import ExperienceCard from "../components/ExperienceCard";
 import "../styles/global.css";
+
+// TODO:
+// Create components
+// Pick a color theme (see https://coolors.co/palette/8ecae6-219ebc-023047-ffb703-fb8500)
+// Use real images
+// Make site responsive
+
+// Experiences
+const titleExp = "The NSX-R Project";
+const subtitleExp = "Japan's Fiercest Car";
+const linkExp = "https://github.com/TheBossT910";
+const imageExp = "https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
+
+// Case Study
+const title = "The NSX-R Project";
+const description =
+	"represented the ultimate expression of the art form of engineering and racing as expressed from Honda's finest and brightest engineers.";
+const link = "https://global.honda/en/heritage/episodes/1990thensx.html";
+const linkBtn = "View Project";
+const images = [
+	"https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w",
+	"https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143200141-4CQD30YERVW4YNHJ0FZU/art-mg-hondansxrgt2.jpg?format=2500w",
+	"https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143235742-5JZ9PD2OGPGS7SOT3O41/art-mg-hondansxrgt5.jpg?format=1000w",
+	"https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w",
+];
 ---
 
 <!doctype html>
@@ -14,7 +41,7 @@ import "../styles/global.css";
 	</head>
 
 	<body class="open-sans-regular">
-		<!-- Navbar from https://daisyui.com/components/navbar/-->
+		<!-- Navbar based from https://daisyui.com/components/navbar/-->
 		<div
 			class="max-lg:collapse bg-base-200 shadow-sm w-full rounded-md sticky top-0 z-50"
 		>
@@ -107,7 +134,7 @@ import "../styles/global.css";
 		</div>
 
 		<!-- Experiences -->
-		<div class="mx-15 my-10">
+		<div class="mx-15 mt-10">
 			<!-- Title -->
 			<div class="bowlby-one-regular text-2xl">Experiences</div>
 
@@ -122,135 +149,82 @@ import "../styles/global.css";
 				<span class="open-sans-bold">My (informal) workflow:</span>
 				<ul>
 					<li>
-						Look at the project, and take notes about its central
+						1. Look at the project, and take notes about its central
 						themes, reasons, and call to actions
 					</li>
 					<li>
-						Look for examples from similar projects/competitors
+						2. Look for examples from similar projects/competitors
 						online & create a collage of design elements I liked
 					</li>
-					<li>Select theming, fonts, colours</li>
+					<li>3. Select theming, fonts, colours</li>
 					<li>
-						Hop onto Figma to create a low-fidelity design and
+						4. Hop onto Figma to create a low-fidelity design and
 						figure out the flow, interactivity, ease-of-use, and
 						other UX elements of the design whilst gathering
 						feedback to refine my work
 					</li>
-					<li>Create a high-fidelity concept, and implement!</li>
+					<li>5. Create a high-fidelity concept, and implement!</li>
 				</ul>
 				<br />
 				<span class="open-sans-bold">My tools include:</span>
 				<ul>
-					<li>Figma</li>
-					<li>Gimp</li>
-					<li>Pen & Paper</li>
+					<li>- Figma</li>
+					<li>- Gimp</li>
+					<li>- Pen & Paper</li>
 				</ul>
 				<br />
 				Feel free to take a look at my work & case studies below!
 			</div>
+		</div>
 
-			<!-- TODO: make images/captions into components -->
-			<div>
-				<!-- Images -->
-				<div class="h-[500px] bg-red-500 flex">
-					<div class="w-1/4 p-10">
-						<img
-							class="rotate-[13.3deg] z-0 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-						<img
-							class="rotate-[-13.3deg] z-1 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-						<img
-							class="rotate-[13.3deg] z-2 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-					</div>
-
-					<div class="w-1/4 p-10">
-						<img
-							class="rotate-[-13.3deg] z-0 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-						<img
-							class="rotate-[13.3deg] z-1 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-						<img
-							class="rotate-[-13.3deg] z-2 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-					</div>
-
-					<div class="w-1/4 p-10">
-						<img
-							class="rotate-[13.3deg] z-0 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-						<img
-							class="rotate-[-13.3deg] z-1 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-						<img
-							class="rotate-[13.3deg] z-2 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-					</div>
-
-					<div class="w-1/4 p-10">
-						<img
-							class="rotate-[-13.3deg] z-0 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-						<img
-							class="rotate-[13.3deg] z-1 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-						<img
-							class="rotate-[-13.3deg] z-2 h-1/3 w-full object-cover"
-							src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-							alt=""
-						/>
-					</div>
+		<!-- Experiences collage -->
+		<!-- Image collage inspired from https://flowbite.com/docs/components/gallery/ -->
+		<div class="flex p-11">
+			<div class="w-1/4">
+				<div class="h-3/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
 				</div>
+				<div class="h-2/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				/>
+				</div>
+				<div class="h-2/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				</div>
+			</div>
 
-				<!-- Captions -->
-				<div class="w-full flex">
-					<div class="w-1/4">
-						<button class="btn btn-primary w-full">GitHub</button>
+			<div class="w-1/4">
+				<div class="h-2/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				</div>
+				<div class="h-3/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				</div>
+				<div class="h-2/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				</div>
+			</div>
 
-						<div>The NSX-R Project 1</div>
-					</div>
-
-					<div class="w-1/4">
-						<button class="btn btn-primary w-full">GitHub</button>
-
-						<div>The NSX-R Project 2</div>
-					</div>
-
-					<div class="w-1/4">
-						<button class="btn btn-primary w-full">GitHub</button>
-
-						<div>The NSX-R Project 3</div>
-					</div>
-
-					<div class="w-1/4">
-						<button class="btn btn-primary w-full">GitHub</button>
-
-						<div>The NSX-R Project 4 </div>
-					</div>
+			<div class="w-1/4">
+				<div class="h-3/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				</div>
+				<div class="h-2/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				</div>
+				<div class="h-2/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				</div>
+			</div>
+			<div class="w-1/4">
+				<div class="h-2/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				</div>
+				<div class=" h-3/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				</div>
+				<div class="h-2/7">
+					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
 				</div>
 			</div>
 		</div>
@@ -262,58 +236,14 @@ import "../styles/global.css";
 
 			<!-- Content -->
 			<div>
-				<!-- TODO: make this into a component -->
-				<div
-					class="h-[500px] bg-red-500 mb-10 flex border-8 border-blue-500 rounded-md"
-				>
-					<!-- Imgs -->
-					<div class="w-2/3 flex">
-						<div class="h-full w-4/5">
-							<img
-								class="h-full w-full object-cover"
-								src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143180804-ITE8EZW9ED6H2SVD2ZKR/art-mg-hondansxrgt1.jpg"
-								alt=""
-							/>
-						</div>
-						<div class="h-full w-1/5">
-							<img
-								class="h-1/3 w-full object-cover"
-								src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143200141-4CQD30YERVW4YNHJ0FZU/art-mg-hondansxrgt2.jpg?format=2500w"
-								alt=""
-							/>
-							<img
-								class="h-1/3 w-full object-cover"
-								src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143235742-5JZ9PD2OGPGS7SOT3O41/art-mg-hondansxrgt5.jpg?format=1000w"
-								alt=""
-							/>
-							<img
-								class="h-1/3 w-full object-cover"
-								src="https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w"
-								alt=""
-							/>
-						</div>
-					</div>
-
-					<div class="w-1/3">
-						<!-- Top -->
-						<div class="bg-orange-500 h-2/3 px-5 py-5">
-							<span class="bowlby-one-regular text-2xl"
-								>The NSX-R Project</span
-							>
-							<br />
-							represented the ultimate expression of the art form of
-							engineering and racing as expressed from Honda's finest
-							and brightest engineers.
-						</div>
-
-						<!-- Bottom -->
-						<div class="bg-purple-500 h-1/3 px-5 py-5">
-							<button class="w-full h-full btn btn-primary"
-								>Go to Site</button
-							>
-						</div>
-					</div>
-				</div>
+				<CaseStudy
+					client:load
+					title={title}
+					description={description}
+					link={link}
+					linkBtn={linkBtn}
+					images={images}
+				/>
 			</div>
 		</div>
 
