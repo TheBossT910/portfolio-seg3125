@@ -211,16 +211,16 @@ const images = [
 				</div>
 				<div class="navbar-center hidden lg:flex">
 					<ul class="menu menu-horizontal px-1">
-						<li><button>Home</button></li>
-						<li><button>Experiences</button></li>
+						<li><a href="#home">Home</a></li>
+						<li><a href="#experiences">Experiences</a></li>
 						<li>
 							<details>
 								<summary>Case Studies</summary>
 								<ul class="p-2 bg-base-100 w-40 z-1">
-									<li><button>1 - Service Site</button></li>
-									<li><button>2 - Memory Game</button></li>
-									<li><button>3 - e-Commerce Site</button></li>
-									<li><button>4 - Analytics Site</button></li>
+									<li><a href="#case-studies-1">1 - Service Site</a></li>
+									<li><a href="#case-studies-2">2 - Memory Game</a></li>
+									<li><a href="#case-studies-3">3 - e-Commerce Site</a></li>
+									<li><a href="#case-studies-4">4 - Analytics Site</a></li>
 								</ul>
 							</details>
 						</li>
@@ -231,21 +231,25 @@ const images = [
 
 			<div class="collapse-content lg:hidden z-1">
 				<ul class="menu">
-					<li><button>Item 1</button></li>
+					<li><a href="#home">Home</a></li>
+					<li><a href="#experiences">Experiences</a></li>
 					<li>
-						<button>Parent</button>
-						<ul>
-							<li><button>Submenu 1</button></li>
-							<li><button>Submenu 2</button></li>
-						</ul>
+						<details>
+							<summary>Case Studies</summary>
+							<ul>
+								<li><a href="#case-studies-1">1 - Service Site</a></li>
+								<li><a href="#case-studies-2">2 - Memory Game</a></li>
+								<li><a href="#case-studies-3">3 - e-Commerce Site</a></li>
+								<li><a href="#case-studies-4">4 - Analytics Site</a></li>
+							</ul>
+						</details>
 					</li>
-					<li><button>Item 3</button></li>
 				</ul>
 			</div>
 		</div>
 
 		<!-- Hero -->
-		<div class="flex h-[50%]">
+		<div id="home" class="flex h-[50%]">
 			<!-- Left -->
 			<div class="bg-[#8ECAE6] w-[50%] pl-15 py-10">
 				<div class="bowlby-one-regular text-7xl">
@@ -325,7 +329,7 @@ const images = [
 		</div>
 
 		<!-- Experiences -->
-		<div class="mx-15 mt-10">
+		<div id="experiences" class="mx-15 mt-10">
 			<!-- Title -->
 			<div class="bowlby-one-regular text-2xl">Experiences</div>
 
@@ -501,7 +505,7 @@ const images = [
 
 			<!-- Content -->
 			<div class="h-full">
-				<div class="h-[500px] mb-10">
+				<div id="case-studies-1" class="h-[500px] mb-10">
 					<CaseStudy
 						client:load
 						title={caseStudies[0].title}
@@ -512,7 +516,7 @@ const images = [
 					/>
 				</div>
 
-				<div class="h-[300px] mb-10">
+				<div id="case-studies-2" class="h-[300px] mb-10">
 					<CaseStudy
 						client:load
 						title={caseStudies[1].title}
@@ -523,7 +527,7 @@ const images = [
 					/>
 				</div>
 
-				<div class="h-[300px] mb-10">
+				<div id="case-studies-3" class="h-[300px] mb-10">
 					<CaseStudy
 						client:load
 						title={caseStudies[2].title}
@@ -534,7 +538,7 @@ const images = [
 					/>
 				</div>
 
-				<div class="h-[500px] mb-10">
+				<div id="case-studies-4" class="h-[500px] mb-10">
 					<CaseStudy
 						client:load
 						title={caseStudies[3].title}
@@ -553,6 +557,10 @@ const images = [
 </html>
 
 <style>
+	html {
+		scroll-behavior: smooth;
+	}
+
 	html,
 	body {
 		margin: 0;
