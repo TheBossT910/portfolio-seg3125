@@ -106,16 +106,16 @@ const images = [
 		</div>
 
 		<!-- Hero -->
-		<div class="bg-red-500 flex h-[50%]">
+		<div class=" flex h-[50%]">
 			<!-- Left -->
-			<div class="bg-blue-500 w-[50%] px-15 py-10">
+			<div class="bg-[#8ECAE6] w-[50%] pl-15 py-10">
 				<div class="bowlby-one-regular text-7xl">
 					Hey!
 					<br />
 					I'm Taha Rashid,
 				</div>
 				<div class="pt-5">
-					<span class="text-2xl"
+					<span class="text-2xl underline decoration-[#FB8500] open-sans-bold"
 						>2nd Year Software Engineering Student</span
 					>
 					<br />
@@ -124,9 +124,9 @@ const images = [
 			</div>
 
 			<!-- Right -->
-			<div class="bg-green-500 flex w-[50%] px-15 py-10">
+			<div class="bg-[#219EBC] flex w-[50%] px-15 py-5">
 				<img
-					class="w-full object-cover"
+					class="w-full object-cover border-8 border-[#FFB703] rounded-2xl "
 					src="https://taharashid.com/pfp.jpg"
 					alt=""
 				/>
@@ -179,52 +179,54 @@ const images = [
 
 		<!-- Experiences collage -->
 		<!-- Image collage inspired from https://flowbite.com/docs/components/gallery/ -->
-		<div class="flex p-11">
-			<div class="w-1/4">
-				<div class="h-3/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+		<div class="p-11">
+			<div class="bg-[#8ECAE6] rounded-2xl flex">
+				<div class="w-1/4">
+					<div class="h-3/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
+					<div class="h-2/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					/>
+					</div>
+					<div class="h-2/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
 				</div>
-				<div class="h-2/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
-				/>
+	
+				<div class="w-1/4">
+					<div class="h-2/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
+					<div class="h-3/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
+					<div class="h-2/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
 				</div>
-				<div class="h-2/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+	
+				<div class="w-1/4">
+					<div class="h-3/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
+					<div class="h-2/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
+					<div class="h-2/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
 				</div>
-			</div>
-
-			<div class="w-1/4">
-				<div class="h-2/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
-				</div>
-				<div class="h-3/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
-				</div>
-				<div class="h-2/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
-				</div>
-			</div>
-
-			<div class="w-1/4">
-				<div class="h-3/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
-				</div>
-				<div class="h-2/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
-				</div>
-				<div class="h-2/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
-				</div>
-			</div>
-			<div class="w-1/4">
-				<div class="h-2/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
-				</div>
-				<div class=" h-3/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
-				</div>
-				<div class="h-2/7">
-					<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+				<div class="w-1/4">
+					<div class="h-2/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
+					<div class=" h-3/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
+					<div class="h-2/7">
+						<ExperienceCard client:load title={titleExp} subtitle={subtitleExp} link={linkExp} image={imageExp} />
+					</div>
 				</div>
 			</div>
 		</div>

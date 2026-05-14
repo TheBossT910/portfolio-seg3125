@@ -10,14 +10,14 @@ export default function ExperienceCard({ title, subtitle, link, image }: Experie
     // Created w/ AI assistance (Google Gemini)
     return (
         <a href={link} className="group block p-2 h-full transition">
-            <div className="relative h-full w-full rounded-2xl overflow-hidden">
+            <div className="relative h-full w-full rounded-2xl overflow-hidden border border-2 border-[#023047]">
                 <img
                     src={image}
                     className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
 
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
-                    <h3 className="text-white text-xl font-bold translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <h3 className="text-white text-xl open-sans-bold underline decoration-[#FB8500] translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                         {title}
                     </h3>
 
