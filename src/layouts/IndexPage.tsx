@@ -20,8 +20,8 @@ const caseStudies: CaseStudyProps[] = [
   {
     title: "Service Site",
     description: "Case Study 1 - (coming soon)",
-    link: "",
-    linkBtn: "x",
+    link: "/case-studies/services-site",
+    linkBtn: "Coming Soon!",
     images: [
       "https://media.magnetomagazine.com/app/uploads/2025/12/05165623/JAS-TENSEI-03-1000x500.jpg",
       "https://hips.hearstapps.com/hmg-prod/images/whattobuy-2007hondas2000-jan2023-008-1671295199.jpg",
@@ -32,8 +32,8 @@ const caseStudies: CaseStudyProps[] = [
   {
     title: "Memory Game",
     description: "Case Study 2 - (coming soon)",
-    link: "",
-    linkBtn: "x",
+    link: "/case-studies/memory-game",
+    linkBtn: "Coming Soon!",
     images: [
       "https://media.istockphoto.com/id/171357703/photo/head-on-chalkboard-with-light-bulb-notes-inside.jpg?s=612x612&w=0&k=20&c=mOW2sZ96mRxqvRkvjROf-l8CcqkNHgdMT-5TKSM46vA=",
     ],
@@ -41,15 +41,15 @@ const caseStudies: CaseStudyProps[] = [
   {
     title: "e-Commerce Site",
     description: "Case Study 3 - (coming soon)",
-    link: "",
-    linkBtn: "x",
+    link: "/case-studies/ecommerce-site",
+    linkBtn: "Coming Soon!",
     images: ["https://cmsmart.net/images/community/8382/banner.jpg"],
   },
   {
     title: "Analytics Site",
     description: "Case Study 4 - (coming soon)",
-    link: "",
-    linkBtn: "x",
+    link: "/case-studies/analytics-site",
+    linkBtn: "Coming Soon!",
     images: [
       "https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w",
       "https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143200141-4CQD30YERVW4YNHJ0FZU/art-mg-hondansxrgt2.jpg?format=2500w",
