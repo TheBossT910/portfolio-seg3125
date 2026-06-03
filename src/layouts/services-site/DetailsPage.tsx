@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Navbar = () => (
   <nav className="bg-[#001d3d] px-6 md:px-10 py-4 flex justify-between items-center w-full shadow-lg z-50 border-b-2 border-[#ffd60a] sticky top-0">
@@ -17,22 +17,36 @@ const Footer = () => (
   <footer className="bg-[#000814] text-white p-10 md:p-12 mt-auto border-t-4 border-[#003566]">
     <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
       <div>
-        <h3 className="text-[#ffd60a] font-bold text-xl mb-4 uppercase tracking-wider">Vroom Vehicles</h3>
-        <div className="text-sm text-gray-300 space-y-1 mb-4">
+        <h3 className="text-[#ffd60a] font-bold text-xl mb-2 uppercase tracking-wider">Vroom Vehicles</h3>
+        <p className="text-[#ffd60a] font-medium text-sm mb-4">Premium Sports Car Rental Service</p>
+        <div className="text-sm text-gray-300 space-y-1">
           <p>📍 800 King Edward Ave, Ottawa, ON</p>
           <p>📞 1-800-555-VROOM</p>
         </div>
       </div>
       <div>
         <h4 className="text-white font-semibold mb-4 text-lg">Project Details</h4>
-        <p className="text-sm text-gray-400 mb-1">SEG 3125 | Prof: Caroline Barrière</p>
-        <p className="text-[#ffd60a] font-bold mt-2">Designed by Taha Rashid</p>
+        <p className="text-sm text-gray-400 mb-1">SEG 3125: Analysis and Design of UIs</p>
+        <p className="text-sm text-gray-400 mb-1">Professor: Caroline Barrière</p>
+        <div className="mt-4 inline-block bg-[#001d3d] border border-[#ffd60a] px-4 py-2 rounded-lg">
+          <p className="text-[#ffd60a] font-bold tracking-wide">Designed by Taha Rashid</p>
+        </div>
       </div>
     </div>
   </footer>
 );
 
 const DetailsPage = () => {
+  const [selectedTrim, setSelectedTrim] = useState('carbon');
+  const [selectedColor, setSelectedColor] = useState('black');
+
+  const colors = [
+    { id: 'black', hex: '#000814', name: 'Midnight Onyx' },
+    { id: 'blue', hex: '#003566', name: 'Yale Metallic Blue' },
+    { id: 'yellow', hex: '#ffc300', name: 'Microbus Gold' },
+    { id: 'white', hex: '#ffffff', name: 'Performance White' }
+  ];
+
   return (
     <div className="font-sans bg-[#f4f4f5] text-[#000814] min-h-screen flex flex-col">
       <Navbar />
@@ -51,54 +65,76 @@ const DetailsPage = () => {
           </div>
         </div>
 
-        {/* Main Card: Image & Car Options (Carlos' requirement for trims/packages) */}
+        {/* Main Interactive Card */}
         <div className="bg-white rounded-2xl p-6 flex flex-col lg:flex-row gap-8 shadow-lg border border-gray-200">
-          <div className="flex-[3] rounded-xl overflow-hidden h-[400px] bg-gray-100">
-            <img 
-              src="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=1200&q=80" 
-              alt="Porsche 911 GT3" 
-              className="w-full h-full object-cover" 
-            />
+          <div className="flex-[3] flex flex-col gap-4">
+            <div className="rounded-xl overflow-hidden h-[400px] bg-gray-100">
+              <img 
+                src="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=1200&q=80" 
+                alt="Porsche 911 GT3" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+            
+            {/* Interactive Color Selection */}
+            <div>
+              <p className="text-xs font-bold text-gray-500 uppercase mb-2">Exterior Color: <span className="text-[#001d3d]">{colors.find(c => c.id === selectedColor)?.name}</span></p>
+              <div className="flex gap-3">
+                {colors.map((color) => (
+                  <button 
+                    key={color.id}
+                    onClick={() => setSelectedColor(color.id)}
+                    className={`w-10 h-10 rounded-full shadow-md border-2 transition-transform hover:scale-110 ${selectedColor === color.id ? 'border-[#ffd60a] ring-2 ring-offset-2 ring-[#001d3d]' : 'border-gray-200'}`}
+                    style={{ backgroundColor: color.hex }}
+                    title={color.name}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
           
           <div className="flex-[2] flex flex-col gap-6">
             <h3 className="text-xl font-bold text-[#001d3d] border-b border-gray-200 pb-2">Select Car Options</h3>
             
-            {/* Packages/Trims */}
+            {/* Interactive Trims/Packages */}
             <div className="flex flex-col gap-3">
-              <label className="flex justify-between items-center p-4 border-2 border-[#ffd60a] rounded-xl cursor-pointer bg-yellow-50">
+              <div 
+                onClick={() => setSelectedTrim('carbon')}
+                className={`flex justify-between items-center p-4 rounded-xl cursor-pointer transition-colors border-2 ${selectedTrim === 'carbon' ? 'border-[#ffd60a] bg-yellow-50' : 'border-gray-200 hover:border-[#003566]'}`}
+              >
                 <div className="flex items-center gap-3">
-                  <input type="radio" name="trim" defaultChecked className="w-5 h-5 accent-[#003566]" />
+                  <input type="radio" checked={selectedTrim === 'carbon'} readOnly className="w-5 h-5 accent-[#003566]" />
                   <div>
                     <span className="block font-bold text-[#000814]">Carbon Fiber Track Package</span>
                     <span className="text-xs text-gray-500">Includes carbon bucket seats & roll cage</span>
                   </div>
                 </div>
                 <span className="font-bold text-[#003566]">+$50/day</span>
-              </label>
+              </div>
 
-              <label className="flex justify-between items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-[#003566] transition-colors">
+              <div 
+                onClick={() => setSelectedTrim('touring')}
+                className={`flex justify-between items-center p-4 rounded-xl cursor-pointer transition-colors border-2 ${selectedTrim === 'touring' ? 'border-[#ffd60a] bg-yellow-50' : 'border-gray-200 hover:border-[#003566]'}`}
+              >
                 <div className="flex items-center gap-3">
-                  <input type="radio" name="trim" className="w-5 h-5 accent-[#003566]" />
+                  <input type="radio" checked={selectedTrim === 'touring'} readOnly className="w-5 h-5 accent-[#003566]" />
                   <div>
                     <span className="block font-bold text-[#000814]">Touring Package</span>
                     <span className="text-xs text-gray-500">Wingless, comfort seats, manual trans</span>
                   </div>
                 </div>
                 <span className="font-bold text-[#003566]">Included</span>
-              </label>
+              </div>
             </div>
 
-            <button className="mt-auto bg-[#001d3d] hover:bg-[#003566] text-white py-4 rounded-xl text-lg font-bold shadow-md transition-colors w-full">
+            <a href="/cart" className="mt-auto bg-[#001d3d] hover:bg-[#003566] text-white py-4 rounded-xl text-lg font-bold shadow-md transition-colors w-full text-center block">
               Add to Cart
-            </button>
+            </a>
           </div>
         </div>
 
         {/* Carlos' Policy Icons & Description Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          {/* Policy Rules */}
           <div className="md:col-span-1 bg-white rounded-2xl p-6 shadow-lg border border-gray-200 h-fit">
             <h3 className="text-lg font-bold text-[#001d3d] mb-4">Racing & Usage Policy</h3>
             <div className="flex flex-col gap-4">
@@ -126,7 +162,6 @@ const DetailsPage = () => {
             </div>
           </div>
 
-          {/* Description & Reviews */}
           <div className="md:col-span-2 flex flex-col gap-6">
             <div className="bg-white rounded-2xl p-8 shadow-lg border-t-4 border-[#001d3d]">
               <h2 className="text-xl font-bold text-[#001d3d] mb-3">Vehicle Overview</h2>
@@ -149,7 +184,6 @@ const DetailsPage = () => {
             </div>
           </div>
         </div>
-
       </main>
 
       <Footer />
