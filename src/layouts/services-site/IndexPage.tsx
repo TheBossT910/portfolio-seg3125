@@ -1,277 +1,136 @@
 import React from 'react';
 
-// Color Palette defined from https://coolors.co/palette/000814-001d3d-003566-ffc300-ffd60a
-const colors = {
-  richBlack: '#000814',
-  oxfordBlue: '#001d3d',
-  yaleBlue: '#003566',
-  microbusYellow: '#ffc300',
-  cyberYellow: '#ffd60a',
-  white: '#ffffff',
-  lightGray: '#e0e0e0',
-};
+const Navbar = () => (
+  <nav className="bg-[#001d3d] px-6 md:px-10 py-4 flex justify-between items-center w-full shadow-lg z-50 border-b-2 border-[#ffd60a] sticky top-0">
+    <div className="text-[#ffd60a] font-extrabold text-2xl tracking-wider uppercase flex items-center gap-2">
+      <span>Vroom</span><span className="text-white font-light">Vehicles</span>
+    </div>
+    <div className="hidden md:flex gap-8 text-white font-medium">
+      <a href="/" className="text-[#ffd60a] hover:text-[#ffc300] transition-colors border-b-2 border-[#ffd60a] pb-1">Home</a>
+      <a href="/promotions" className="hover:text-[#ffc300] transition-colors pb-1">Promotions</a>
+      <a href="/cart" className="hover:text-[#ffc300] transition-colors pb-1">Cart</a>
+    </div>
+  </nav>
+);
 
-const styles = {
-  pageContainer: {
-    fontFamily: 'system-ui, -apple-system, sans-serif',
-    backgroundColor: colors.white,
-    color: colors.richBlack,
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    border: `2px solid ${colors.yaleBlue}`,
-  },
-  // New Header
-  header: {
-    backgroundColor: colors.oxfordBlue,
-    padding: '0 40px',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  headerTopNav: {
-    backgroundColor: colors.cyberYellow,
-    height: '40px',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginBottom: '15px',
-  },
-  logoPlaceholderRight: {
-    backgroundColor: colors.cyberYellow,
-    height: '40px',
-    width: '60px',
-    marginRight: '40px',
-  },
-  // New Hero Section with background
-  heroSection: {
-    backgroundImage: 'url("https://images.unsplash.com/photo-1549399542-7e3f8b79c340?auto=format&fit=crop&w=1920&q=80")', // NSX night scene
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '400px',
-    padding: '40px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    color: colors.white,
-  },
-  heroTitle: {
-    fontSize: '36px',
-    fontWeight: '400',
-    textAlign: 'center',
-    margin: '0 0 30px 0',
-  },
-  heroHighlight: {
-    color: colors.cyberYellow,
-    textDecoration: 'underline',
-  },
-  searchBarContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark overlay for better text contrast
-    margin: '0 auto',
-    padding: '15px 30px',
-    display: 'flex',
-    gap: '20px',
-    width: '80%',
-    maxWidth: '900px',
-    alignItems: 'center',
-    borderRadius: '8px',
-  },
-  searchInput: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    border: `2px solid ${colors.cyberYellow}`,
-    borderRadius: '20px',
-    color: colors.white,
-    padding: '10px 20px',
-    fontSize: '16px',
-    outline: 'none',
-    boxSizing: 'border-box',
-  },
-  searchDropdown: {
-    backgroundColor: 'transparent',
-    border: `2px solid ${colors.cyberYellow}`,
-    borderRadius: '20px',
-    color: colors.white,
-    padding: '10px 20px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    outline: 'none',
-    boxSizing: 'border-box',
-  },
-  categoryContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '40px',
-    margin: '20px 0 40px 0',
-  },
-  categoryButton: {
-    backgroundColor: colors.oxfordBlue,
-    color: colors.white,
-    border: 'none',
-    borderRadius: '8px',
-    padding: '15px 30px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-  },
-  // Carousel Section
-  carouselSection: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '20px 40px',
-    gap: '20px',
-    backgroundColor: colors.lightGray,
-  },
-  arrow: {
-    backgroundColor: colors.white,
-    height: '40px',
-    width: '20px',
-    cursor: 'pointer',
-  },
-  carouselImageContainer: {
-    border: `6px solid ${colors.cyberYellow}`,
-    borderRadius: '8px',
-    overflow: 'hidden',
-    maxWidth: '800px',
-    width: '100%',
-    height: '400px',
-    display: 'flex',
-  },
-  carouselImage: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-  },
-  // New Three-Across Grid for tall cards
-  threeGridContainer: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '40px',
-    padding: '40px',
-    maxWidth: '1200px',
-    margin: '0 auto',
-    flex: 1,
-    backgroundColor: colors.lightGray,
-  },
-  tallCard: {
-    backgroundColor: colors.white,
-    borderRadius: '12px',
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-    border: `2px solid ${colors.cyberYellow}`,
-  },
-  tallCardImageContainer: {
-    width: '100%',
-    flex: '1', // Take all available space
-    overflow: 'hidden',
-  },
-  tallCardImage: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-  },
-  cardFooter: {
-    backgroundColor: colors.microbusYellow,
-    padding: '15px',
-    textAlign: 'center',
-    fontSize: '16px',
-    fontWeight: '500',
-    color: colors.richBlack,
-  },
-  footer: {
-    backgroundColor: colors.oxfordBlue,
-    height: '60px',
-    width: '100%',
-    marginTop: '40px',
-  }
-};
+const Footer = () => (
+  <footer className="bg-[#000814] text-white p-10 md:p-12 mt-auto border-t-4 border-[#003566]">
+    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div>
+        <h3 className="text-[#ffd60a] font-bold text-xl mb-4 uppercase tracking-wider">Vroom Vehicles</h3>
+        <p className="text-sm text-gray-400 leading-relaxed mb-4">
+          Premium sports car rental service. Whether you're cruising the city for the weekend or setting lap times on the track, we have your perfect ride.
+        </p>
+        <div className="text-sm text-gray-300 space-y-1">
+          <p>📍 800 King Edward Ave, Ottawa, ON</p>
+          <p>📞 1-800-555-VROOM</p>
+          <p>✉️ contact@vroomvehicles.ca</p>
+        </div>
+      </div>
+      <div>
+        <h4 className="text-white font-semibold mb-4 text-lg">Project Details</h4>
+        <p className="text-sm text-gray-400 mb-1">SEG 3125: Analysis and Design of UIs</p>
+        <p className="text-sm text-gray-400 mb-1">Professor: Caroline Barrière</p>
+        <div className="mt-4 inline-block bg-[#001d3d] border border-[#ffd60a] px-4 py-2 rounded-lg">
+          <p className="text-[#ffd60a] font-bold">Designed by Taha Rashid</p>
+        </div>
+      </div>
+      <div>
+        <h4 className="text-white font-semibold mb-4 text-lg">Quick Links</h4>
+        <ul className="text-sm text-gray-400 space-y-2">
+          <li><a href="#" className="hover:text-[#ffc300] transition-colors">Weekend Deals (Oscar's Pick)</a></li>
+          <li><a href="#" className="hover:text-[#ffc300] transition-colors">Track Inventory (Carlos' Pick)</a></li>
+          <li><a href="#" className="hover:text-[#ffc300] transition-colors">Racing & City Policies</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+);
 
 const IndexPage = () => {
-  // New inventory data for the three-across vertical grid
-  const tallInventory = [
-    { id: 1, img: 'https://images.unsplash.com/photo-1549419616-09a2b53c6e9d?auto=format&fit=crop&w=600&q=80', alt: 'White Porsche 911', price: '$14*km/day' },
-    { id: 2, img: 'https://images.unsplash.com/photo-1579203673336-d71e2e718b52?auto=format&fit=crop&w=600&q=80', alt: 'Yellow S2000', price: '$8*km/day' },
-    { id: 3, img: 'https://images.unsplash.com/photo-1605816988069-b11383b50717?auto=format&fit=crop&w=600&q=80', alt: 'Green Lotus Emira', price: 'SPECIAL: Just $7*km/day' },
+  const inventoryCards = [
+    { id: 1, img: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=600&q=80', alt: 'Porsche 911 GT3', name: 'Porsche 911 GT3', duration: 'Weekend Rate (3 Days)', price: '$850 total', badge: 'Track Ready' },
+    { id: 2, img: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=600&q=80', alt: 'Audi RS3', name: 'Audi RS3 Sedan', duration: 'Daily Rate', price: '$150 / day', badge: 'City Cruiser' },
+    { id: 3, img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80', alt: 'Corvette C8', name: 'Chevrolet Corvette C8', duration: 'Weekly Rate (7 Days)', price: '$1,200 total', badge: 'Hot Deal' },
   ];
 
   return (
-    <div style={styles.pageContainer}>
-      {/* Header with new dark nav and top bar */}
-      <header style={styles.header}>
-        <div style={styles.headerTopNav}>
-          <div style={styles.logoPlaceholderRight}></div>
-        </div>
-      </header>
+    <div className="font-sans bg-[#f4f4f5] text-[#000814] min-h-screen flex flex-col">
+      <Navbar />
 
-      {/* Hero Section with background and re-integrated dark-frame search */}
-      <section style={styles.heroSection}>
-        <h1 style={styles.heroTitle}>
-          Find your <span style={styles.heroHighlight}>perfect</span> ride
-        </h1>
-        <div style={styles.searchBarContainer}>
-          <input 
-            type="text" 
-            placeholder="Search" 
-            style={styles.searchInput} 
-          />
-          <select style={styles.searchDropdown}>
-            <option>Make</option>
-            <option>Lucid</option>
-            <option>Tesla</option>
-            <option>Porsche</option>
-          </select>
-          <select style={styles.searchDropdown}>
-            <option>Days</option>
-            <option>1-3</option>
-            <option>4-7</option>
-            <option>8+</option>
-          </select>
-        </div>
-      </section>
-
-      {/* Blue Category Buttons (moved down as in image 2) */}
-      <section style={styles.categoryContainer}>
-        <button style={styles.categoryButton}>Deals</button>
-        <button style={styles.categoryButton}>Convertibles</button>
-        <button style={styles.categoryButton}>Race-Ready</button>
-      </section>
-
-      {/* Carousel Section (central feature) with yellow frame */}
-      <section style={styles.carouselSection}>
-        <div style={styles.arrow}></div>
-        <div style={styles.carouselImageContainer}>
-          <img 
-            src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80" 
-            alt="Featured Red NSX Rear" 
-            style={styles.carouselImage}
-          />
-        </div>
-        <div style={styles.arrow}></div>
-      </section>
-
-      {/* New Three-Across Grid for tall cards with yellow footers */}
-      <section style={styles.threeGridContainer}>
-        {tallInventory.map((car) => (
-          <div key={car.id} style={styles.tallCard}>
-            <div style={styles.tallCardImageContainer}>
-              <img 
-                src={car.img} 
-                alt={car.alt} 
-                style={styles.tallCardImage} 
+      {/* Hero Section: Autotrader style search designed for both Oscar (prices) and Carlos (inventory) */}
+      <section 
+        className="relative h-[550px] bg-cover bg-center flex flex-col justify-center px-6 md:px-10"
+        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1549399542-7e3f8b79c340?auto=format&fit=crop&w=1920&q=80")' }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#000814]/90 z-0"></div>
+        
+        <div className="relative z-10 max-w-5xl mx-auto w-full">
+          <div className="text-center mb-8">
+            <span className="bg-[#ffd60a] text-[#000814] font-bold px-4 py-1 rounded-full text-sm tracking-wide uppercase mb-4 inline-block shadow-lg">Weekend Promotions Active</span>
+            <h1 className="text-white text-4xl md:text-6xl font-light drop-shadow-lg">
+              Find your <span className="text-[#ffd60a] font-bold underline decoration-4 underline-offset-8">perfect</span> ride
+            </h1>
+          </div>
+          
+          {/* Central Autotrader-style Search Bar */}
+          <div className="bg-white p-4 md:p-6 rounded-2xl flex flex-col md:flex-row gap-4 items-center w-full shadow-2xl border-4 border-[#ffd60a]">
+            <div className="flex-1 w-full">
+              <label className="block text-xs font-bold text-[#003566] uppercase tracking-wider mb-1 px-2">Make & Model</label>
+              <input 
+                type="text" 
+                placeholder="e.g. Porsche 911 GT3, Audi RS3..." 
+                className="w-full bg-[#f4f4f5] border border-gray-300 rounded-xl text-[#000814] px-4 py-3 outline-none focus:ring-2 focus:ring-[#003566]" 
               />
             </div>
-            <div style={styles.cardFooter}>
-              Starting from {car.price}
+            <div className="w-full md:w-48">
+              <label className="block text-xs font-bold text-[#003566] uppercase tracking-wider mb-1 px-2">Duration</label>
+              <select className="w-full bg-[#f4f4f5] border border-gray-300 rounded-xl text-[#000814] px-4 py-3 outline-none focus:ring-2 focus:ring-[#003566] cursor-pointer">
+                <option>Daily</option>
+                <option>Weekend (3 Days)</option>
+                <option>Weekly (7 Days)</option>
+              </select>
+            </div>
+            <div className="w-full md:w-auto mt-auto">
+              <button className="w-full md:w-auto bg-[#001d3d] hover:bg-[#003566] text-white font-bold rounded-xl px-8 py-3 shadow-md transition-colors h-[50px]">
+                Search Fleet
+              </button>
             </div>
           </div>
-        ))}
+        </div>
       </section>
 
-      {/* Footer */}
-      <footer style={styles.footer}></footer>
+      {/* Inventory Cards Section (Oscar's requirement: scroll down, see imgs w/ prices and durations) */}
+      <section className="py-16 px-6 md:px-10 max-w-7xl mx-auto w-full">
+        <h2 className="text-3xl font-bold text-[#001d3d] mb-8 text-center">Featured Vehicles & Deals</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {inventoryCards.map((car) => (
+            <div key={car.id} className="bg-white rounded-2xl overflow-hidden flex flex-col shadow-xl border border-gray-200 hover:-translate-y-2 transition-transform group cursor-pointer">
+              <div className="w-full h-56 overflow-hidden relative">
+                <img 
+                  src={car.img} 
+                  alt={car.alt} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
+                <span className="absolute top-4 right-4 bg-[#ffd60a] text-[#000814] text-xs px-3 py-1.5 rounded-full font-bold shadow-md">
+                  {car.badge}
+                </span>
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-xl font-bold text-[#001d3d] mb-1">{car.name}</h3>
+                <p className="text-sm text-gray-500 mb-4">{car.duration}</p>
+                <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center">
+                  <span className="text-2xl font-extrabold text-[#000814]">{car.price}</span>
+                  <button className="text-[#003566] font-bold hover:text-[#ffc300] transition-colors">View Details →</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };

@@ -1,326 +1,148 @@
 import React from 'react';
 
-// Color Palette
-const colors = {
-  richBlack: '#000814',
-  oxfordBlue: '#001d3d',
-  yaleBlue: '#003566',
-  microbusYellow: '#ffc300',
-  cyberYellow: '#ffd60a',
-  white: '#ffffff',
-  lightGray: '#e0e0e0',
-  darkGray: '#a0a0a0',
-  redAccent: '#d32f2f' // For calendar header
-};
+const Navbar = () => (
+  <nav className="bg-[#001d3d] px-6 md:px-10 py-4 flex justify-between items-center w-full shadow-lg z-50 border-b-2 border-[#ffd60a] sticky top-0">
+    <div className="text-[#ffd60a] font-extrabold text-2xl tracking-wider uppercase flex items-center gap-2">
+      <span>Vroom</span><span className="text-white font-light">Vehicles</span>
+    </div>
+    <div className="hidden md:flex gap-8 text-white font-medium">
+      <a href="/" className="hover:text-[#ffc300] transition-colors pb-1">Home</a>
+      <a href="/promotions" className="text-[#ffd60a] hover:text-[#ffc300] transition-colors border-b-2 border-[#ffd60a] pb-1">Promotions</a>
+      <a href="/cart" className="hover:text-[#ffc300] transition-colors pb-1">Cart</a>
+    </div>
+  </nav>
+);
 
-const styles = {
-  pageContainer: {
-    fontFamily: 'system-ui, -apple-system, sans-serif',
-    backgroundColor: colors.white,
-    color: colors.richBlack,
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    border: `2px solid ${colors.yaleBlue}`, // Outer border seen in mockup
-  },
-  headerBar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '20px 40px',
-    backgroundColor: colors.white,
-  },
-  logoPlaceholderLeft: {
-    backgroundColor: colors.cyberYellow,
-    height: '40px',
-    width: '60%',
-  },
-  logoPlaceholderRight: {
-    backgroundColor: colors.cyberYellow,
-    height: '40px',
-    width: '60px',
-  },
-  titleContainer: {
-    padding: '10px 40px 30px 40px',
-  },
-  title: {
-    fontSize: '36px',
-    fontWeight: '400',
-    margin: 0,
-  },
-  mainLayout: {
-    display: 'flex',
-    padding: '0 40px',
-    gap: '30px',
-    flex: 1,
-    marginBottom: '40px',
-  },
-  // Sidebar Styles
-  sidebar: {
-    backgroundColor: colors.richBlack,
-    width: '300px',
-    padding: '30px 20px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '25px',
-  },
-  pillInput: {
-    backgroundColor: 'transparent',
-    border: `2px solid ${colors.cyberYellow}`,
-    borderRadius: '25px',
-    color: colors.white,
-    padding: '10px 20px',
-    fontSize: '14px',
-    textAlign: 'center',
-    outline: 'none',
-    width: '100%',
-    boxSizing: 'border-box',
-    cursor: 'pointer',
-  },
-  boxInput: {
-    backgroundColor: 'transparent',
-    border: `2px solid ${colors.cyberYellow}`,
-    borderRadius: '8px',
-    color: colors.white,
-    padding: '30px 20px',
-    fontSize: '14px',
-    textAlign: 'center',
-    outline: 'none',
-    width: '100%',
-    boxSizing: 'border-box',
-    cursor: 'pointer',
-  },
-  iconGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '15px',
-  },
-  iconButton: {
-    backgroundColor: colors.microbusYellow,
-    borderRadius: '8px',
-    height: '60px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '24px',
-    fontWeight: 'bold',
-    border: 'none',
-    cursor: 'pointer',
-  },
-  calendarWidget: {
-    backgroundColor: '#f5f5f5',
-    border: `2px solid ${colors.cyberYellow}`,
-    borderRadius: '8px',
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100px',
-  },
-  calendarHeader: {
-    backgroundColor: colors.redAccent,
-    height: '25px',
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    padding: '0 10px',
-  },
-  calendarDot: {
-    width: '6px',
-    height: '6px',
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    borderRadius: '50%',
-  },
-  calendarGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(7, 1fr)',
-    gap: '4px',
-    padding: '10px',
-    flex: 1,
-  },
-  calendarDay: {
-    backgroundColor: colors.lightGray,
-    borderRadius: '2px',
-  },
-  // Content Styles
-  contentArea: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '20px',
-  },
-  searchSortBar: {
-    backgroundColor: colors.microbusYellow,
-    padding: '15px 20px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    fontSize: '16px',
-    fontWeight: '500',
-  },
-  sortControls: {
-    display: 'flex',
-    gap: '20px',
-  },
-  cardList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '20px',
-  },
-  card: {
-    backgroundColor: colors.microbusYellow,
-    borderRadius: '8px',
-    display: 'flex',
-    padding: '10px',
-    gap: '20px',
-  },
-  cardImageContainer: {
-    position: 'relative',
-    width: '50%',
-    maxWidth: '400px',
-    height: '200px',
-    borderRadius: '6px',
-    overflow: 'hidden',
-  },
-  cardImage: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-  },
-  imageTag: {
-    position: 'absolute',
-    bottom: '15px',
-    left: '15px',
-    backgroundColor: colors.cyberYellow,
-    padding: '8px 16px',
-    borderRadius: '6px',
-    fontSize: '14px',
-    fontWeight: '500',
-  },
-  cardDetails: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    padding: '10px 20px 10px 0',
-  },
-  cardDescription: {
-    fontSize: '18px',
-    fontWeight: '400',
-    margin: 0,
-  },
-  cardPrice: {
-    fontSize: '12px',
-    textAlign: 'right',
-    margin: '0 0 10px 0',
-  },
-  bookButton: {
-    backgroundColor: colors.cyberYellow,
-    border: 'none',
-    padding: '12px 20px',
-    borderRadius: '6px',
-    fontSize: '16px',
-    fontWeight: '500',
-    cursor: 'pointer',
-    alignSelf: 'flex-end',
-    width: '100%',
-    maxWidth: '200px',
-  },
-  footer: {
-    backgroundColor: colors.oxfordBlue,
-    height: '60px',
-    width: '100%',
-  }
-};
+const Footer = () => (
+  <footer className="bg-[#000814] text-white p-10 md:p-12 mt-auto border-t-4 border-[#003566]">
+    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div>
+        <h3 className="text-[#ffd60a] font-bold text-xl mb-4 uppercase tracking-wider">Vroom Vehicles</h3>
+        <div className="text-sm text-gray-300 space-y-1 mb-4">
+          <p>📍 800 King Edward Ave, Ottawa, ON</p>
+          <p>📞 1-800-555-VROOM</p>
+        </div>
+      </div>
+      <div>
+        <h4 className="text-white font-semibold mb-4 text-lg">Project Details</h4>
+        <p className="text-sm text-gray-400 mb-1">SEG 3125 | Prof: Caroline Barrière</p>
+        <p className="text-[#ffd60a] font-bold mt-2">Designed by Taha Rashid</p>
+      </div>
+    </div>
+  </footer>
+);
 
 const ContentPage = () => {
-  // Mock data for the results list
+  // Inventory populated with explicit Carlos policy icons and Oscar duration pricing
   const results = [
-    { id: 1, name: 'Lotus Emira', desc: 'A grand tourer indeed', price: '$14*km/day', img: 'https://images.unsplash.com/photo-1605816988069-b11383b50717?auto=format&fit=crop&w=800&q=80' },
-    { id: 2, name: 'Lotus Emira', desc: 'A grand tourer indeed', price: '$14*km/day', img: 'https://images.unsplash.com/photo-1605816988069-b11383b50717?auto=format&fit=crop&w=800&q=80' },
-    { id: 3, name: 'Lotus Emira', desc: 'A grand tourer indeed', price: '$14*km/day', img: 'https://images.unsplash.com/photo-1605816988069-b11383b50717?auto=format&fit=crop&w=800&q=80' },
-    { id: 4, name: 'Lotus Emira', desc: 'A grand tourer indeed', price: '$14*km/day', img: 'https://images.unsplash.com/photo-1605816988069-b11383b50717?auto=format&fit=crop&w=800&q=80' },
+    { id: 1, name: 'Porsche 911 GT3', desc: 'Naturally aspirated flat-six. Built for the track, legal for the street.', price: '$400/day', duration: 'Minimum 1 Day', img: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=800&q=80', policies: [{ icon: '🏁', label: 'Track Approved' }, { icon: '🏆', label: 'Pros Only' }, { icon: '21+', label: 'Age Req' }] },
+    { id: 2, name: 'Audi RS3 Sedan', desc: 'Quattro AWD system with a turbocharged 5-cylinder engine. Perfect weekend city cruiser.', price: '$150/day', duration: 'Weekend Promos Available', img: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80', policies: [{ icon: '🏙️', label: 'City Allowed' }, { icon: '🛣️', label: 'Highway' }, { icon: '21+', label: 'Age Req' }] },
+    { id: 3, name: 'Lotus Emira', desc: 'Lightweight sports car with hydraulic steering for pure driver engagement.', price: '$250/day', duration: 'Minimum 2 Days', img: 'https://images.unsplash.com/photo-1605816988069-b11383b50717?auto=format&fit=crop&w=800&q=80', policies: [{ icon: '🏁', label: 'Track Approved' }, { icon: '🛣️', label: 'Highway' }, { icon: '21+', label: 'Age Req' }] },
   ];
 
   return (
-    <div style={styles.pageContainer}>
-      {/* Header */}
-      <header style={styles.headerBar}>
-        <div style={styles.logoPlaceholderLeft}></div>
-        <div style={styles.logoPlaceholderRight}></div>
-      </header>
+    <div className="font-sans bg-[#f4f4f5] text-[#000814] min-h-screen flex flex-col">
+      <Navbar />
 
-      {/* Page Title */}
-      <div style={styles.titleContainer}>
-        <h1 style={styles.title}>Promotions</h1>
+      <div className="bg-white border-b border-gray-200 py-6 px-6 md:px-10">
+        <div className="max-w-[1600px] mx-auto w-full flex justify-between items-center">
+          <h1 className="text-3xl font-light text-[#001d3d]">Active <span className="font-bold text-[#003566]">Promotions</span></h1>
+          
+          {/* Oscar Sort Options */}
+          <div className="flex items-center gap-4 text-sm font-bold text-[#001d3d] bg-gray-100 px-4 py-2 rounded-lg border border-gray-200">
+            <span className="text-gray-500 font-medium">Sort By:</span>
+            <select className="bg-transparent outline-none cursor-pointer">
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Duration: Shortest First</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      {/* Main Layout (Sidebar + Content) */}
-      <div style={styles.mainLayout}>
+      <div className="flex flex-col lg:flex-row px-6 md:px-10 gap-8 max-w-[1600px] w-full mx-auto flex-1 my-10">
         
-        {/* Left Sidebar Filters */}
-        <aside style={styles.sidebar}>
-          <div style={styles.pillInput}>Make & Model</div>
-          <div style={styles.pillInput}>Colour</div>
+        {/* Left Sidebar (1/5 width) */}
+        <aside className="bg-white border border-gray-200 w-full lg:w-72 p-6 rounded-2xl flex flex-col gap-6 shadow-lg h-fit sticky top-24">
+          <h3 className="font-bold text-[#001d3d] text-lg border-b border-gray-200 pb-2">Filter Fleet</h3>
           
-          <div style={styles.boxInput}>Restrictions</div>
-          <div style={styles.boxInput}>Year</div>
-          
-          <div style={styles.iconGrid}>
-            <button style={styles.iconButton}>🛡️</button>
-            <button style={styles.iconButton}>🏁</button>
-            <button style={styles.iconButton}>
-              <span style={{backgroundColor: '#fff', borderRadius: '50%', padding: '2px 6px', fontSize: '16px', color: 'black'}}>21+</span>
-            </button>
-            <button style={styles.iconButton}></button>
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold text-gray-500 uppercase">Make & Model</label>
+            <select className="bg-gray-50 border border-gray-300 rounded-lg text-[#000814] p-3 text-sm outline-none focus:border-[#003566]">
+              <option>All Models</option>
+              <option>Porsche</option>
+              <option>Audi</option>
+              <option>Lotus</option>
+            </select>
           </div>
 
-          {/* CSS-based Calendar Placeholder */}
-          <div style={styles.calendarWidget}>
-            <div style={styles.calendarHeader}>
-              {[...Array(6)].map((_, i) => <div key={i} style={styles.calendarDot}></div>)}
-            </div>
-            <div style={styles.calendarGrid}>
-              {[...Array(14)].map((_, i) => <div key={i} style={styles.calendarDay}></div>)}
-            </div>
+          {/* Carlos Policy Filters */}
+          <div className="flex flex-col gap-3 mt-4">
+            <label className="text-xs font-bold text-gray-500 uppercase">Driving Policies</label>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" className="w-4 h-4 accent-[#003566]" /> <span>🏁 Track Approved</span>
+            </label>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" className="w-4 h-4 accent-[#003566]" /> <span>🏙️ City Allowed</span>
+            </label>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" className="w-4 h-4 accent-[#003566]" /> <span>🏆 Pros Only</span>
+            </label>
           </div>
 
-          <div style={styles.pillInput}>Price</div>
+          <div className="mt-4">
+            <label className="text-xs font-bold text-gray-500 uppercase block mb-2">Price Range / Day</label>
+            <input type="range" className="w-full accent-[#ffc300]" min="50" max="1000" />
+            <div className="flex justify-between text-xs font-bold mt-1 text-[#003566]">
+              <span>$50</span>
+              <span>$1000+</span>
+            </div>
+          </div>
         </aside>
 
-        {/* Right Main Content */}
-        <main style={styles.contentArea}>
-          {/* Top Search / Sort Bar */}
-          <div style={styles.searchSortBar}>
-            <div>Search with AutoAI</div>
-            <div style={styles.sortControls}>
-              <span style={{cursor: 'pointer'}}>Ascending</span>
-              <span style={{cursor: 'pointer'}}>Sort</span>
-            </div>
-          </div>
-
-          {/* Car Results List */}
-          <div style={styles.cardList}>
-            {results.map((car) => (
-              <div key={car.id} style={styles.card}>
-                <div style={styles.cardImageContainer}>
-                  <img src={car.img} alt={car.name} style={styles.cardImage} />
-                  <div style={styles.imageTag}>{car.name}</div>
-                </div>
-                
-                <div style={styles.cardDetails}>
-                  <p style={styles.cardDescription}>{car.desc}</p>
-                  <div>
-                    <p style={styles.cardPrice}>{car.price}</p>
-                    <button style={styles.bookButton}>Available NOW</button>
+        {/* Right Content (4/5 width) */}
+        <main className="flex-1 flex flex-col gap-6">
+          {results.map((car) => (
+            <div key={car.id} className="bg-white rounded-2xl flex flex-col md:flex-row p-5 gap-6 shadow-md border border-gray-200 hover:shadow-xl hover:border-[#ffd60a] transition-all group">
+              
+              <div className="relative w-full md:w-[35%] h-60 rounded-xl overflow-hidden shrink-0 bg-gray-100">
+                <img src={car.img} alt={car.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              
+              <div className="flex-1 flex flex-col justify-between py-2">
+                <div>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-2xl font-bold text-[#001d3d]">{car.name}</h3>
+                    <div className="text-right">
+                      <p className="text-xl font-extrabold text-[#000814]">{car.price}</p>
+                      <p className="text-xs text-gray-500 font-medium">{car.duration}</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4">{car.desc}</p>
+                  
+                  {/* Carlos Policy Icons Implementation */}
+                  <div className="flex flex-wrap gap-2">
+                    {car.policies.map((policy, idx) => (
+                      <div key={idx} className="flex items-center gap-1.5 bg-[#f4f4f5] border border-gray-200 px-3 py-1.5 rounded-lg" title={policy.label}>
+                        <span className="text-lg">{policy.icon}</span>
+                        <span className="text-xs font-bold text-[#003566]">{policy.label}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
+                
+                <div className="flex justify-end mt-6">
+                  <button className="bg-[#001d3d] hover:bg-[#003566] text-white px-8 py-3 rounded-xl text-sm font-bold shadow-md transition-colors w-full md:w-auto">
+                    View Options & Book
+                  </button>
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </main>
       </div>
 
-      {/* Footer */}
-      <footer style={styles.footer}></footer>
+      <Footer />
     </div>
   );
 };
