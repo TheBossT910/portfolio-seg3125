@@ -1,59 +1,16 @@
 import React, { useState } from 'react';
-
-const Navbar = () => (
-  <nav className="sticky top-0 z-50 w-full bg-[#001d3d]/95 backdrop-blur-md px-6 md:px-10 py-4 flex justify-between items-center shadow-lg border-b-2 border-[#ffd60a]">
-    <div className="text-[#ffd60a] font-extrabold text-2xl tracking-wider uppercase flex items-center gap-2 cursor-pointer">
-      <span>Vroom</span><span className="text-white font-light">Vehicles</span>
-    </div>
-    <div className="hidden md:flex gap-8 text-white font-medium text-sm">
-      <a href="/case-studies/services-site/" className="hover:text-[#ffc300] transition-colors pb-1">Home</a>
-      <a href="/case-studies/services-site/content" className="hover:text-[#ffc300] transition-colors pb-1">Search Fleet</a>
-      <a href="/case-studies/services-site/cart" className="hover:text-[#ffc300] transition-colors pb-1">Cart</a>
-    </div>
-  </nav>
-);
-
-const Footer = () => (
-  <footer className="bg-[#000814] text-white p-10 md:p-12 mt-auto border-t-8 border-[#ffc300]">
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-      <div>
-        <h3 className="text-[#ffd60a] font-bold text-2xl mb-2 uppercase tracking-wider">Vroom Vehicles</h3>
-        <p className="text-[#ffd60a] font-medium text-sm mb-4">Premium Sports Car Rental Service</p>
-        <div className="text-sm text-gray-300 space-y-2">
-          <p className="flex items-center gap-2"><span className="text-lg">📍</span> 800 King Edward Ave, Ottawa, ON</p>
-          <p className="flex items-center gap-2"><span className="text-lg">📞</span> 1-800-555-VROOM</p>
-          <p className="flex items-center gap-2"><span className="text-lg">✉️</span> contact@vroomvehicles.ca</p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-white font-semibold mb-4 text-xl">Project Details</h4>
-        <p className="text-sm text-gray-400 mb-1">SEG 3125: Analysis and Design of UIs</p>
-        <p className="text-sm text-gray-400 mb-1">Professor: Caroline Barrière</p>
-        <div className="mt-6 inline-block bg-[#001d3d] border-2 border-[#ffd60a] px-6 py-3 rounded-xl shadow-lg shadow-[#ffc300]/20">
-          <p className="text-[#ffd60a] font-bold tracking-wide">Designed by Taha Rashid</p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-white font-semibold mb-4 text-xl">Service Links</h4>
-        <ul className="text-sm text-gray-400 space-y-3">
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>🏷️</span> Weekend Deals (Oscar's Pick)</a></li>
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>🏎️</span> Track Inventory (Carlos' Pick)</a></li>
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>📜</span> Racing & City Policies</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-);
+import Navbar from '../../components/services-site/Navbar';
+import Footer from '../../components/services-site/Footer';
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([
     { 
       id: 1, 
-      carName: 'Lotus Emira', 
-      options: 'Track Pack',
+      carName: 'Honda NSX', 
+      options: 'Yellow',
       duration: '3 Days (Oct 10 - Oct 13)', 
-      price: 870, 
-      img: 'https://images.unsplash.com/photo-1605816988069-b11383b50717?auto=format&fit=crop&w=600&q=80' 
+      price: 750, 
+      img: 'https://www.topgear.com/sites/default/files/cars-car/carousel/2019/09/192853_thermal_orange_nsx_2020.jpg?w=1784&h=1004' 
     }
   ]);
 
@@ -94,28 +51,30 @@ const CartPage = () => {
             {cartItems.length === 0 ? (
               <div className="bg-white rounded-xl p-8 text-center shadow-sm border border-gray-200">
                 <p className="text-sm text-gray-500 mb-4">Your reservation cart is empty.</p>
-                <a href="/promotions" className="bg-[#001d3d] text-white px-6 py-2 rounded-lg text-sm font-bold">Browse Fleet</a>
+                <a href="/case-studies/services-site/content" className="bg-[#001d3d] text-white px-6 py-2 rounded-lg text-sm font-bold">Browse Fleet</a>
               </div>
             ) : (
               cartItems.map((item) => (
-                <div key={item.id} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 flex flex-col sm:flex-row p-4 gap-4">
-                  <div className="h-32 sm:w-48 overflow-hidden rounded-lg bg-gray-100 shrink-0">
-                    <img src={item.img} alt={item.carName} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex flex-col justify-between flex-1">
-                    <div>
-                      <div className="flex justify-between items-start mb-1">
-                        <h3 className="text-lg font-bold text-[#001d3d]">{item.carName}</h3>
-                        <button onClick={() => handleRemoveItem(item.id)} className="text-red-500 text-xs font-bold hover:underline">Remove</button>
+                <a href="/case-studies/services-site/details">
+                  <div key={item.id} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 flex flex-col sm:flex-row p-4 gap-4">
+                    <div className="h-32 sm:w-48 overflow-hidden rounded-lg bg-gray-100 shrink-0">
+                      <img src={item.img} alt={item.carName} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex flex-col justify-between flex-1">
+                      <div>
+                        <div className="flex justify-between items-start mb-1">
+                          <h3 className="text-lg font-bold text-[#001d3d]">{item.carName}</h3>
+                          <button onClick={() => handleRemoveItem(item.id)} className="text-red-500 text-xs font-bold hover:underline">Remove</button>
+                        </div>
+                        <p className="text-xs text-gray-500 mb-1">Config: {item.options}</p>
+                        <p className="text-xs text-gray-500">Dates: <span className="font-bold text-[#000814]">{item.duration}</span></p>
                       </div>
-                      <p className="text-xs text-gray-500 mb-1">Config: <span className="font-bold text-[#000814]">{item.options}</span></p>
-                      <p className="text-xs text-gray-500">Dates: {item.duration}</p>
-                    </div>
-                    <div className="text-right mt-2">
-                      <span className="text-xl font-extrabold text-[#001d3d]">${item.price.toFixed(2)}</span>
+                      <div className="text-right mt-2">
+                        <span className="text-xl font-extrabold text-[#001d3d]">${item.price.toFixed(2)}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </a>
               ))
             )}
 
@@ -136,7 +95,7 @@ const CartPage = () => {
                       </div>
                       <button 
                         onClick={() => handleTogglePackage(pkg.id)}
-                        className={`py-1.5 rounded-md text-xs font-bold transition-colors border w-full ${isAdded ? 'bg-[#003566] text-white border-[#003566]' : 'bg-transparent text-[#001d3d] border-gray-300 hover:bg-gray-50'}`}
+                        className={`py-1.5 rounded-md text-xs font-bold transition-colors border w-full ${isAdded ? 'bg-[#003566] text-white border-[#003566]' : 'bg-[#ffc300] hover:bg-[#ffd60a] text-[#001d3d] border-gray-300'}`}
                       >
                         {isAdded ? 'Remove' : 'Add to Reservation'}
                       </button>

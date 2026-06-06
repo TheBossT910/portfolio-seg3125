@@ -1,58 +1,16 @@
 import React, { useState } from 'react';
-
-const Navbar = () => (
-  <nav className="sticky top-0 z-50 w-full bg-[#001d3d]/95 backdrop-blur-md px-6 md:px-10 py-4 flex justify-between items-center shadow-lg border-b-2 border-[#ffd60a]">
-    <div className="text-[#ffd60a] font-extrabold text-2xl tracking-wider uppercase flex items-center gap-2 cursor-pointer">
-      <span>Vroom</span><span className="text-white font-light">Vehicles</span>
-    </div>
-    <div className="hidden md:flex gap-8 text-white font-medium text-sm">
-      <a href="/case-studies/services-site/" className="hover:text-[#ffc300] transition-colors pb-1">Home</a>
-      <a href="/case-studies/services-site/content" className="hover:text-[#ffc300] transition-colors pb-1">Search Fleet</a>
-      <a href="/case-studies/services-site/cart" className="hover:text-[#ffc300] transition-colors pb-1">Cart</a>
-    </div>
-  </nav>
-);
-
-const Footer = () => (
-  <footer className="bg-[#000814] text-white p-10 md:p-12 mt-auto border-t-8 border-[#ffc300]">
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-      <div>
-        <h3 className="text-[#ffd60a] font-bold text-2xl mb-2 uppercase tracking-wider">Vroom Vehicles</h3>
-        <p className="text-[#ffd60a] font-medium text-sm mb-4">Premium Sports Car Rental Service</p>
-        <div className="text-sm text-gray-300 space-y-2">
-          <p className="flex items-center gap-2"><span className="text-lg">📍</span> 800 King Edward Ave, Ottawa, ON</p>
-          <p className="flex items-center gap-2"><span className="text-lg">📞</span> 1-800-555-VROOM</p>
-          <p className="flex items-center gap-2"><span className="text-lg">✉️</span> contact@vroomvehicles.ca</p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-white font-semibold mb-4 text-xl">Project Details</h4>
-        <p className="text-sm text-gray-400 mb-1">SEG 3125: Analysis and Design of UIs</p>
-        <p className="text-sm text-gray-400 mb-1">Professor: Caroline Barrière</p>
-        <div className="mt-6 inline-block bg-[#001d3d] border-2 border-[#ffd60a] px-6 py-3 rounded-xl shadow-lg shadow-[#ffc300]/20">
-          <p className="text-[#ffd60a] font-bold tracking-wide">Designed by Taha Rashid</p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-white font-semibold mb-4 text-xl">Service Links</h4>
-        <ul className="text-sm text-gray-400 space-y-3">
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>🏷️</span> Weekend Deals (Oscar's Pick)</a></li>
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>🏎️</span> Track Inventory (Carlos' Pick)</a></li>
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>📜</span> Racing & City Policies</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-);
+import Navbar from '../../components/services-site/Navbar';
+import Footer from '../../components/services-site/Footer';
 
 const IndexPage = () => {
   const [searchMake, setSearchMake] = useState('Make');
   const [searchDuration, setSearchDuration] = useState('Days');
 
+  // Car data taken from https://www.topgear.com
   const inventoryCards = [
-    { id: 1, img: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=600&q=80', alt: 'Porsche 911 GT3', name: 'Porsche 911 GT3', duration: 'Weekend Rate (3 Days)', price: '$850 total', badge: 'Track Ready' },
-    { id: 2, img: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=600&q=80', alt: 'Audi RS3', name: 'Audi RS3 Sedan', duration: 'Daily Rate', price: '$150 / day', badge: 'City Cruiser' },
-    { id: 3, img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80', alt: 'Corvette C8', name: 'Chevrolet Corvette C8', duration: 'Weekly Rate (7 Days)', price: '$1,200 total', badge: 'Hot Deal' },
+    { id: 1, img: 'https://www.topgear.com/sites/default/files/cars-car/image/2025/12/PCGB25_1308_fine.jpg?w=810&h=456', alt: 'Porsche 911 GT3 (992.2)', name: 'Porsche 911 GT3 (992.2)', duration: 'Weekend Rate (3 Days)', price: '$850 total', badge: 'Track Ready' },
+    { id: 2, img: 'https://www.topgear.com/sites/default/files/cars-car/carousel/2020/12/p90236604_highres_the-bmw-m3-csl-e46-0.jpg?w=1784&h=1004', alt: 'BMW M3 CSL', name: 'BMW M3 CSL', duration: 'Daily Rate', price: '$150 / day', badge: 'City Cruiser' },
+    { id: 3, img: 'https://www.topgear.com/sites/default/files/cars-car/carousel/2021/01/li3501138row_3977.jpg?w=1784&h=1004', alt: 'Nissan GT-R', name: 'Nissan GT-R', duration: 'Weekly Rate (7 Days)', price: '$1,200 total', badge: 'Hot Deal' },
   ];
 
   return (
@@ -62,7 +20,7 @@ const IndexPage = () => {
       {/* Hero Section */}
       <section 
         className="relative pt-32 pb-20 px-6 md:px-10 min-h-[650px] flex flex-col justify-center bg-cover bg-center"
-        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1549399542-7e3f8b79c340?auto=format&fit=crop&w=1920&q=80")' }}
+        style={{ backgroundImage: 'url("https://www.topgear.com/sites/default/files/cars-car/image/2019/09/192853_thermal_orange_nsx_2020.jpg")'}}
       >
         <div className="absolute inset-0 bg-[#001d3d]/70 mix-blend-multiply z-0"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f4f5] z-0"></div>
@@ -70,14 +28,13 @@ const IndexPage = () => {
         <div className="relative z-10 max-w-6xl mx-auto w-full">
           <div className="text-center mb-10">
             <span className="bg-[#ffc300] text-[#000814] font-extrabold px-6 py-2 rounded-full text-sm tracking-widest uppercase mb-6 inline-block shadow-[0_0_15px_rgba(255,195,0,0.5)]">
-              Weekend Promotions Active
+              Canada Day Deals Out Now!
             </span>
             <h1 className="text-white text-5xl md:text-7xl font-light drop-shadow-2xl">
               Find your <span className="text-[#ffd60a] font-bold underline decoration-8 underline-offset-8">perfect</span> ride
             </h1>
           </div>
           
-          {/* Interactive Autotrader-style Search Bar */}
           <div className="bg-white/10 backdrop-blur-xl p-6 md:p-8 rounded-3xl flex flex-col md:flex-row gap-4 items-center w-full shadow-2xl border border-white/20">
             <div className="flex-1 w-full">
               <label className="block text-xs font-bold text-[#ffd60a] uppercase tracking-wider mb-2 px-2">Search Catalog</label>
@@ -87,6 +44,7 @@ const IndexPage = () => {
                 className="w-full bg-white border-2 border-transparent rounded-2xl text-[#000814] px-6 py-4 outline-none focus:border-[#ffc300] shadow-inner text-lg" 
               />
             </div>
+
             <div className="w-full md:w-56">
               <label className="block text-xs font-bold text-[#ffd60a] uppercase tracking-wider mb-2 px-2">Make</label>
               <select 
@@ -147,7 +105,7 @@ const IndexPage = () => {
                 <h3 className="absolute bottom-4 left-6 text-2xl font-bold text-white">{car.name}</h3>
               </div>
               <div className="p-6 flex flex-col flex-1 bg-[#001d3d]">
-                <p className="text-sm text-[#ffd60a] font-medium mb-4 flex items-center gap-2"><span className="text-lg">⏱️</span> {car.duration}</p>
+                <p className="text-sm text-[#ffd60a] font-medium mb-4 flex items-center gap-2"> {car.duration}</p>
                 <div className="mt-auto pt-4 border-t border-[#003566] flex justify-between items-center">
                   <span className="text-2xl font-extrabold text-white">{car.price}</span>
                   <span className="text-[#ffc300] font-bold group-hover:translate-x-1 transition-transform">Book Now →</span>

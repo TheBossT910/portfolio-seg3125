@@ -1,49 +1,6 @@
 import React, { useState } from 'react';
-
-const Navbar = () => (
-  <nav className="sticky top-0 z-50 w-full bg-[#001d3d]/95 backdrop-blur-md px-6 md:px-10 py-4 flex justify-between items-center shadow-lg border-b-2 border-[#ffd60a]">
-    <div className="text-[#ffd60a] font-extrabold text-2xl tracking-wider uppercase flex items-center gap-2 cursor-pointer">
-      <span>Vroom</span><span className="text-white font-light">Vehicles</span>
-    </div>
-    <div className="hidden md:flex gap-8 text-white font-medium text-sm">
-      <a href="/case-studies/services-site/" className="hover:text-[#ffc300] transition-colors pb-1">Home</a>
-      <a href="/case-studies/services-site/content" className="hover:text-[#ffc300] transition-colors pb-1">Search Fleet</a>
-      <a href="/case-studies/services-site/cart" className="hover:text-[#ffc300] transition-colors pb-1">Cart</a>
-    </div>
-  </nav>
-);
-
-const Footer = () => (
-  <footer className="bg-[#000814] text-white p-10 md:p-12 mt-auto border-t-8 border-[#ffc300]">
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-      <div>
-        <h3 className="text-[#ffd60a] font-bold text-2xl mb-2 uppercase tracking-wider">Vroom Vehicles</h3>
-        <p className="text-[#ffd60a] font-medium text-sm mb-4">Premium Sports Car Rental Service</p>
-        <div className="text-sm text-gray-300 space-y-2">
-          <p className="flex items-center gap-2"><span className="text-lg">📍</span> 800 King Edward Ave, Ottawa, ON</p>
-          <p className="flex items-center gap-2"><span className="text-lg">📞</span> 1-800-555-VROOM</p>
-          <p className="flex items-center gap-2"><span className="text-lg">✉️</span> contact@vroomvehicles.ca</p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-white font-semibold mb-4 text-xl">Project Details</h4>
-        <p className="text-sm text-gray-400 mb-1">SEG 3125: Analysis and Design of UIs</p>
-        <p className="text-sm text-gray-400 mb-1">Professor: Caroline Barrière</p>
-        <div className="mt-6 inline-block bg-[#001d3d] border-2 border-[#ffd60a] px-6 py-3 rounded-xl shadow-lg shadow-[#ffc300]/20">
-          <p className="text-[#ffd60a] font-bold tracking-wide">Designed by Taha Rashid</p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-white font-semibold mb-4 text-xl">Service Links</h4>
-        <ul className="text-sm text-gray-400 space-y-3">
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>🏷️</span> Weekend Deals (Oscar's Pick)</a></li>
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>🏎️</span> Track Inventory (Carlos' Pick)</a></li>
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>📜</span> Racing & City Policies</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-);
+import Navbar from '../../components/services-site/Navbar';
+import Footer from '../../components/services-site/Footer';
 
 // SVG Icons for Policies
 const Icons = {
@@ -77,13 +34,13 @@ const ContentPage = () => {
     { id: 'green', hex: '#22c55e' },
   ];
 
-  // Fleet Database with expanded queryable metadata
+  // Fleet Database
   const fleet = [
-    { id: 1, make: 'Porsche', model: '911 GT3', year: 2023, bodyType: 'Supercar', color: 'white', price: 400, isPromo: false, desc: 'Naturally aspirated flat-six. Built for the track.', img: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=800&q=80', policyKeys: ['track', 'pros'], policies: [{ icon: Icons.Track, label: 'Track Approved' }, { icon: Icons.Pros, label: 'Pros Only' }] },
-    { id: 2, make: 'Audi', model: 'RS3 Sedan', year: 2022, bodyType: 'Sports Sedan', color: 'black', price: 150, isPromo: true, desc: 'Quattro AWD system with a turbocharged 5-cylinder engine.', img: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80', policyKeys: ['city'], policies: [{ icon: Icons.City, label: 'City Allowed' }, { icon: Icons.Age, label: '21+ Required' }] },
-    { id: 3, make: 'Lotus', model: 'Emira', year: 2024, bodyType: 'Supercar', color: 'green', price: 250, isPromo: false, desc: 'Lightweight sports car with hydraulic steering.', img: 'https://images.unsplash.com/photo-1605816988069-b11383b50717?auto=format&fit=crop&w=800&q=80', policyKeys: ['track', 'city'], policies: [{ icon: Icons.Track, label: 'Track Approved' }, { icon: Icons.City, label: 'City Allowed' }] },
-    { id: 4, make: 'Aston Martin', model: 'DBX707', year: 2024, bodyType: 'Super SUV', color: 'black', price: 500, isPromo: true, desc: 'The ultimate luxury performance SUV. 707 horsepower.', img: 'https://images.unsplash.com/photo-1614377284368-22878411d943?auto=format&fit=crop&w=800&q=80', policyKeys: ['city', 'pros'], policies: [{ icon: Icons.City, label: 'City Allowed' }, { icon: Icons.Pros, label: 'Pros Only' }] },
-    { id: 5, make: 'Chevrolet', model: 'Corvette C8', year: 2023, bodyType: 'Convertible', color: 'yellow', price: 200, isPromo: true, desc: 'Mid-engine American V8 power with an open top.', img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80', policyKeys: ['track', 'city'], policies: [{ icon: Icons.Track, label: 'Track Approved' }, { icon: Icons.City, label: 'City Allowed' }] },
+    { id: 1, make: 'Ferrari', model: '812', year: 2021, bodyType: 'Supercar', color: 'yellow', price: 400, isPromo: false, desc: 'If the 812 Competizione is the last Ferrari to have a naturally-aspirated V12, we can’t think of a better way of going out with a bang', img: 'https://www.topgear.com/sites/default/files/2021/11/_P2A8119_0.jpg?w=1784&h=1004', policyKeys: ['track', 'pros'], policies: [{ icon: Icons.Track, label: 'Track Approved' }, { icon: Icons.Pros, label: 'Pros Only' }] },
+    { id: 2, make: 'Toyota', model: 'GR86', year: 2022, bodyType: 'Sports Sedan', color: 'red', price: 150, isPromo: true, desc: 'The sequel to the GT86 has a bigger engine, more power and increased grip, but it’s still a less-is-more hero, and a sports car bargain', img: 'https://www.topgear.com/sites/default/files/2022/05/2022_GR86_DPL_DYNAMIC_005.jpg?w=1784&h=1004', policyKeys: ['city'], policies: [{ icon: Icons.City, label: 'City Allowed' }, { icon: Icons.Age, label: '21+ Required' }] },
+    { id: 3, make: 'Lamborghini', model: 'Huracan', year: 2015, bodyType: 'Supercar', color: 'green', price: 250, isPromo: false, desc: 'The new Huracan returns Lamborghini to the entry-level supercar top table - even if it is a bit play it safe', img: 'https://www.topgear.com/sites/default/files/cars-car/carousel/2015/02/buyers_guide_-_lamborghini_huracan_2014_-_front_quarter.jpg?w=1784&h=1004', policyKeys: ['track', 'city'], policies: [{ icon: Icons.Track, label: 'Track Approved' }, { icon: Icons.City, label: 'City Allowed' }] },
+    { id: 4, make: 'Porsche', model: 'Cayenne Coupe Electric', year: 2026, bodyType: 'Super SUV', color: 'green', price: 500, isPromo: true, desc: 'It will reshape what you think should be possible (and heck, legal) in a big family car', img: 'https://www.topgear.com/sites/default/files/2026/05/1-Porsche-Cayenne-Coupe-Electric-review-2026.jpg?w=1784&h=1004', policyKeys: ['city', 'pros'], policies: [{ icon: Icons.City, label: 'City Allowed' }, { icon: Icons.Pros, label: 'Pros Only' }] },
+    { id: 5, make: 'Lotus', model: 'Exige', year: 2015, bodyType: 'Convertible', color: 'blue', price: 200, isPromo: true, desc: 'The Exige is a rarity, in the fact it’s a car that’s as happy on the track as it is on the road. One of the most focused yet compliant track-minded road cars you can get. Utter witchcraft', img: 'https://www.topgear.com/sites/default/files/cars-car/carousel/2018/05/exige410sport-4721.jpg?w=1784&h=1004', policyKeys: ['track', 'city'], policies: [{ icon: Icons.Track, label: 'Track Approved' }, { icon: Icons.City, label: 'City Allowed' }] },
   ];
 
   // Handlers
@@ -124,7 +81,6 @@ const ContentPage = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto w-full px-6 md:px-10 py-6">
-        {/* Top Search & Tag Panel */}
         <div className="bg-[#001d3d] p-5 rounded-xl shadow-md border-t-4 border-[#ffc300] flex flex-col gap-4">
           <div className="flex flex-col md:flex-row gap-3">
             <input 
@@ -297,54 +253,56 @@ const ContentPage = () => {
               </div>
             ) : (
               filteredResults.map((car) => (
-                <div key={car.id} className="bg-white rounded-xl flex flex-col sm:flex-row p-3 gap-4 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                  <div className="relative w-full sm:w-64 h-44 rounded-lg overflow-hidden shrink-0 bg-gray-100">
-                    <img src={car.img} alt={`${car.make} ${car.model}`} className="w-full h-full object-cover" />
-                    {car.isPromo && (
-                      <div className="absolute top-2 left-2 bg-red-600 text-white px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider shadow-sm">
-                        Deal
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="flex-1 flex flex-col justify-between py-1 pr-2">
-                    <div>
-                      <div className="flex justify-between items-start mb-1">
-                        <div>
-                          <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">{car.year} • {car.make}</p>
-                          <h3 className="text-xl font-bold text-[#001d3d] leading-tight">{car.model}</h3>
+                <a href="/case-studies/services-site/details">
+                  <div key={car.id} className="bg-white rounded-xl flex flex-col sm:flex-row p-3 gap-4 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                    <div className="relative w-full sm:w-64 h-44 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                      <img src={car.img} alt={`${car.make} ${car.model}`} className="w-full h-full object-cover" />
+                      {car.isPromo && (
+                        <div className="absolute top-2 left-2 bg-red-600 text-white px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider shadow-sm">
+                          Deal
                         </div>
-                        <div className="text-right">
-                          <p className="text-xl font-extrabold text-[#000814]">${car.price}</p>
-                          <p className="text-[10px] font-bold text-gray-500 uppercase">/ day</p>
-                        </div>
-                      </div>
-                      
-                      <p className="text-gray-600 text-xs leading-relaxed mt-2 mb-3 line-clamp-2">{car.desc}</p>
-                      
-                      <div className="flex flex-wrap gap-2">
-                        {car.policies.map((policy, idx) => (
-                          <div key={idx} className="flex items-center gap-1.5 bg-[#f4f4f5] border border-gray-200 px-2 py-1 rounded-md" title={policy.label}>
-                            <span className="text-gray-600">{policy.icon}</span>
-                            <span className="text-[10px] font-bold text-[#003566] uppercase">{policy.label}</span>
-                          </div>
-                        ))}
-                      </div>
+                      )}
                     </div>
                     
-                    <div className="flex justify-between items-end mt-4">
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-4 h-4 rounded-full border border-gray-300 shadow-sm" style={{ backgroundColor: colors.find(c => c.id === car.color)?.hex }}></div>
-                        <span className="text-[10px] font-bold text-gray-400 capitalize">{car.color}</span>
-                        <span className="text-gray-300 mx-1">•</span>
-                        <span className="text-[10px] font-bold text-gray-400 uppercase">{car.bodyType}</span>
+                    <div className="flex-1 flex flex-col justify-between py-1 pr-2">
+                      <div>
+                        <div className="flex justify-between items-start mb-1">
+                          <div>
+                            <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">{car.year} • {car.make}</p>
+                            <h3 className="text-xl font-bold text-[#001d3d] leading-tight">{car.model}</h3>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-xl font-extrabold text-[#000814]">${car.price}</p>
+                            <p className="text-[10px] font-bold text-gray-500 uppercase">/ day</p>
+                          </div>
+                        </div>
+                        
+                        <p className="text-gray-600 text-xs leading-relaxed mt-2 mb-3 line-clamp-2">{car.desc}</p>
+                        
+                        <div className="flex flex-wrap gap-2">
+                          {car.policies.map((policy, idx) => (
+                            <div key={idx} className="flex items-center gap-1.5 bg-[#f4f4f5] border border-gray-200 px-2 py-1 rounded-md" title={policy.label}>
+                              <span className="text-gray-600">{policy.icon}</span>
+                              <span className="text-[10px] font-bold text-[#003566] uppercase">{policy.label}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                      <a href="/case-studies/services-site/details" className="bg-[#001d3d] hover:bg-[#003566] text-[#ffd60a] px-6 py-2 rounded-lg text-sm font-bold transition-colors text-center w-full sm:w-auto">
-                        View Details
-                      </a>
+                      
+                      <div className="flex justify-between items-end mt-4">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-4 h-4 rounded-full border border-gray-300 shadow-sm" style={{ backgroundColor: colors.find(c => c.id === car.color)?.hex }}></div>
+                          <span className="text-[10px] font-bold text-gray-400 capitalize">{car.color}</span>
+                          <span className="text-gray-300 mx-1">•</span>
+                          <span className="text-[10px] font-bold text-gray-400 uppercase">{car.bodyType}</span>
+                        </div>
+                        <a href="/case-studies/services-site/details" className="bg-[#001d3d] hover:bg-[#003566] text-[#ffd60a] px-6 py-2 rounded-lg text-sm font-bold transition-colors text-center w-full sm:w-auto">
+                          View Details
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </a>
               ))
             )}
           </div>

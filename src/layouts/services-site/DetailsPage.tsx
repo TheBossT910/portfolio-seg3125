@@ -1,49 +1,6 @@
 import React, { useState } from 'react';
-
-const Navbar = () => (
-  <nav className="sticky top-0 z-50 w-full bg-[#001d3d]/95 backdrop-blur-md px-6 md:px-10 py-4 flex justify-between items-center shadow-lg border-b-2 border-[#ffd60a]">
-    <div className="text-[#ffd60a] font-extrabold text-2xl tracking-wider uppercase flex items-center gap-2 cursor-pointer">
-      <span>Vroom</span><span className="text-white font-light">Vehicles</span>
-    </div>
-    <div className="hidden md:flex gap-8 text-white font-medium text-sm">
-      <a href="/case-studies/services-site/" className="hover:text-[#ffc300] transition-colors pb-1">Home</a>
-      <a href="/case-studies/services-site/content" className="hover:text-[#ffc300] transition-colors pb-1">Search Fleet</a>
-      <a href="/case-studies/services-site/cart" className="hover:text-[#ffc300] transition-colors pb-1">Cart</a>
-    </div>
-  </nav>
-);
-
-const Footer = () => (
-  <footer className="bg-[#000814] text-white p-10 md:p-12 mt-auto border-t-8 border-[#ffc300]">
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-      <div>
-        <h3 className="text-[#ffd60a] font-bold text-2xl mb-2 uppercase tracking-wider">Vroom Vehicles</h3>
-        <p className="text-[#ffd60a] font-medium text-sm mb-4">Premium Sports Car Rental Service</p>
-        <div className="text-sm text-gray-300 space-y-2">
-          <p className="flex items-center gap-2"><span className="text-lg">📍</span> 800 King Edward Ave, Ottawa, ON</p>
-          <p className="flex items-center gap-2"><span className="text-lg">📞</span> 1-800-555-VROOM</p>
-          <p className="flex items-center gap-2"><span className="text-lg">✉️</span> contact@vroomvehicles.ca</p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-white font-semibold mb-4 text-xl">Project Details</h4>
-        <p className="text-sm text-gray-400 mb-1">SEG 3125: Analysis and Design of UIs</p>
-        <p className="text-sm text-gray-400 mb-1">Professor: Caroline Barrière</p>
-        <div className="mt-6 inline-block bg-[#001d3d] border-2 border-[#ffd60a] px-6 py-3 rounded-xl shadow-lg shadow-[#ffc300]/20">
-          <p className="text-[#ffd60a] font-bold tracking-wide">Designed by Taha Rashid</p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-white font-semibold mb-4 text-xl">Service Links</h4>
-        <ul className="text-sm text-gray-400 space-y-3">
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>🏷️</span> Weekend Deals (Oscar's Pick)</a></li>
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>🏎️</span> Track Inventory (Carlos' Pick)</a></li>
-          <li><a href="#" className="hover:text-[#ffc300] transition-colors flex items-center gap-2"><span>📜</span> Racing & City Policies</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-);
+import Navbar from '../../components/services-site/Navbar';
+import Footer from '../../components/services-site/Footer';
 
 // Clean SVG Icons
 const Icons = {
@@ -58,10 +15,10 @@ const DetailsPage = () => {
 
   // Image Gallery Array
   const galleryImages = [
-    'https://images.unsplash.com/photo-1605816988069-b11383b50717?auto=format&fit=crop&w=1920&q=80', // Rear Angle
-    'https://images.unsplash.com/photo-1571607388263-1044f9ea01dd?auto=format&fit=crop&w=1920&q=80', // Front/Profile Angle
-    'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&w=1920&q=80', // Interior/Detail
-    'https://images.unsplash.com/photo-1549399542-7e3f8b79c340?auto=format&fit=crop&w=1920&q=80', // Action Shot
+    'https://www.topgear.com/sites/default/files/cars-car/carousel/2019/09/192853_thermal_orange_nsx_2020.jpg?w=1784&h=1004',
+    'https://www.topgear.com/sites/default/files/cars-car/carousel/2019/09/192845_thermal_orange_nsx_2020.jpg?w=1784&h=1004',
+    'https://www.topgear.com/sites/default/files/cars-car/carousel/2019/09/192846_thermal_orange_nsx_2020.jpg?w=1784&h=1004',
+    'https://www.topgear.com/sites/default/files/cars-car/carousel/2019/09/192836_thermal_orange_nsx_2020.jpg?w=1784&h=1004',
   ];
   
   const [activeImage, setActiveImage] = useState(galleryImages[0]);
@@ -79,17 +36,16 @@ const DetailsPage = () => {
       <Navbar />
       <main className="flex-1 flex flex-col w-full pb-16">
         
-        {/* STACK 1: Massive Hero Image & Title with Gallery Previews */}
+        {/* Hero Image with Previews */}
         <div className="relative w-full h-[550px] bg-[#000814]">
           <img 
             src={activeImage} 
             alt="Lotus Emira" 
             className="w-full h-full object-cover opacity-85 transition-opacity duration-300 ease-in-out" 
           />
-          {/* Gradient Overlay for Text Readability */}
+
           <div className="absolute inset-0 bg-gradient-to-t from-[#000814] via-transparent to-transparent"></div>
           
-          {/* Interactive Image Gallery Thumbnails */}
           <div className="absolute right-6 md:right-10 bottom-32 md:bottom-40 flex gap-3 z-20">
             {galleryImages.map((img, idx) => (
               <button 
@@ -108,9 +64,9 @@ const DetailsPage = () => {
 
           <div className="absolute bottom-0 left-0 w-full px-6 md:px-10 pb-12 max-w-6xl mx-auto right-0 flex flex-col md:flex-row justify-between items-end z-10">
             <div>
-              <span className="bg-[#ffc300] text-[#000814] text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 inline-block">First Edition</span>
-              <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tight drop-shadow-lg">Lotus Emira</h1>
-              <p className="text-gray-300 font-medium mt-2 text-lg">Supercharged V6 • RWD Dynamic Chassis</p>
+              <span className="bg-[#ffc300] text-[#000814] text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 inline-block">Last Edition</span>
+              <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tight drop-shadow-lg">Honda NSX</h1>
+              <p className="text-gray-300 font-medium mt-2 text-lg">Supercharged Hybrid V6 • SH-AWD</p>
             </div>
             <div className="mt-6 md:mt-0 text-right">
               <span className="block text-sm uppercase font-bold text-gray-400 tracking-wider">Base Rate</span>
@@ -119,7 +75,7 @@ const DetailsPage = () => {
           </div>
         </div>
 
-        {/* STACK 2: The Unified Booking Control Bar */}
+        {/* Booking Bar */}
         <div className="max-w-6xl w-full mx-auto px-6 -mt-8 relative z-30">
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8 flex flex-col lg:flex-row gap-8 items-center justify-between">
             
@@ -160,9 +116,8 @@ const DetailsPage = () => {
               </div>
             </div>
 
-            {/* CTA */}
             <div className="w-full lg:w-auto mt-4 lg:mt-0">
-              <a href="/cart" className="block w-full bg-[#001d3d] hover:bg-[#003566] text-[#ffd60a] text-center px-10 py-4 rounded-xl font-extrabold shadow-lg transition-transform hover:-translate-y-1 border border-[#003566]">
+              <a href="/case-studies/services-site/cart" className="block w-full bg-[#001d3d] hover:bg-[#003566] text-[#ffd60a] text-center px-10 py-4 rounded-xl font-extrabold shadow-lg transition-transform hover:-translate-y-1 border border-[#003566]">
                 Confirm & Book
               </a>
             </div>
@@ -170,7 +125,7 @@ const DetailsPage = () => {
           </div>
         </div>
 
-        {/* STACK 3: Overview & Policies (Side by Side) */}
+        {/* Overview & Policies */}
         <div className="max-w-6xl w-full mx-auto px-6 mt-16 grid grid-cols-1 lg:grid-cols-3 gap-12">
           
           {/* Description */}
@@ -180,13 +135,15 @@ const DetailsPage = () => {
               <div className="h-1 flex-1 bg-gradient-to-r from-[#ffc300] to-transparent rounded-full"></div>
             </h2>
             <p className="text-[#000814] text-lg leading-relaxed font-medium text-justify">
-              The Lotus Emira represents the absolute pinnacle of lightweight sports car engineering. Designed to satisfy professional track drivers while maintaining comfort for weekend city cruisers, it features highly communicative hydraulic steering, exceptional aerodynamic downforce, and a supercharged V6 engine. 
-              <br/><br/>
-              Whether you are aiming for lap records at Calabogie Motorsports Park or enjoying a scenic highway drive, this platform delivers uncompromising, data-driven performance.
+              The Honda NSX is a supercar like no other. Where the first example introduced everyday ability to a class of car known mostly for histrionics, the model’s second coming in 2015 – a whole decade after its predecessor went out of production – built on this by making the whole thing hybrid-powered.
+                <br /> <br />
+              A deeply complex system, it combines a 3.5-litre twin-turbo V6 petrol engine with three electric motors, two of those operating on the front axle to make this a four-wheel-driven car. The gearbox is a nine-speed automatic.
+                <br /> <br />
+              This really is a different kind of supercar, one that doesn’t trade on badge kudos or nape-prickling noise. But nor will it be quite the everyday hero its forebear was thanks to its dismal practicality. This is a flight of fancy akin to a Lexus LFA, a fantastically expensive experiment that sits so at odds to a Jazz or Civic in the Honda showroom as to seem ethereal.
             </p>
           </div>
 
-          {/* Policy Badges for Carlos */}
+          {/* Policy Badges */}
           <div className="lg:col-span-1 flex flex-col gap-4">
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
               <div className="bg-[#ffc300] text-[#001d3d] p-3 rounded-xl shadow-inner">
@@ -221,7 +178,7 @@ const DetailsPage = () => {
 
         </div>
 
-        {/* STACK 4: Minimalist Social Proof / Reviews */}
+        {/* Reviews */}
         <div className="max-w-6xl w-full mx-auto px-6 mt-16">
           <h2 className="text-2xl font-black text-[#001d3d] uppercase tracking-wide mb-8">Driver Feedback</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
