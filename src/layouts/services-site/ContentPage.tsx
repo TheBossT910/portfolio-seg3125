@@ -316,7 +316,6 @@ const ContentPage = () => {
           </main>
         </div>
       </div>
-
       <Footer />
     </div>
   );
