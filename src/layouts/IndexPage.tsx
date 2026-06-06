@@ -19,9 +19,9 @@ interface ExperienceCardProps {
 const caseStudies: CaseStudyProps[] = [
   {
     title: "Service Site",
-    description: "Case Study 1 - (coming soon)",
+    description: "Case Study 1 - Sports Car Rental Service Site. ",
     link: "/case-studies/services-site",
-    linkBtn: "Coming Soon!",
+    linkBtn: "Visit Site",
     images: [
       "https://media.magnetomagazine.com/app/uploads/2025/12/05165623/JAS-TENSEI-03-1000x500.jpg",
       "https://hips.hearstapps.com/hmg-prod/images/whattobuy-2007hondas2000-jan2023-008-1671295199.jpg",
