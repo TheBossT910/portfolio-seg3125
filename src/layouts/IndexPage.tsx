@@ -19,7 +19,7 @@ interface ExperienceCardProps {
 const caseStudies: CaseStudyProps[] = [
   {
     title: "Service Site",
-    description: "Case Study 1 - Sports Car Rental Service Site. ",
+    description: "Case Study 1 - Sports Car Rental Service Site.",
     link: "/case-studies/services-site",
     linkBtn: "Visit Site",
     images: [
@@ -31,9 +31,9 @@ const caseStudies: CaseStudyProps[] = [
   },
   {
     title: "Memory Game",
-    description: "Case Study 2 - (coming soon)",
+    description: "Case Study 2 - Car-based Memory Game (Insipred by Kahoot).",
     link: "/case-studies/memory-game",
-    linkBtn: "Coming Soon!",
+    linkBtn: "Visit Site",
     images: [
       "https://media.istockphoto.com/id/171357703/photo/head-on-chalkboard-with-light-bulb-notes-inside.jpg?s=612x612&w=0&k=20&c=mOW2sZ96mRxqvRkvjROf-l8CcqkNHgdMT-5TKSM46vA=",
     ],
