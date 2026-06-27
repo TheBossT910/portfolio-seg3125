@@ -1,0 +1,8 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { ShopPage } from '../../../layouts/ecommerce-site/ShopPage.tsx';
+---
+
+<Layout>
+  <ShopPage client:only="react" />
+</Layout>

@@ -1,0 +1,8 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { CheckoutPage } from '../../../layouts/ecommerce-site/CheckoutPage.tsx';
+---
+
+<Layout>
+  <CheckoutPage client:only="react" />
+</Layout>
