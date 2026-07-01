@@ -1,6 +1,6 @@
+// StoreContext.tsx
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
-// Unified and Expanded Product Data
 export const productsData = [
   { id: "BPD-4892-CER", name: "Ceramic Brake Pad Set", brand: "PowerStop", category: "Brakes", price: 64.99, originalPrice: 89.99, rating: 4.6, reviewCount: 218, inStock: true, compatibility: { makes: ["Honda", "Toyota"] }, partNumber: "BPD-4892", image: "https://images.unsplash.com/photo-1600705722908-bab1e6191b41?auto=format&fit=crop&w=400&q=80" },
   { id: "EV-BPD-99X", name: "High-Performance EV Brake Pads", brand: "PowerStop", category: "Brakes", price: 119.99, originalPrice: null, rating: 4.9, reviewCount: 84, inStock: true, compatibility: { makes: ["Tesla", "Rivian"] }, partNumber: "EV-BPD-99X", image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=400&q=80" },
@@ -18,13 +18,18 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('gearhead_cart');
-    if (saved) setCartItems(JSON.parse(saved));
+    // Astro SSR Safeguard: Only access localStorage on the client
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('gearhead_cart');
+      if (saved) setCartItems(JSON.parse(saved));
+    }
     setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    if (isLoaded) localStorage.setItem('gearhead_cart', JSON.stringify(cartItems));
+    if (isLoaded && typeof window !== 'undefined') {
+      localStorage.setItem('gearhead_cart', JSON.stringify(cartItems));
+    }
   }, [cartItems, isLoaded]);
 
   const addToCart = (product: any) => {
@@ -36,18 +41,18 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       return [...prev, { product, quantity: 1 }];
     });
     
-    // Trigger System Status Interaction (Heuristic 1)
     setToastMessage(`Added ${product.name} to cart!`);
     setTimeout(() => setToastMessage(null), 3000);
   };
+
+  const clearCart = () => setCartItems([]);
 
   const cartTotal = useMemo(() => cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0), [cartItems]);
   const cartCount = useMemo(() => cartItems.reduce((sum, item) => sum + item.quantity, 0), [cartItems]);
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, cartTotal, cartCount, isLoaded }}>
+    <CartContext.Provider value={{ cartItems, addToCart, clearCart, cartTotal, cartCount, isLoaded }}>
       {children}
-      {/* Global Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-4 right-4 bg-[#27AE60] text-white px-6 py-3 rounded shadow-xl font-bold z-50 animate-bounce">
           ✓ {toastMessage}
