@@ -40,7 +40,7 @@ const caseStudies: CaseStudyProps[] = [
   },
   {
     title: "e-Commerce Site",
-    description: "Case Study 3 - (coming soon)",
+    description: "Case Study 3 - Car parts e-commerce site",
     link: "/case-studies/ecommerce-site",
     linkBtn: "Coming Soon!",
     images: ["https://cmsmart.net/images/community/8382/banner.jpg"],
