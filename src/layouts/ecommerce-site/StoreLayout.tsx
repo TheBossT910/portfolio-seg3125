@@ -4,16 +4,16 @@ import { useCart, CartProvider } from './StoreContext';
 const Navbar = () => {
   const { cartCount, isLoaded } = useCart() || { cartCount: 0, isLoaded: true };
   
-  // Interactive Vehicle State
+  // interactive Vehicle State
   const [vehicle, setVehicle] = useState("Select Vehicle");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  // Temporary state for the dropdown form
+  // temporary state for the dropdown form
   const [tempYear, setTempYear] = useState("Year");
   const [tempMake, setTempMake] = useState("Make");
   const [tempModel, setTempModel] = useState("Model");
 
-  // Data
+  // data
   const years = Array.from({ length: 30 }, (_, i) => 2024 - i);
   const makes = ["Acura", "Audi", "BMW", "Chevrolet", "Ford", "Honda", "Jeep", "Lexus", "Nissan", "Subaru", "Toyota", "Volkswagen"];
 
@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <nav className="bg-[#1A1A1A] text-white sticky top-0 z-50 shadow-xl border-b border-[#C0392B]">
       
-      {/* Top utility bar - The Interactive Vehicle Selector */}
+      {/* top utility bar (vehicle selector) */}
       <div className="bg-black px-4 md:px-8 py-2 text-xs flex justify-between items-center font-['Inter'] text-gray-400 relative">
         <div 
           className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
@@ -41,7 +41,7 @@ const Navbar = () => {
         </div>
         <div className="hidden sm:block">Free Shipping on Orders Over $75</div>
 
-        {/* Dropdown Menu Modal */}
+        {/* dropdown menu modal */}
         {isMenuOpen && (
           <div className="absolute top-full left-4 md:left-8 mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-white rounded-lg shadow-2xl border border-gray-200 z-[100] text-[#1A1A1A] p-5 cursor-default animate-fade-in">
             <div className="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">

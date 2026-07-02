@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StoreLayout } from './StoreLayout';
 
-// Exporting so it can be reused as a popup in CheckoutPage
+// exporting so it can be reused as a popup in CheckoutPage
 export const SurveyContent = ({ isPopup = false, onClose = () => {} }) => {
   const [submitted, setSubmitted] = useState(false);
   const [isSending, setIsSending] = useState(false);

@@ -1,4 +1,3 @@
-// CheckoutPage.tsx
 import React, { useState, useEffect } from 'react';
 import { StoreLayout } from './StoreLayout';
 import { useCart } from './StoreContext';
@@ -8,12 +7,12 @@ const CheckoutContent = () => {
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   
-  // Forced Survey State
+  // forced survey state
   const [showSurvey, setShowSurvey] = useState(false);
   const [surveySubmitted, setSurveySubmitted] = useState(false);
   const [rating, setRating] = useState(0);
 
-  // Automatically trigger the popup right after Step 4 mounts
+  // automatically trigger popup
   useEffect(() => {
     if (step === 4) {
       const timer = setTimeout(() => setShowSurvey(true), 1000);
@@ -34,7 +33,7 @@ const CheckoutContent = () => {
   const submitSurvey = (e: React.FormEvent) => {
     e.preventDefault();
     setSurveySubmitted(true);
-    setTimeout(() => setShowSurvey(false), 2000); // Close and reveal receipt
+    setTimeout(() => setShowSurvey(false), 2000);
   };
 
   if (!isLoaded) return <div className="p-8 text-center text-gray-500 font-bold animate-pulse">Loading secure checkout...</div>;
@@ -52,7 +51,6 @@ const CheckoutContent = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 relative">
       
-      {/* 1. THE GUARANTEED SURVEY MODAL */}
       {showSurvey && (
         <div className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-white p-8 md:p-10 rounded-xl shadow-2xl max-w-lg w-full relative animate-fade-in">
@@ -93,7 +91,7 @@ const CheckoutContent = () => {
         </div>
       )}
 
-      {/* Progress Bar */}
+      {/* progress bar */}
       <div className="flex justify-between items-center mb-12 relative max-w-2xl mx-auto">
         <div className="absolute left-0 top-1/2 w-full h-1 bg-gray-200 -z-10 transform -translate-y-1/2 rounded"></div>
         <div className="absolute left-0 top-1/2 h-1 bg-[#C0392B] -z-10 transform -translate-y-1/2 transition-all duration-500 rounded" style={{width: `${((step - 1) / 3) * 100}%`}}></div>

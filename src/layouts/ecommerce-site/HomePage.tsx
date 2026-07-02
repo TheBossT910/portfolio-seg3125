@@ -3,20 +3,18 @@ import { StoreLayout } from './StoreLayout';
 import { productsData, useCart } from './StoreContext';
 
 export const HomePage = () => {
-  // Safe extraction for the client
   const cartContext = useCart() || { addToCart: () => {} };
   const { addToCart } = cartContext;
   
   const deals = productsData.filter(p => p.originalPrice);
 
-  // Expanded Vehicle Data
   const years = Array.from({ length: 30 }, (_, i) => 2024 - i);
   const makes = ["Acura", "Audi", "BMW", "Chevrolet", "Ford", "Honda", "Jeep", "Lexus", "Nissan", "Subaru", "Toyota", "Volkswagen"];
   const [selectedMake, setSelectedMake] = useState("Make");
 
   return (
     <StoreLayout>
-      {/* Inject custom animation styles for the marquee and hero pan */}
+      {/*  custom animation styles for the marquee and hero pan */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes marquee {
           0% { transform: translateX(0%); }
@@ -40,7 +38,7 @@ export const HomePage = () => {
         }
       `}} />
 
-      {/* 1. Shop By Vehicle Bar (Highly Expanded) */}
+      {/* shop by vehicle bar */}
       <div className="bg-[#C0392B] py-4 px-4 shadow-lg relative z-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-4 justify-center">
           <div className="flex items-center gap-2">
@@ -78,9 +76,9 @@ export const HomePage = () => {
         </div>
       </div>
 
-      {/* 2. Hero Banner (Now with subtle background animation) */}
+      {/* hero banner */}
       <div className="relative min-h-[55vh] flex items-center justify-start overflow-hidden">
-        {/* Animated Background */}
+        {/* animated background */}
         <div 
           className="absolute inset-0 bg-cover bg-center animate-bg-zoom" 
           style={{backgroundImage: 'url(https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80)'}}
@@ -102,7 +100,7 @@ export const HomePage = () => {
         </div>
       </div>
       
-      {/* 3. Image-Rich Categories Matrix */}
+      {/* categories */}
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="flex justify-between items-end mb-8 border-b-2 border-gray-200 pb-3">
           <h2 className="text-3xl font-['Barlow_Condensed'] font-extrabold uppercase text-[#1A1A1A] tracking-wide">Shop By Category</h2>
@@ -130,7 +128,7 @@ export const HomePage = () => {
         </div>
       </div>
 
-      {/* 4. Mid-Page Promo Banner (Action Shot) */}
+      {/* mid-Page promo banner */}
       <div className="max-w-7xl mx-auto px-4 mb-16">
         <div className="relative rounded-2xl overflow-hidden shadow-2xl flex items-center min-h-[300px] group cursor-pointer">
           <div className="absolute inset-0">
@@ -146,9 +144,8 @@ export const HomePage = () => {
         </div>
       </div>
 
-      {/* 5. Recommended Hot Deals (Cards) */}
+      {/* recommended hot deals (cards) */}
       <div className="bg-[#F8F9FA] py-16 border-y border-gray-200 shadow-inner relative overflow-hidden">
-        {/* Decorative background element */}
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -190,26 +187,24 @@ export const HomePage = () => {
         </div>
       </div>
       
-      {/* 6. Trusted Brands Marquee (Moving Elements) */}
+      {/* trusted brands marquee */}
       <div className="bg-white py-12 border-b border-gray-200 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 text-center mb-6">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">In Stock: Premium OEM & Aftermarket Brands</p>
         </div>
         
-        {/* Infinite Scrolling Container */}
+        {/* infinite scrolling container */}
         <div className="relative w-full overflow-hidden bg-white flex">
-           {/* Left/Right Fade Gradients */}
           <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
           <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
           
           <div className="animate-marquee items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-            {/* First set */}
             <div className="flex w-1/2 justify-around items-center min-w-max px-10 gap-20">
               {['Mobil 1', 'Brembo', 'Bosch', 'K&N', 'Optima', 'Michelin', 'NGK', 'Castrol'].map(brand => (
                 <span key={`set1-${brand}`} className="text-3xl font-['Barlow_Condensed'] font-black text-gray-800 tracking-wider hover:text-[#C0392B] transition-colors cursor-pointer">{brand}</span>
               ))}
             </div>
-            {/* Exact Duplicate for seamless loop */}
+            {/* duplicate for seamless loop */}
             <div className="flex w-1/2 justify-around items-center min-w-max px-10 gap-20">
               {['Mobil 1', 'Brembo', 'Bosch', 'K&N', 'Optima', 'Michelin', 'NGK', 'Castrol'].map(brand => (
                 <span key={`set2-${brand}`} className="text-3xl font-['Barlow_Condensed'] font-black text-gray-800 tracking-wider hover:text-[#C0392B] transition-colors cursor-pointer">{brand}</span>

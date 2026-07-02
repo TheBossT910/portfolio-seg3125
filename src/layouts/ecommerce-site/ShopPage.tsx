@@ -12,14 +12,14 @@ const ShopContent = () => {
     category: "All", 
     brand: "All",
     inStockOnly: false, 
-    dealsOnly: false, // New state for deals
+    dealsOnly: false,
     minRating: 0,
     minPrice: 0,
     maxPrice: 2000,
     sort: "featured"
   });
 
-  // Read the URL on mount to check if we arrived via a "Deals" link
+  // read URL on mount to check if we arrived via a deals link
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);

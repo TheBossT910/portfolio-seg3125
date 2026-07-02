@@ -1,4 +1,3 @@
-// StoreContext.tsx
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 export const productsData = [
@@ -18,7 +17,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // Astro SSR Safeguard: Only access localStorage on the client
+    // only access localStorage on the client
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('gearhead_cart');
       if (saved) setCartItems(JSON.parse(saved));
