@@ -77,7 +77,7 @@ const HomePageContent = () => {
           <div className="flex w-full md:w-auto gap-2 flex-wrap sm:flex-nowrap shadow-inner bg-black/10 p-2 rounded-lg">
             
             <select 
-              className="px-3 py-2.5 rounded text-sm font-bold text-gray-700 outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all"
+              className="px-3 py-2.5 rounded text-sm font-bold text-white outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all"
               value={year} 
               onChange={e => setVehicle({ year: e.target.value, make: "Make", model: "Model" })}
             >
@@ -86,7 +86,7 @@ const HomePageContent = () => {
             </select>
             
             <select 
-              className="px-3 py-2.5 rounded text-sm font-bold text-gray-700 outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all disabled:opacity-50"
+              className="px-3 py-2.5 rounded text-sm font-bold text-white outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all disabled:opacity-50"
               value={make} 
               onChange={e => setVehicle({ year, make: e.target.value, model: "Model" })}
               disabled={year === "Year"}
@@ -96,7 +96,7 @@ const HomePageContent = () => {
             </select>
             
             <select 
-              className="px-3 py-2.5 rounded text-sm font-bold text-gray-700 outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all disabled:opacity-50"
+              className="px-3 py-2.5 rounded text-sm font-bold text-white outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all disabled:opacity-50"
               value={model} 
               onChange={e => setVehicle({ year, make, model: e.target.value })}
               disabled={make === "Make"}
