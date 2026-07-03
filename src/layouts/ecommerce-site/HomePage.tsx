@@ -72,7 +72,6 @@ const HomePageContent = () => {
       <div className="bg-[#C0392B] py-4 px-4 shadow-lg relative z-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-4 justify-center">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">🚗</span>
             <span className="text-white font-bold uppercase tracking-wider text-sm md:text-base whitespace-nowrap drop-shadow-sm">Select Your Vehicle:</span>
           </div>
           <div className="flex w-full md:w-auto gap-2 flex-wrap sm:flex-nowrap shadow-inner bg-black/10 p-2 rounded-lg">
@@ -140,12 +139,12 @@ const HomePageContent = () => {
         
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {[
-            {name: 'Brakes & Rotors', img: 'https://images.unsplash.com/photo-1600705722908-bab1e6191b41?auto=format&fit=crop&w=300&q=80'}, 
-            {name: 'Oil & Fluids', img: 'https://images.unsplash.com/photo-1621252178225-b44c66e74640?auto=format&fit=crop&w=300&q=80'}, 
-            {name: 'Suspension', img: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=300&q=80'}, 
-            {name: 'Batteries', img: 'https://images.unsplash.com/photo-1616781296068-185d26392095?auto=format&fit=crop&w=300&q=80'},
-            {name: 'Lighting', img: 'https://images.unsplash.com/photo-1507742135606-5b430eab6903?auto=format&fit=crop&w=300&q=80'}, 
-            {name: 'Tools & Garage', img: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=300&q=80'}
+            {name: 'Brakes & Rotors', img: 'https://www.tateboys.com/app/uploads/2025/07/blogs_car-brakes-beside-brake-pads.webp'}, 
+            {name: 'Oil & Fluids', img: 'https://stpcdnimage.imgix.net/global-media/wp-content/uploads/sites/6/product-images/E302899000_01.png'}, 
+            {name: 'Suspension', img: 'https://thumbs.dreamstime.com/b/car-suspension-brake-steering-disk-d-illustration-101485791.jpg'}, 
+            {name: 'Batteries', img: 'https://static.wixstatic.com/media/ba2cd3_190a81c99e97404e9a449af9585adc92~mv2.jpg/v1/fill/w_568,h_378,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ba2cd3_190a81c99e97404e9a449af9585adc92~mv2.jpg'},
+            {name: 'Lighting', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReeWvcXhNCiilGpcqjXHQubIGNu8xdKuWH1WjYBxAOPYFac0K15A23sHjT&s=10'}, 
+            {name: 'Tools & Garage', img: 'https://uk.haynes.com/cdn/shop/articles/car_tools_2af56688-2f8d-4492-9b64-9da321753735.webp?v=1761149693&width=1320'}
           ].map((cat) => (
             <a key={cat.name} href={`/case-studies/ecommerce-site/shop`} className="group relative rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all h-32 md:h-40 flex items-end">
               <div className="absolute inset-0 bg-gray-900">
@@ -163,7 +162,7 @@ const HomePageContent = () => {
       <div className="max-w-7xl mx-auto px-4 mb-16">
         <div className="relative rounded-2xl overflow-hidden shadow-2xl flex items-center min-h-[300px] group cursor-pointer">
           <div className="absolute inset-0">
-             <img src="https://images.unsplash.com/photo-1632823471565-1ec2a8bd66dc?auto=format&fit=crop&w=1200&q=80" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Mechanic working" />
+             <img src="https://www.enterprisemobility.com/en/news-stories/news-stories-archive/2025/10/enterprise-plus-your-points-promotion/_jcr_content/root/container/container/container_body/container_1303983600/teaser_copy_17192954_1145020239.coreimg.jpeg/1760505529268/plus-your-points-1.jpeg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Mechanic working" />
              <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A] via-[#1A1A1A]/90 to-transparent"></div>
           </div>
           <div className="relative z-10 p-8 md:p-12 md:w-2/3">
