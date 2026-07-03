@@ -1,25 +1,48 @@
 import React, { useState } from 'react';
 import { useCart, CartProvider } from './StoreContext';
 
+const YEARS = Array.from({ length: 30 }, (_, i) => 2024 - i);
+const MAKES = ["Acura", "Audi", "BMW", "Chevrolet", "Ford", "Honda", "Jeep", "Lexus", "Nissan", "Subaru", "Toyota", "Volkswagen"];
+
 const Navbar = () => {
-  const { cartCount, isLoaded } = useCart() || { cartCount: 0, isLoaded: true };
+  // Pull globalVehicle and setGlobalVehicle from context
+  const { cartCount, isLoaded, globalVehicle, setGlobalVehicle } = useCart() || { 
+    cartCount: 0, isLoaded: true, globalVehicle: "Select Vehicle", setGlobalVehicle: () => {} 
+  };
   
-  // interactive Vehicle State
-  const [vehicle, setVehicle] = useState("Select Vehicle");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  // temporary state for the dropdown form
   const [tempYear, setTempYear] = useState("Year");
   const [tempMake, setTempMake] = useState("Make");
   const [tempModel, setTempModel] = useState("Model");
 
-  // data
-  const years = Array.from({ length: 30 }, (_, i) => 2024 - i);
-  const makes = ["Acura", "Audi", "BMW", "Chevrolet", "Ford", "Honda", "Jeep", "Lexus", "Nissan", "Subaru", "Toyota", "Volkswagen"];
+  // Same seeding logic as the HomePage banner: parse the saved "YYYY Make Model"
+  // string back into the three fields.
+  const seedFromGlobal = () => {
+    if (globalVehicle && globalVehicle !== "Select Vehicle") {
+      const parts = globalVehicle.split(" ");
+      if (parts.length >= 3) {
+        return { year: parts[0], make: parts[1], model: parts.slice(2).join(" ") };
+      }
+    }
+    return { year: "Year", make: "Make", model: "Model" };
+  };
+
+  // Re-seed every time the menu is opened, so it always reflects whatever
+  // vehicle is currently saved in context — even if it was set elsewhere (e.g. the HomePage banner).
+  const toggleMenu = () => {
+    if (!isMenuOpen) {
+      const seeded = seedFromGlobal();
+      setTempYear(seeded.year);
+      setTempMake(seeded.make);
+      setTempModel(seeded.model);
+    }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleSaveVehicle = () => {
     if (tempYear !== "Year" && tempMake !== "Make" && tempModel !== "Model") {
-      setVehicle(`${tempYear} ${tempMake} ${tempModel}`);
+      setGlobalVehicle(`${tempYear} ${tempMake} ${tempModel}`);
       setIsMenuOpen(false);
     }
   };
@@ -27,21 +50,19 @@ const Navbar = () => {
   return (
     <nav className="bg-[#1A1A1A] text-white sticky top-0 z-50 shadow-xl border-b border-[#C0392B]">
       
-      {/* top utility bar (vehicle selector) */}
       <div className="bg-black px-4 md:px-8 py-2 text-xs flex justify-between items-center font-['Inter'] text-gray-400 relative">
         <div 
           className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={toggleMenu}
         >
           <span className="text-[#E67E22]">⚙️</span>
-          <span className={`font-bold text-white border-b border-dashed pb-[1px] ${vehicle !== 'Select Vehicle' ? 'border-[#27AE60] text-[#27AE60]' : 'border-gray-500'}`}>
-            {vehicle}
+          <span className={`font-bold text-white border-b border-dashed pb-[1px] ${globalVehicle !== 'Select Vehicle' ? 'border-[#27AE60] text-[#27AE60]' : 'border-gray-500'}`}>
+            {globalVehicle}
           </span>
           <span className={`transform transition-transform ${isMenuOpen ? 'rotate-180' : ''}`}>▼</span>
         </div>
         <div className="hidden sm:block">Free Shipping on Orders Over $75</div>
 
-        {/* dropdown menu modal */}
         {isMenuOpen && (
           <div className="absolute top-full left-4 md:left-8 mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-white rounded-lg shadow-2xl border border-gray-200 z-[100] text-[#1A1A1A] p-5 cursor-default animate-fade-in">
             <div className="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
@@ -54,8 +75,8 @@ const Navbar = () => {
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:border-[#C0392B] outline-none font-bold text-sm"
                 value={tempYear} onChange={e => { setTempYear(e.target.value); setTempMake("Make"); setTempModel("Model"); }}
               >
-                <option>Year</option>
-                {years.map(y => <option key={y}>{y}</option>)}
+                <option value="Year">Year</option>
+                {YEARS.map(y => <option key={y} value={y.toString()}>{y}</option>)}
               </select>
               
               <select 
@@ -63,8 +84,8 @@ const Navbar = () => {
                 value={tempMake} onChange={e => { setTempMake(e.target.value); setTempModel("Model"); }}
                 disabled={tempYear === "Year"}
               >
-                <option>Make</option>
-                {makes.map(m => <option key={m}>{m}</option>)}
+                <option value="Make">Make</option>
+                {MAKES.map(m => <option key={m} value={m}>{m}</option>)}
               </select>
               
               <select 
@@ -72,7 +93,7 @@ const Navbar = () => {
                 value={tempModel} onChange={e => setTempModel(e.target.value)}
                 disabled={tempMake === "Make"}
               >
-                <option>Model</option>
+                <option value="Model">Model</option>
                 {tempMake === "Honda" && <><option>Civic</option><option>Accord</option><option>CR-V</option></>}
                 {tempMake === "Ford" && <><option>F-150</option><option>Mustang</option><option>Explorer</option></>}
                 {tempMake === "Toyota" && <><option>Camry</option><option>Tacoma</option><option>Corolla</option></>}

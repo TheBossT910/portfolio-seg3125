@@ -3,8 +3,9 @@ import { StoreLayout } from './StoreLayout';
 import { productsData, useCart } from './StoreContext';
 
 const ShopContent = () => {
-  const cartContext = useCart() || { addToCart: () => {} };
-  const { addToCart } = cartContext;
+  // 1. Extract globalVehicle from the context
+  const cartContext = useCart() || { addToCart: () => {}, globalVehicle: "Select Vehicle" };
+  const { addToCart, globalVehicle } = cartContext;
 
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filters, setFilters] = useState({ 
@@ -67,10 +68,19 @@ const ShopContent = () => {
           <span>/</span>
           <span className="text-gray-900">Store Catalog</span>
         </div>
-        <div className="bg-[#E8F8F5] border border-[#27AE60] p-3 rounded flex items-center gap-3">
-          <span className="text-[#27AE60] text-xl">✓</span>
-          <p className="text-sm text-[#1A1A1A] font-bold">Showing parts that fit your <span className="bg-white px-2 py-0.5 border border-gray-200 rounded mx-1 shadow-sm">2024 Honda Civic 1.5L</span></p>
-        </div>
+        
+        {/* 2. Dynamic Banner based on Vehicle Selection */}
+        {globalVehicle !== "Select Vehicle" && globalVehicle ? (
+          <div className="bg-[#E8F8F5] border border-[#27AE60] p-3 rounded flex items-center gap-3">
+            <span className="text-[#27AE60] text-xl">✓</span>
+            <p className="text-sm text-[#1A1A1A] font-bold">Showing parts that fit your <span className="bg-white px-2 py-0.5 border border-gray-200 rounded mx-1 shadow-sm">{globalVehicle}</span></p>
+          </div>
+        ) : (
+          <div className="bg-blue-50 border border-blue-200 p-3 rounded flex items-center gap-3">
+            <span className="text-blue-500 text-xl">ℹ️</span>
+            <p className="text-sm text-[#1A1A1A] font-bold">Showing universal parts. <span className="underline decoration-blue-500 underline-offset-2">Select your vehicle</span> in the top menu for guaranteed fitment.</p>
+          </div>
+        )}
       </div>
       
       <div className="flex flex-col md:flex-row gap-8">
@@ -206,7 +216,11 @@ const ShopContent = () => {
                     <div>
                       <div className="flex justify-between items-start mb-1">
                         <p className="text-[10px] font-['JetBrains_Mono'] text-gray-500 uppercase tracking-widest">{product.brand} • {product.partNumber}</p>
-                        <span className="text-[#27AE60] text-[10px] font-bold bg-[#E8F8F5] px-2 py-0.5 rounded border border-[#27AE60]/30 whitespace-nowrap">✓ Exact Fit</span>
+                        
+                        {/* 3. Exact Fit badge only displays if a vehicle is selected globally */}
+                        {globalVehicle !== "Select Vehicle" && globalVehicle && (
+                          <span className="text-[#27AE60] text-[10px] font-bold bg-[#E8F8F5] px-2 py-0.5 rounded border border-[#27AE60]/30 whitespace-nowrap">✓ Exact Fit</span>
+                        )}
                       </div>
                       <h3 className={`font-['Inter'] font-extrabold leading-tight text-[#1A1A1A] group-hover:text-[#C0392B] transition-colors ${viewMode === 'grid' ? 'text-lg mb-2 line-clamp-2' : 'text-xl mb-2'}`}>{product.name}</h3>
                       

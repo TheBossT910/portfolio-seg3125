@@ -1,44 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StoreLayout } from './StoreLayout';
 import { productsData, useCart } from './StoreContext';
 
-export const HomePage = () => {
-  const cartContext = useCart() || { addToCart: () => {} };
-  const { addToCart } = cartContext;
+const YEARS = Array.from({ length: 30 }, (_, i) => 2024 - i);
+const MAKES = ["Acura", "Audi", "BMW", "Chevrolet", "Ford", "Honda", "Jeep", "Lexus", "Nissan", "Subaru", "Toyota", "Volkswagen"];
+
+export const HomePage = () => (
+  <StoreLayout>
+    <HomePageContent />
+  </StoreLayout>
+);
+
+// Everything below used to live directly inside `HomePage`. The problem:
+// `HomePage` itself renders <StoreLayout>, and CartProvider lives INSIDE
+// StoreLayout — so CartProvider is a descendant of HomePage, not an
+// ancestor. useCart() called directly inside HomePage could never see it,
+// and silently fell back to the no-op stub (setGlobalVehicle: () => {},
+// addToCart: () => {}) — so nothing here ever actually saved, no matter
+// what state/localStorage timing was fixed. Moving this into its own
+// component that gets rendered AS A CHILD of StoreLayout means its hooks
+// run inside CartProvider's subtree, where the real context is visible.
+const HomePageContent = () => {
+  // 1. Pull the global context directly
+  const { addToCart, setGlobalVehicle, globalVehicle } = useCart() || { 
+    addToCart: () => {}, 
+    setGlobalVehicle: () => {}, 
+    globalVehicle: "Select Vehicle" 
+  };
   
   const deals = productsData.filter(p => p.originalPrice);
 
-  const years = Array.from({ length: 30 }, (_, i) => 2024 - i);
-  const makes = ["Acura", "Audi", "BMW", "Chevrolet", "Ford", "Honda", "Jeep", "Lexus", "Nissan", "Subaru", "Toyota", "Volkswagen"];
-  const [selectedMake, setSelectedMake] = useState("Make");
+  // 2. Same pattern as the Navbar: local "temp" selections, seeded from
+  // whatever vehicle is already saved in context.
+  const seedFromGlobal = () => {
+    if (globalVehicle && globalVehicle !== "Select Vehicle") {
+      const parts = globalVehicle.split(" ");
+      if (parts.length >= 3) {
+        return { year: parts[0], make: parts[1], model: parts.slice(2).join(" ") };
+      }
+    }
+    return { year: "Year", make: "Make", model: "Model" };
+  };
+  const [{ year, make, model }, setVehicle] = useState(seedFromGlobal);
+
+  // CartProvider hydrates globalVehicle from localStorage inside its own
+  // useEffect, which runs AFTER this component's first render — so the lazy
+  // initializer above can miss it. Re-sync any time globalVehicle actually
+  // changes (on hydration, or after a save made elsewhere) so the banner
+  // never silently shows stale/blank selections.
+  useEffect(() => {
+    setVehicle(seedFromGlobal());
+  }, [globalVehicle]);
+
+  // 3. Same model-option mapping as the Navbar, so both selectors always agree.
+  const renderModelOptions = () => {
+    if (make === "Honda") return <><option>Civic</option><option>Accord</option><option>CR-V</option></>;
+    if (make === "Ford") return <><option>F-150</option><option>Mustang</option><option>Explorer</option></>;
+    if (make === "Toyota") return <><option>Camry</option><option>Tacoma</option><option>Corolla</option></>;
+    if (make !== "Make") return <option>Standard Trim</option>;
+    return null;
+  };
+
+  const handleFindParts = () => {
+    if (year !== "Year" && make !== "Make" && model !== "Model") {
+      // Save directly to Context and redirect, exactly like "Save Vehicle" in the Navbar
+      setGlobalVehicle(`${year} ${make} ${model}`);
+      window.location.href = '/case-studies/ecommerce-site/shop';
+    }
+  };
 
   return (
-    <StoreLayout>
-      {/*  custom animation styles for the marquee and hero pan */}
+    <>
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes marquee {
           0% { transform: translateX(0%); }
           100% { transform: translateX(-50%); }
         }
-        .animate-marquee {
-          display: flex;
-          width: 200%;
-          animation: marquee 20s linear infinite;
-        }
-        .animate-marquee:hover {
-          animation-play-state: paused;
-        }
+        .animate-marquee { display: flex; width: 200%; animation: marquee 20s linear infinite; }
+        .animate-marquee:hover { animation-play-state: paused; }
         @keyframes subtle-zoom {
           0% { transform: scale(1); }
           50% { transform: scale(1.05); }
           100% { transform: scale(1); }
         }
-        .animate-bg-zoom {
-          animation: subtle-zoom 20s ease-in-out infinite;
-        }
+        .animate-bg-zoom { animation: subtle-zoom 20s ease-in-out infinite; }
       `}} />
 
-      {/* shop by vehicle bar */}
+      {/* Hero Vehicle Selector — same options/state pattern as the Navbar's "Set Your Vehicle" menu */}
       <div className="bg-[#C0392B] py-4 px-4 shadow-lg relative z-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-4 justify-center">
           <div className="flex items-center gap-2">
@@ -46,53 +94,54 @@ export const HomePage = () => {
             <span className="text-white font-bold uppercase tracking-wider text-sm md:text-base whitespace-nowrap drop-shadow-sm">Select Your Vehicle:</span>
           </div>
           <div className="flex w-full md:w-auto gap-2 flex-wrap sm:flex-nowrap shadow-inner bg-black/10 p-2 rounded-lg">
-            <select className="px-3 py-2.5 rounded text-sm font-bold text-gray-700 outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all">
-              <option>Year</option>
-              {years.map(y => <option key={y}>{y}</option>)}
-            </select>
+            
             <select 
               className="px-3 py-2.5 rounded text-sm font-bold text-gray-700 outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all"
-              value={selectedMake}
-              onChange={(e) => setSelectedMake(e.target.value)}
+              value={year} 
+              onChange={e => setVehicle({ year: e.target.value, make: "Make", model: "Model" })}
             >
-              <option>Make</option>
-              {makes.map(m => <option key={m}>{m}</option>)}
+              <option value="Year">Year</option>
+              {YEARS.map(y => <option key={y} value={y.toString()}>{y}</option>)}
             </select>
-            <select className="px-3 py-2.5 rounded text-sm font-bold text-gray-700 outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all disabled:opacity-50">
-              <option>Model</option>
-              {selectedMake === "Honda" && <><option>Civic</option><option>Accord</option><option>CR-V</option></>}
-              {selectedMake === "Ford" && <><option>F-150</option><option>Mustang</option><option>Explorer</option></>}
-              {selectedMake === "Toyota" && <><option>Camry</option><option>Tacoma</option><option>Corolla</option></>}
-              {selectedMake !== "Make" && selectedMake !== "Honda" && selectedMake !== "Ford" && selectedMake !== "Toyota" && <option>Standard Trims...</option>}
+            
+            <select 
+              className="px-3 py-2.5 rounded text-sm font-bold text-gray-700 outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all disabled:opacity-50"
+              value={make} 
+              onChange={e => setVehicle({ year, make: e.target.value, model: "Model" })}
+              disabled={year === "Year"}
+            >
+              <option value="Make">Make</option>
+              {MAKES.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
-            <select className="px-3 py-2.5 rounded text-sm font-bold text-gray-700 outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all disabled:opacity-50 hidden lg:block">
-              <option>Engine</option>
-              <option>4-Cyl</option>
-              <option>V6</option>
-              <option>V8</option>
+            
+            <select 
+              className="px-3 py-2.5 rounded text-sm font-bold text-gray-700 outline-none flex-1 hover:ring-2 ring-white/50 cursor-pointer transition-all disabled:opacity-50"
+              value={model} 
+              onChange={e => setVehicle({ year, make, model: e.target.value })}
+              disabled={make === "Make"}
+            >
+              <option value="Model">Model</option>
+              {renderModelOptions()}
             </select>
-            <button className="px-8 py-2.5 bg-[#1A1A1A] hover:bg-black text-white font-bold rounded uppercase tracking-wide transition-all hover:shadow-lg transform hover:-translate-y-[1px] active:translate-y-0">Go</button>
+            
+            <button 
+              onClick={handleFindParts}
+              disabled={year === "Year" || make === "Make" || model === "Model"}
+              className="px-8 py-2.5 bg-[#1A1A1A] hover:bg-black disabled:bg-gray-500 disabled:cursor-not-allowed text-white font-bold rounded uppercase tracking-wide transition-all hover:shadow-lg transform hover:-translate-y-[1px] active:translate-y-0"
+            >
+              Find Parts
+            </button>
           </div>
         </div>
       </div>
 
-      {/* hero banner */}
       <div className="relative min-h-[55vh] flex items-center justify-start overflow-hidden">
-        {/* animated background */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center animate-bg-zoom" 
-          style={{backgroundImage: 'url(https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80)'}}
-        ></div>
+        <div className="absolute inset-0 bg-cover bg-center animate-bg-zoom" style={{backgroundImage: 'url(https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80)'}}></div>
         <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent"></div>
-        
         <div className="relative z-10 text-left text-white px-8 md:px-16 w-full max-w-7xl mx-auto">
           <span className="inline-block bg-[#E67E22] text-white px-3 py-1 rounded text-xs font-bold tracking-widest uppercase mb-4 shadow-[0_0_15px_rgba(230,126,34,0.5)]">🔥 Summer Service Sale</span>
-          <h1 className="text-5xl md:text-7xl font-['Barlow_Condensed'] font-extrabold uppercase tracking-tight mb-4 max-w-2xl leading-none drop-shadow-lg">
-            Up to 35% Off <br/> <span className="text-[#C0392B]">Performance Brakes</span>
-          </h1>
-          <p className="font-['Inter'] text-lg md:text-xl text-gray-300 mb-8 max-w-xl font-medium">
-            Complete brake kits, pads, and rotors. Free next-day delivery to your home or local shop on orders over $75.
-          </p>
+          <h1 className="text-5xl md:text-7xl font-['Barlow_Condensed'] font-extrabold uppercase tracking-tight mb-4 max-w-2xl leading-none drop-shadow-lg">Up to 35% Off <br/> <span className="text-[#C0392B]">Performance Brakes</span></h1>
+          <p className="font-['Inter'] text-lg md:text-xl text-gray-300 mb-8 max-w-xl font-medium">Complete brake kits, pads, and rotors. Free next-day delivery to your home or local shop on orders over $75.</p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a href="/case-studies/ecommerce-site/shop" className="px-8 py-4 bg-[#C0392B] hover:bg-[#922B21] text-white font-bold rounded uppercase tracking-wide transition-all text-center shadow-[0_4px_14px_0_rgba(192,57,43,0.39)] hover:shadow-[0_6px_20px_rgba(192,57,43,0.23)] hover:-translate-y-1">Shop The Sale</a>
             <a href="/case-studies/ecommerce-site/shop?deals=true" className="px-8 py-4 bg-transparent border-2 border-white/50 hover:border-white hover:bg-white hover:text-black text-white font-bold rounded uppercase tracking-wide transition-all text-center backdrop-blur-sm">View Weekly Flyer</a>
@@ -100,7 +149,7 @@ export const HomePage = () => {
         </div>
       </div>
       
-      {/* categories */}
+      {/* Categories */}
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="flex justify-between items-end mb-8 border-b-2 border-gray-200 pb-3">
           <h2 className="text-3xl font-['Barlow_Condensed'] font-extrabold uppercase text-[#1A1A1A] tracking-wide">Shop By Category</h2>
@@ -128,7 +177,7 @@ export const HomePage = () => {
         </div>
       </div>
 
-      {/* mid-Page promo banner */}
+      {/* Promo Banner */}
       <div className="max-w-7xl mx-auto px-4 mb-16">
         <div className="relative rounded-2xl overflow-hidden shadow-2xl flex items-center min-h-[300px] group cursor-pointer">
           <div className="absolute inset-0">
@@ -144,7 +193,7 @@ export const HomePage = () => {
         </div>
       </div>
 
-      {/* recommended hot deals (cards) */}
+      {/* Recommended Deals */}
       <div className="bg-[#F8F9FA] py-16 border-y border-gray-200 shadow-inner relative overflow-hidden">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
 
@@ -187,13 +236,13 @@ export const HomePage = () => {
         </div>
       </div>
       
-      {/* trusted brands marquee */}
+      {/* Trusted Brands Marquee */}
       <div className="bg-white py-12 border-b border-gray-200 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 text-center mb-6">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">In Stock: Premium OEM & Aftermarket Brands</p>
         </div>
         
-        {/* infinite scrolling container */}
+        {/* Infinite scrolling container */}
         <div className="relative w-full overflow-hidden bg-white flex">
           <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
           <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
@@ -204,7 +253,6 @@ export const HomePage = () => {
                 <span key={`set1-${brand}`} className="text-3xl font-['Barlow_Condensed'] font-black text-gray-800 tracking-wider hover:text-[#C0392B] transition-colors cursor-pointer">{brand}</span>
               ))}
             </div>
-            {/* duplicate for seamless loop */}
             <div className="flex w-1/2 justify-around items-center min-w-max px-10 gap-20">
               {['Mobil 1', 'Brembo', 'Bosch', 'K&N', 'Optima', 'Michelin', 'NGK', 'Castrol'].map(brand => (
                 <span key={`set2-${brand}`} className="text-3xl font-['Barlow_Condensed'] font-black text-gray-800 tracking-wider hover:text-[#C0392B] transition-colors cursor-pointer">{brand}</span>
@@ -213,6 +261,6 @@ export const HomePage = () => {
           </div>
         </div>
       </div>
-    </StoreLayout>
+    </>
   );
 };
