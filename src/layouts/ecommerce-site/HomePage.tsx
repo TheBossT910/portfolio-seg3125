@@ -11,17 +11,8 @@ export const HomePage = () => (
   </StoreLayout>
 );
 
-// Everything below used to live directly inside `HomePage`. The problem:
-// `HomePage` itself renders <StoreLayout>, and CartProvider lives INSIDE
-// StoreLayout — so CartProvider is a descendant of HomePage, not an
-// ancestor. useCart() called directly inside HomePage could never see it,
-// and silently fell back to the no-op stub (setGlobalVehicle: () => {},
-// addToCart: () => {}) — so nothing here ever actually saved, no matter
-// what state/localStorage timing was fixed. Moving this into its own
-// component that gets rendered AS A CHILD of StoreLayout means its hooks
-// run inside CartProvider's subtree, where the real context is visible.
 const HomePageContent = () => {
-  // 1. Pull the global context directly
+  // pull the global context directly
   const { addToCart, setGlobalVehicle, globalVehicle } = useCart() || { 
     addToCart: () => {}, 
     setGlobalVehicle: () => {}, 
@@ -30,8 +21,6 @@ const HomePageContent = () => {
   
   const deals = productsData.filter(p => p.originalPrice);
 
-  // 2. Same pattern as the Navbar: local "temp" selections, seeded from
-  // whatever vehicle is already saved in context.
   const seedFromGlobal = () => {
     if (globalVehicle && globalVehicle !== "Select Vehicle") {
       const parts = globalVehicle.split(" ");
@@ -43,16 +32,10 @@ const HomePageContent = () => {
   };
   const [{ year, make, model }, setVehicle] = useState(seedFromGlobal);
 
-  // CartProvider hydrates globalVehicle from localStorage inside its own
-  // useEffect, which runs AFTER this component's first render — so the lazy
-  // initializer above can miss it. Re-sync any time globalVehicle actually
-  // changes (on hydration, or after a save made elsewhere) so the banner
-  // never silently shows stale/blank selections.
   useEffect(() => {
     setVehicle(seedFromGlobal());
   }, [globalVehicle]);
 
-  // 3. Same model-option mapping as the Navbar, so both selectors always agree.
   const renderModelOptions = () => {
     if (make === "Honda") return <><option>Civic</option><option>Accord</option><option>CR-V</option></>;
     if (make === "Ford") return <><option>F-150</option><option>Mustang</option><option>Explorer</option></>;
@@ -63,7 +46,6 @@ const HomePageContent = () => {
 
   const handleFindParts = () => {
     if (year !== "Year" && make !== "Make" && model !== "Model") {
-      // Save directly to Context and redirect, exactly like "Save Vehicle" in the Navbar
       setGlobalVehicle(`${year} ${make} ${model}`);
       window.location.href = '/case-studies/ecommerce-site/shop';
     }
@@ -86,7 +68,7 @@ const HomePageContent = () => {
         .animate-bg-zoom { animation: subtle-zoom 20s ease-in-out infinite; }
       `}} />
 
-      {/* Hero Vehicle Selector — same options/state pattern as the Navbar's "Set Your Vehicle" menu */}
+      {/* hero vehicle selector */}
       <div className="bg-[#C0392B] py-4 px-4 shadow-lg relative z-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-4 justify-center">
           <div className="flex items-center gap-2">
@@ -149,7 +131,7 @@ const HomePageContent = () => {
         </div>
       </div>
       
-      {/* Categories */}
+      {/* categories */}
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="flex justify-between items-end mb-8 border-b-2 border-gray-200 pb-3">
           <h2 className="text-3xl font-['Barlow_Condensed'] font-extrabold uppercase text-[#1A1A1A] tracking-wide">Shop By Category</h2>
@@ -177,7 +159,7 @@ const HomePageContent = () => {
         </div>
       </div>
 
-      {/* Promo Banner */}
+      {/* promo banner */}
       <div className="max-w-7xl mx-auto px-4 mb-16">
         <div className="relative rounded-2xl overflow-hidden shadow-2xl flex items-center min-h-[300px] group cursor-pointer">
           <div className="absolute inset-0">
@@ -193,7 +175,7 @@ const HomePageContent = () => {
         </div>
       </div>
 
-      {/* Recommended Deals */}
+      {/* recommended deals */}
       <div className="bg-[#F8F9FA] py-16 border-y border-gray-200 shadow-inner relative overflow-hidden">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
 
@@ -236,13 +218,13 @@ const HomePageContent = () => {
         </div>
       </div>
       
-      {/* Trusted Brands Marquee */}
+      {/* trusted brands marquee */}
       <div className="bg-white py-12 border-b border-gray-200 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 text-center mb-6">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">In Stock: Premium OEM & Aftermarket Brands</p>
         </div>
         
-        {/* Infinite scrolling container */}
+        {/* infinite scrolling container */}
         <div className="relative w-full overflow-hidden bg-white flex">
           <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
           <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>

@@ -3,7 +3,7 @@ import { StoreLayout } from './StoreLayout';
 import { productsData, useCart } from './StoreContext';
 
 const ShopContent = () => {
-  // 1. Extract globalVehicle from the context
+  // extract globalVehicle from the context
   const cartContext = useCart() || { addToCart: () => {}, globalVehicle: "Select Vehicle" };
   const { addToCart, globalVehicle } = cartContext;
 
@@ -69,7 +69,7 @@ const ShopContent = () => {
           <span className="text-gray-900">Store Catalog</span>
         </div>
         
-        {/* 2. Dynamic Banner based on Vehicle Selection */}
+        {/* dynamic banner based on vehicle selection */}
         {globalVehicle !== "Select Vehicle" && globalVehicle ? (
           <div className="bg-[#E8F8F5] border border-[#27AE60] p-3 rounded flex items-center gap-3">
             <span className="text-[#27AE60] text-xl">✓</span>
@@ -217,7 +217,7 @@ const ShopContent = () => {
                       <div className="flex justify-between items-start mb-1">
                         <p className="text-[10px] font-['JetBrains_Mono'] text-gray-500 uppercase tracking-widest">{product.brand} • {product.partNumber}</p>
                         
-                        {/* 3. Exact Fit badge only displays if a vehicle is selected globally */}
+                        {/* exact fit badge */}
                         {globalVehicle !== "Select Vehicle" && globalVehicle && (
                           <span className="text-[#27AE60] text-[10px] font-bold bg-[#E8F8F5] px-2 py-0.5 rounded border border-[#27AE60]/30 whitespace-nowrap">✓ Exact Fit</span>
                         )}

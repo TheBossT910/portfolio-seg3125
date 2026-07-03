@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
-// Unified and Expanded Product Data
+// product data
 export const productsData = [
   { id: "BPD-4892-CER", name: "Ceramic Brake Pad Set", brand: "PowerStop", category: "Brakes", price: 64.99, originalPrice: 89.99, rating: 4.6, reviewCount: 218, inStock: true, compatibility: { makes: ["Honda", "Toyota"] }, partNumber: "BPD-4892", image: "https://images.unsplash.com/photo-1600705722908-bab1e6191b41?auto=format&fit=crop&w=400&q=80" },
   { id: "EV-BPD-99X", name: "High-Performance EV Brake Pads", brand: "PowerStop", category: "Brakes", price: 119.99, originalPrice: null, rating: 4.9, reviewCount: 84, inStock: true, compatibility: { makes: ["Tesla", "Rivian"] }, partNumber: "EV-BPD-99X", image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=400&q=80" },
@@ -29,20 +29,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoaded(true);
   }, []);
 
-  // Cart persistence can stay effect-driven; nothing navigates away right after adding to cart.
   useEffect(() => {
     if (isLoaded && typeof window !== 'undefined') {
       localStorage.setItem('gearhead_cart', JSON.stringify(cartItems));
     }
   }, [cartItems, isLoaded]);
 
-  // IMPORTANT: the vehicle write can be immediately followed by a hard
-  // navigation (window.location.href from "Find Parts" / "Save Vehicle").
-  // If we relied on a useEffect here, the browser can navigate away before
-  // React ever runs the effect, and the localStorage write is lost — which
-  // is exactly what caused the top bar to look "out of sync" after
-  // selecting a vehicle. So this setter writes to localStorage synchronously,
-  // in the same tick as the state update, instead of waiting on an effect.
   const setGlobalVehicle = (vehicle: string) => {
     setGlobalVehicleState(vehicle);
     if (typeof window !== 'undefined') {

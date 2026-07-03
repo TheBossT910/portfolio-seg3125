@@ -5,7 +5,7 @@ const YEARS = Array.from({ length: 30 }, (_, i) => 2024 - i);
 const MAKES = ["Acura", "Audi", "BMW", "Chevrolet", "Ford", "Honda", "Jeep", "Lexus", "Nissan", "Subaru", "Toyota", "Volkswagen"];
 
 const Navbar = () => {
-  // Pull globalVehicle and setGlobalVehicle from context
+  // pull globalVehicle and setGlobalVehicle from context
   const { cartCount, isLoaded, globalVehicle, setGlobalVehicle } = useCart() || { 
     cartCount: 0, isLoaded: true, globalVehicle: "Select Vehicle", setGlobalVehicle: () => {} 
   };
@@ -16,8 +16,6 @@ const Navbar = () => {
   const [tempMake, setTempMake] = useState("Make");
   const [tempModel, setTempModel] = useState("Model");
 
-  // Same seeding logic as the HomePage banner: parse the saved "YYYY Make Model"
-  // string back into the three fields.
   const seedFromGlobal = () => {
     if (globalVehicle && globalVehicle !== "Select Vehicle") {
       const parts = globalVehicle.split(" ");
@@ -28,8 +26,6 @@ const Navbar = () => {
     return { year: "Year", make: "Make", model: "Model" };
   };
 
-  // Re-seed every time the menu is opened, so it always reflects whatever
-  // vehicle is currently saved in context — even if it was set elsewhere (e.g. the HomePage banner).
   const toggleMenu = () => {
     if (!isMenuOpen) {
       const seeded = seedFromGlobal();
