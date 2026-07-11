@@ -23,10 +23,10 @@ const caseStudies: CaseStudyProps[] = [
     link: "/case-studies/services-site",
     linkBtn: "Visit Site",
     images: [
-      "https://media.magnetomagazine.com/app/uploads/2025/12/05165623/JAS-TENSEI-03-1000x500.jpg",
-      "https://hips.hearstapps.com/hmg-prod/images/whattobuy-2007hondas2000-jan2023-008-1671295199.jpg",
-      "https://www.acura.com/-/media/Acura-Platform/Vehicle-Pages/INTEGRA/2026/features-page/Performance/geared-for-performance/Type-S/2026_Acura_Integra_Features_Performance_Type-S_S.jpg",
-      "https://www.mugen-power.com/files/user/carparts/product/news/XPD20260108_%E3%82%A8%E3%82%A2%E3%83%AD%20%E3%82%B9%E3%83%9D%E3%83%BC%E3%83%84%E3%82%A8%E3%82%AD%E3%82%BE%E3%83%BC%E3%82%B9%E3%83%88%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E7%99%BA%E8%A1%A8/Prelude_Rear_1200x800.jpg",
+      "/sites/service-site/sub3.png",
+      "/sites/service-site/sub1.png",
+      "/sites/service-site/sub2.png",
+      "/sites/service-site/main.png",
     ],
   },
   {
@@ -35,26 +35,28 @@ const caseStudies: CaseStudyProps[] = [
     link: "/case-studies/memory-game",
     linkBtn: "Visit Site",
     images: [
-      "https://media.istockphoto.com/id/171357703/photo/head-on-chalkboard-with-light-bulb-notes-inside.jpg?s=612x612&w=0&k=20&c=mOW2sZ96mRxqvRkvjROf-l8CcqkNHgdMT-5TKSM46vA=",
+      "/sites/memory-game/main.png",
     ],
   },
   {
     title: "e-Commerce Site",
-    description: "Case Study 3 - Car parts e-commerce site",
+    description: "Case Study 3 - Car parts e-commerce site.",
     link: "/case-studies/ecommerce-site",
-    linkBtn: "Coming Soon!",
-    images: ["https://cmsmart.net/images/community/8382/banner.jpg"],
+    linkBtn: "Visit Site",
+    images: [
+      "/sites/ecommerce-site/main.png",
+    ],
   },
   {
     title: "Analytics Site",
-    description: "Case Study 4 - (coming soon)",
+    description: "Case Study 4 - Global EV Trends Dashboard.",
     link: "/case-studies/analytics-site",
-    linkBtn: "Coming Soon!",
+    linkBtn: "Visit Site",
     images: [
-      "https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w",
-      "https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143200141-4CQD30YERVW4YNHJ0FZU/art-mg-hondansxrgt2.jpg?format=2500w",
-      "https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143235742-5JZ9PD2OGPGS7SOT3O41/art-mg-hondansxrgt5.jpg?format=1000w",
-      "https://images.squarespace-cdn.com/content/v1/5caed8960cf57d49530e8c60/1608143215492-4E1V3B85A16EGTJJM3X3/art-mg-hondansxrgt6.jpg?format=2500w",
+      "/sites/analytics-site/main.png",
+      "/sites/analytics-site/sub1.png",
+      "/sites/analytics-site/sub2.png",
+      "/sites/analytics-site/sub3.png",
     ],
   },
 ];
