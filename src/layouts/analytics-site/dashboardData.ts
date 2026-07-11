@@ -1,5 +1,3 @@
-// dashboardData.ts
-
 export const regionalGrowthData = [
   { year: 2021, "North America": { volume: 450000, marketShare: 4.2 }, Europe: { volume: 1200000, marketShare: 10.5 }, Asia: { volume: 2100000, marketShare: 12.1 } },
   { year: 2022, "North America": { volume: 800000, marketShare: 6.8 }, Europe: { volume: 1600000, marketShare: 14.2 }, Asia: { volume: 3400000, marketShare: 18.5 } },
@@ -101,7 +99,7 @@ export const dict = {
     batteryLFP: "Lithium iron (LFP)",
     batterySolid: "Solid-state",
     dataAsOf: "Data compiled",
-    footerNote: "Prototype built for SEG3125 — Analysis and Design of User Interfaces, Assignment 5.",
+    footerNote: "SEG3125 — Analysis and Design of User Interfaces, Assignment 5. Designed by Taha Rashid (300403833). Professor Caroline Barrière",
   },
   ja: {
     locale: 'ja-JP',
@@ -160,7 +158,7 @@ export const dict = {
     batteryLFP: "リン酸鉄リチウム（LFP）",
     batterySolid: "全固体電池",
     dataAsOf: "データ作成日",
-    footerNote: "SEG3125「ユーザーインターフェースの分析と設計」課題5のために制作したプロトタイプです。",
+    footerNote: "SEG3125「ユーザーインターフェースの分析と設計」課題5のために制作した。製作者：ラシドタハ。教授：先生 Barrière, Caroline ",
   }
 };
 

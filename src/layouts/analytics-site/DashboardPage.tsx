@@ -6,7 +6,6 @@ export const DashboardPage = () => {
   const [lang, setLang] = useState<'en' | 'ja'>('en');
   const [metric, setMetric] = useState('volume');
   const [year, setYear] = useState(2025);
-  // Optional chaining to support exact type checking
   const [tip, setTip] = useState<{ x: number, y: number, title: string, items: {label: string, value: string, color?: string}[] } | null>(null);
   const dashboardRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +36,7 @@ export const DashboardPage = () => {
   };
   const hideTip = () => setTip(null);
 
-  /* ---- Chart 1: regional line chart ---- */
+  /* regional line chart */
   const chartWidth = 640;
   const chartHeight = 300;
   const maxShare = 45;
@@ -61,7 +60,7 @@ export const DashboardPage = () => {
     })
   })), [metric, text]);
 
-  /* ---- KPIs (all react to the year filter) ---- */
+  /* KPIs (all react to the year filter) */
   const yearRow = regionalGrowthData.find(d => d.year === year)!;
   const combinedVolume = yearRow["North America"].volume + yearRow.Europe.volume + yearRow.Asia.volume;
   const asiaShare = yearRow.Asia.marketShare;
@@ -70,7 +69,7 @@ export const DashboardPage = () => {
   const salesLeader = [...currentManufacturers].sort((a, b) => b.sales - a.sales)[0];
   const maxMfgSales = Math.max(...currentManufacturers.map(m => m.sales)) * 1.12;
 
-  /* ---- Chart 4: infra area chart ---- */
+  /* infra area chart */
   const maxInfra = 800000;
   const infraPoints = infraData.map((d, i) => {
     const p = getPoint(i, d.nodes, maxInfra, infraData.length);
@@ -96,7 +95,7 @@ export const DashboardPage = () => {
         select { color-scheme: dark; }
       `}} />
 
-      {/* Floating tooltip shared across all charts */}
+      {/* floating tooltip shared across all charts */}
       {tip && (
         <div
           className="fixed z-50 pointer-events-none px-3 py-2 rounded-lg shadow-2xl ff-mono text-xs"
@@ -117,7 +116,7 @@ export const DashboardPage = () => {
         </div>
       )}
 
-      {/* NAV */}
+      {/* nav */}
       <nav className="sticky top-0 z-40 backdrop-blur-md" style={{ background: 'rgba(10,14,19,0.85)', borderBottom: `1px solid ${COLORS.border}` }}>
         <div className="max-w-6xl mx-auto px-5 py-3.5 flex justify-between items-center gap-4">
           <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
@@ -145,7 +144,7 @@ export const DashboardPage = () => {
         </div>
       </nav>
 
-      {/* HERO */}
+      {/* hero */}
       <section className="relative px-5 pt-16 pb-14 overflow-hidden" style={{ borderBottom: `1px solid ${COLORS.border}` }}>
         <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 1px 1px, ${COLORS.border} 1px, transparent 1px)`, backgroundSize: '28px 28px' }} />
         <div className="max-w-4xl mx-auto relative z-10 text-center">
@@ -158,7 +157,7 @@ export const DashboardPage = () => {
           </h1>
           <p className="text-base max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: COLORS.textMuted }}>{text.heroSub}</p>
 
-          {/* Filter panel */}
+          {/* filter panel */}
           <div className="rounded-2xl p-5 flex flex-col sm:flex-row gap-4 items-end max-w-2xl mx-auto text-left" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
             <div className="w-full sm:w-1/2">
               <label htmlFor="year-select" className="ff-mono block text-[10px] uppercase tracking-widest mb-2" style={{ color: COLORS.textFaint }}>{text.filterYear}</label>
@@ -196,7 +195,7 @@ export const DashboardPage = () => {
             >{text.applyBtn}</button>
           </div>
 
-          {/* Presets */}
+          {/* presets */}
           <div className="max-w-2xl mx-auto mt-10 pt-8" style={{ borderTop: `1px solid ${COLORS.borderSoft}` }}>
             <h3 className="ff-mono text-[10px] uppercase tracking-widest mb-4" style={{ color: COLORS.textFaint }}>{text.presetTitle}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -221,10 +220,9 @@ export const DashboardPage = () => {
         </div>
       </section>
 
-      {/* MAIN */}
       <main ref={dashboardRef} className="max-w-6xl mx-auto px-5 py-14 scroll-mt-16">
 
-        {/* Disclosures */}
+        {/* disclosures */}
         <div className="flex flex-col sm:flex-row justify-between gap-3 mb-8 text-xs">
           <div className="flex items-center gap-2 px-3.5 py-2 rounded-lg" style={{ background: 'rgba(245,166,35,0.06)', border: `1px solid rgba(245,166,35,0.2)`, color: '#E0AD5C' }}>
             <Info className="w-3.5 h-3.5 shrink-0" />
@@ -259,10 +257,10 @@ export const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Row 1: line + bar */}
+        {/* line + bar */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
 
-          {/* Chart 1 — line */}
+          {/* line */}
           <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
             <h3 className="ff-display text-lg font-bold tracking-tight mb-1">{text.chart1Title}</h3>
             <p className="text-xs mb-5" style={{ color: COLORS.textMuted }}>{text.chart1Context}</p>
@@ -307,7 +305,7 @@ export const DashboardPage = () => {
             </div>
           </div>
 
-          {/* Chart 2 — bar */}
+          {/* bar */}
           <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
             <h3 className="ff-display text-lg font-bold tracking-tight mb-1">{text.chart2Title} — {year}</h3>
             <p className="text-xs mb-5" style={{ color: COLORS.textMuted }}>{text.chart2Context}</p>
@@ -340,10 +338,10 @@ export const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Row 2: stacked bar + area */}
+        {/* stacked bar + area */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
 
-          {/* Chart 3 — stacked composition */}
+          {/* stacked composition */}
           <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
             <h3 className="ff-display text-lg font-bold tracking-tight mb-1">{text.chart3Title}</h3>
             <p className="text-xs mb-5" style={{ color: COLORS.textMuted }}>{text.chart3Context}</p>
@@ -381,7 +379,7 @@ export const DashboardPage = () => {
             </div>
           </div>
 
-          {/* Chart 4 — area */}
+          {/* area */}
           <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
             <h3 className="ff-display text-lg font-bold tracking-tight mb-1 flex items-center gap-2"><BatteryCharging className="w-4 h-4" style={{ color: COLORS.na }} />{text.chart4Title}</h3>
             <p className="text-xs mb-5" style={{ color: COLORS.textMuted }}>{text.chart4Context}</p>
@@ -419,7 +417,7 @@ export const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Table */}
+        {/* table */}
         <div className="rounded-2xl overflow-hidden" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
           <div className="p-6" style={{ borderBottom: `1px solid ${COLORS.borderSoft}` }}>
             <h3 className="ff-display text-lg font-bold tracking-tight mb-0.5">{text.tableTitle} — {year}</h3>
@@ -459,7 +457,7 @@ export const DashboardPage = () => {
   );
 }
 
-/* Signature element: charge-ring gauge used for the Asia market-share KPI */
+/* charge-ring gauge used for the Asia market-share KPI */
 function GaugeRing({ value, max, color, track, display }: any) {
   const r = 46;
   const c = 2 * Math.PI * r;
