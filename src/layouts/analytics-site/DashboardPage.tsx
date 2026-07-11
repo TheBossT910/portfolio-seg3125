@@ -1,371 +1,674 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { regionalGrowthData, manufacturerSalesData, batteryTechData, infraData, dict } from './dashboardData';
+import { Zap, Globe2, ChevronDown, Award, ArrowUpRight, Info, BatteryCharging } from 'lucide-react';
 
+/* ============================================================================
+   DATA
+   All figures are AI-generated synthetic data for coursework purposes.
+   ========================================================================== */
+
+const regionalGrowthData = [
+  { year: 2021, "North America": { volume: 450000, marketShare: 4.2 }, Europe: { volume: 1200000, marketShare: 10.5 }, Asia: { volume: 2100000, marketShare: 12.1 } },
+  { year: 2022, "North America": { volume: 800000, marketShare: 6.8 }, Europe: { volume: 1600000, marketShare: 14.2 }, Asia: { volume: 3400000, marketShare: 18.5 } },
+  { year: 2023, "North America": { volume: 1200000, marketShare: 9.1 }, Europe: { volume: 2200000, marketShare: 19.3 }, Asia: { volume: 5100000, marketShare: 24.0 } },
+  { year: 2024, "North America": { volume: 1600000, marketShare: 12.4 }, Europe: { volume: 2900000, marketShare: 23.8 }, Asia: { volume: 6800000, marketShare: 31.2 } },
+  { year: 2025, "North America": { volume: 2100000, marketShare: 15.8 }, Europe: { volume: 3700000, marketShare: 28.5 }, Asia: { volume: 8500000, marketShare: 39.5 } }
+];
+
+const manufacturerSalesData = {
+  2023: [
+    { name: "Tesla", nameJa: "テスラ", sales: 1800000, growth: 38, chemistry: "NMC / LFP" },
+    { name: "BYD", nameJa: "BYD", sales: 1570000, growth: 62, chemistry: "LFP Blade" },
+    { name: "VW Group", nameJa: "フォルクスワーゲン グループ", sales: 770000, growth: 15, chemistry: "NMC" },
+    { name: "Geely", nameJa: "吉利汽車", sales: 460000, growth: 22, chemistry: "NMC" }
+  ],
+  2024: [
+    { name: "Tesla", nameJa: "テスラ", sales: 2200000, growth: 22, chemistry: "NMC / LFP" },
+    { name: "BYD", nameJa: "BYD", sales: 2400000, growth: 52, chemistry: "LFP Blade" },
+    { name: "VW Group", nameJa: "フォルクスワーゲン グループ", sales: 920000, growth: 19, chemistry: "NMC" },
+    { name: "Geely", nameJa: "吉利汽車", sales: 680000, growth: 47, chemistry: "LFP / NMC" }
+  ],
+  2025: [
+    { name: "Tesla", nameJa: "テスラ", sales: 2500000, growth: 13, chemistry: "LFP / 4680" },
+    { name: "BYD", nameJa: "BYD", sales: 3100000, growth: 29, chemistry: "LFP / Solid-State Prototype" },
+    { name: "VW Group", nameJa: "フォルクスワーゲン グループ", sales: 1150000, growth: 25, chemistry: "NMC / LFP" },
+    { name: "Geely", nameJa: "吉利汽車", sales: 950000, growth: 39, chemistry: "LFP / Solid-State" }
+  ]
+};
+
+const batteryTechData = [
+  { year: 2023, nmc: 65, lfp: 30, solid: 5 },
+  { year: 2024, nmc: 55, lfp: 40, solid: 5 },
+  { year: 2025, nmc: 45, lfp: 45, solid: 10 }
+];
+
+const infraData = [
+  { year: 2021, nodes: 120000 },
+  { year: 2022, nodes: 180000 },
+  { year: 2023, nodes: 290000 },
+  { year: 2024, nodes: 450000 },
+  { year: 2025, nodes: 720000 }
+];
+
+/* ============================================================================
+   LOCALIZATION DICTIONARY
+   ========================================================================== */
+
+const dict = {
+  en: {
+    locale: 'en-US',
+    title: "VoltGrid",
+    tagline: "EV Market Telemetry",
+    genAiDisclaimer: "All figures on this page are AI-generated synthetic data, built for a coursework prototype — not real market data.",
+    heroBadge: "2021–2025 Global Snapshot",
+    heroTitle: "Global EV market, ",
+    heroTitleHighlight: "read like a dashboard.",
+    heroSub: "Track how electric vehicle adoption, manufacturer output, battery chemistry and charging infrastructure moved across three regions — filter by year and metric to see the story change.",
+
+    filterYear: "Fiscal year",
+    filterMetric: "Primary metric",
+    applyBtn: "Update dashboard",
+
+    presetTitle: "Jump to a view",
+    preset1Title: "2025 sales volume",
+    preset1Sub: "Latest forecasted unit sales",
+    preset2Title: "2024 market share",
+    preset2Sub: "Share shift, verified year",
+    preset3Title: "2023 baseline",
+    preset3Sub: "Where the market stood",
+
+    kpi1Label: "Combined volume",
+    kpi1Sub: "North America + Europe + Asia",
+    kpi2Label: "Asia market share",
+    kpi2Sub: "of global EV sales",
+    kpi3Label: "Sales leader",
+    kpi3Sub: "by units sold this year",
+
+    chart1Title: "Regional adoption, 2021–2025",
+    chart1Context: "How each region's electric vehicle output has grown year over year. Hover a point for the exact figure.",
+    chart2Title: "Manufacturer output",
+    chart2Context: "Units sold by the four largest manufacturers in the selected year, ranked highest to lowest.",
+    chart3Title: "Battery chemistry mix",
+    chart3Context: "Share of new vehicles using each battery chemistry, by year. Hover a bar to isolate it.",
+    chart4Title: "Fast-charging network growth",
+    chart4Context: "Cumulative DC fast-charging nodes deployed worldwide. Hover a point for the yearly total.",
+
+    tableTitle: "Manufacturer detail",
+    tableContext: "Full figures behind the chart above, for the selected year.",
+    colRank: "Rank",
+    colMfg: "Manufacturer",
+    colSales: "Units sold",
+    colGrowth: "YoY growth",
+    colChem: "Battery chemistry",
+
+    metricShare: "Market share (%)",
+    metricVol: "Volume (units)",
+    regionNA: "North America",
+    regionEU: "Europe",
+    regionAS: "Asia",
+    units: "units",
+    tooltipYear: "FY",
+    batteryNMC: "High-nickel NMC",
+    batteryLFP: "Lithium iron (LFP)",
+    batterySolid: "Solid-state",
+    dataAsOf: "Data compiled",
+    footerNote: "Prototype built for SEG3125 — Analysis and Design of User Interfaces, Assignment 5.",
+  },
+  ja: {
+    locale: 'ja-JP',
+    title: "VoltGrid",
+    tagline: "EV市場テレメトリー",
+    genAiDisclaimer: "このページの数値はすべてAIが生成した合成データであり、授業課題用のプロトタイプです。実際の市場データではありません。",
+    heroBadge: "2021年〜2025年 世界スナップショット",
+    heroTitle: "グローバルEV市場を、",
+    heroTitleHighlight: "ダッシュボードで読む。",
+    heroSub: "3つの地域における電気自動車の普及、メーカー別生産台数、電池化学組成、充電インフラの推移を追跡。年度と指標を切り替えると、見え方が変わります。",
+
+    filterYear: "会計年度",
+    filterMetric: "主要指標",
+    applyBtn: "ダッシュボードを更新",
+
+    presetTitle: "表示を切り替える",
+    preset1Title: "2025年 販売台数",
+    preset1Sub: "最新の予測販売台数",
+    preset2Title: "2024年 市場シェア",
+    preset2Sub: "検証済み年度のシェア推移",
+    preset3Title: "2023年 基準値",
+    preset3Sub: "当時の市場の状況",
+
+    kpi1Label: "合計販売台数",
+    kpi1Sub: "北米＋欧州＋アジア",
+    kpi2Label: "アジアの市場シェア",
+    kpi2Sub: "世界のEV販売に占める割合",
+    kpi3Label: "販売台数首位",
+    kpi3Sub: "今年度の販売台数ベース",
+
+    chart1Title: "地域別普及率（2021年〜2025年）",
+    chart1Context: "各地域の電気自動車生産台数の前年比推移。ポイントにカーソルを合わせると数値が表示されます。",
+    chart2Title: "メーカー別生産台数",
+    chart2Context: "選択した年度における上位4メーカーの販売台数（多い順）。",
+    chart3Title: "電池化学組成の構成比",
+    chart3Context: "年度別の電池化学組成の割合。バーにカーソルを合わせると強調表示されます。",
+    chart4Title: "急速充電網の拡大",
+    chart4Context: "世界で導入されたDC急速充電ノードの累計数。ポイントにカーソルを合わせると年度別の合計が表示されます。",
+
+    tableTitle: "メーカー別詳細",
+    tableContext: "上記グラフの元データ（選択年度）。",
+    colRank: "順位",
+    colMfg: "メーカー",
+    colSales: "販売台数",
+    colGrowth: "前年比成長率",
+    colChem: "電池化学組成",
+
+    metricShare: "市場シェア（%）",
+    metricVol: "販売台数",
+    regionNA: "北米",
+    regionEU: "欧州",
+    regionAS: "アジア",
+    units: "台",
+    tooltipYear: "年度",
+    batteryNMC: "ハイニッケルNMC",
+    batteryLFP: "リン酸鉄リチウム（LFP）",
+    batterySolid: "全固体電池",
+    dataAsOf: "データ作成日",
+    footerNote: "SEG3125「ユーザーインターフェースの分析と設計」課題5のために制作したプロトタイプです。",
+  }
+};
+
+/* ============================================================================
+   COLOR TOKENS (instrument-panel palette)
+   ========================================================================== */
+const COLORS = {
+  bg: '#0A0E13',
+  panel: '#12181F',
+  panelAlt: '#0E141A',
+  border: '#232C36',
+  borderSoft: '#1A222B',
+  textPrimary: '#EDF2F6',
+  textMuted: '#8695A4',
+  textFaint: '#586472',
+  na: '#2DD4BF',   // teal — North America
+  eu: '#F5A623',   // amber — Europe
+  asia: '#8B7FF0', // violet — Asia
+  bar: '#2DD4BF',
+};
+
+// EXPORT NAMED COMPONENT TO MATCH ASTRO ROUTING
 export const DashboardPage = () => {
   const [lang, setLang] = useState<'en' | 'ja'>('en');
-  const [metric, setMetric] = useState<'share' | 'volume'>('volume');
-  const [year, setYear] = useState<2023 | 2024 | 2025>(2025);
-  
-  const [hoveredPoint, setHoveredPoint] = useState<{ x: number, y: number, value: number, label: string, year: number } | null>(null);
+  const [metric, setMetric] = useState('volume');
+  const [year, setYear] = useState(2025);
+  // Optional chaining to support exact type checking
+  const [tip, setTip] = useState<{ x: number, y: number, title: string, items: {label: string, value: string, color?: string}[] } | null>(null);
   const dashboardRef = useRef<HTMLDivElement>(null);
 
   const text = dict[lang];
 
-  const formatNumber = (num: number, type: 'standard' | 'percent') => {
-    const locale = lang === 'ja' ? 'ja-JP' : 'en-US';
+  const formatNumber = (num: number, type = 'standard') => {
+    const locale = text.locale;
     if (type === 'percent') {
       return new Intl.NumberFormat(locale, { style: 'percent', minimumFractionDigits: 1 }).format(num / 100);
     }
-    return new Intl.NumberFormat(locale).format(num);
+    return new Intl.NumberFormat(locale).format(Math.round(num));
   };
 
-  const scrollToDashboard = () => {
-    dashboardRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const formattedDate = useMemo(() => {
+    return new Intl.DateTimeFormat(text.locale, { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date('2026-07-11'));
+  }, [text.locale]);
 
-  // Pre-selected Setting Handlers
-  const applyPreset = (pYear: 2023|2024|2025, pMetric: 'share'|'volume') => {
+  const scrollToDashboard = () => dashboardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  const applyPreset = (pYear: number, pMetric: string) => {
     setYear(pYear);
     setMetric(pMetric);
     scrollToDashboard();
   };
 
-  const chart1Width = 700;
-  const chart1Height = 280;
+  const showTip = (e: React.MouseEvent, title: string, items: any) => {
+    setTip({ x: e.clientX, y: e.clientY, title, items });
+  };
+  const hideTip = () => setTip(null);
+
+  /* ---- Chart 1: regional line chart ---- */
+  const chartWidth = 640;
+  const chartHeight = 300;
   const maxShare = 45;
   const maxVolume = 9000000;
-  
-  const getChart1DataPoint = (index: number, value: number, max: number) => {
-    const x = (index / (regionalGrowthData.length - 1)) * (chart1Width - 100) + 60;
-    const y = chart1Height - 40 - (value / max) * (chart1Height - 70);
+
+  const getPoint = (index: number, value: number, max: number, len: number) => {
+    const x = (index / (len - 1)) * (chartWidth - 110) + 60;
+    const y = chartHeight - 46 - (value / max) * (chartHeight - 76);
     return { x, y };
   };
 
   const chart1Lines = useMemo(() => [
-    { id: 'na', label: text.regionNA, color: '#0F172A', dataKey: 'North America' as const }, 
-    { id: 'eu', label: text.regionEU, color: '#059669', dataKey: 'Europe' as const }, 
-    { id: 'as', label: text.regionAS, color: '#2563EB', dataKey: 'Asia' as const }, 
+    { id: 'na', label: text.regionNA, color: COLORS.na, dataKey: 'North America' as const },
+    { id: 'eu', label: text.regionEU, color: COLORS.eu, dataKey: 'Europe' as const },
+    { id: 'as', label: text.regionAS, color: COLORS.asia, dataKey: 'Asia' as const },
   ].map(line => ({
     ...line,
     points: regionalGrowthData.map((d, i) => {
       const val = metric === 'share' ? d[line.dataKey].marketShare : d[line.dataKey].volume;
-      return {
-        ...getChart1DataPoint(i, val, metric === 'share' ? maxShare : maxVolume),
-        value: val,
-        year: d.year
-      };
+      return { ...getPoint(i, val, metric === 'share' ? maxShare : maxVolume, regionalGrowthData.length), value: val, year: d.year };
     })
-  })), [metric, text, lang]);
+  })), [metric, text]);
 
-  const currentManufacturers = manufacturerSalesData[year];
-  const maxMfgSales = Math.max(...currentManufacturers.map(m => m.sales)) * 1.1;
+  /* ---- KPIs (all react to the year filter) ---- */
+  const yearRow = regionalGrowthData.find(d => d.year === year)!;
+  const combinedVolume = yearRow["North America"].volume + yearRow.Europe.volume + yearRow.Asia.volume;
+  const asiaShare = yearRow.Asia.marketShare;
 
-  // Infra Area Chart Points
+  const currentManufacturers = manufacturerSalesData[year as 2023|2024|2025];
+  const salesLeader = [...currentManufacturers].sort((a, b) => b.sales - a.sales)[0];
+  const maxMfgSales = Math.max(...currentManufacturers.map(m => m.sales)) * 1.12;
+
+  /* ---- Chart 4: infra area chart ---- */
   const maxInfra = 800000;
   const infraPoints = infraData.map((d, i) => {
-    const x = (i / (infraData.length - 1)) * (chart1Width - 100) + 60;
-    const y = chart1Height - 40 - (d.nodes / maxInfra) * (chart1Height - 70);
-    return { x, y, val: d.nodes, year: d.year };
+    const p = getPoint(i, d.nodes, maxInfra, infraData.length);
+    return { ...p, val: d.nodes, year: d.year };
   });
   const infraPath = infraPoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
-  const infraAreaPath = `${infraPath} L ${infraPoints[infraPoints.length-1].x} ${chart1Height - 40} L ${infraPoints[0].x} ${chart1Height - 40} Z`;
+  const infraAreaPath = `${infraPath} L ${infraPoints[infraPoints.length - 1].x} ${chartHeight - 46} L ${infraPoints[0].x} ${chartHeight - 46} Z`;
+
+  const batteryLegend = [
+    { key: 'nmc', label: text.batteryNMC, color: '#4B5563' },
+    { key: 'lfp', label: text.batteryLFP, color: COLORS.na },
+    { key: 'solid', label: text.batterySolid, color: COLORS.eu },
+  ];
 
   return (
-    <div className="font-sans bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-blue-200">
-      
-      {/* Navigation */}
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-emerald-500 flex items-center justify-center shadow-md">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+    <div className="min-h-screen w-full ff-body" style={{ background: COLORS.bg, color: COLORS.textPrimary }}>
+      <style dangerouslySetInnerHTML={{__html: `
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+        .ff-display { font-family: 'Space Grotesk', sans-serif; }
+        .ff-body { font-family: 'Inter', sans-serif; }
+        .ff-mono { font-family: 'IBM Plex Mono', monospace; }
+        .focus-ring:focus-visible { outline: 2px solid ${COLORS.na}; outline-offset: 2px; }
+        select { color-scheme: dark; }
+      `}} />
+
+      {/* Floating tooltip shared across all charts */}
+      {tip && (
+        <div
+          className="fixed z-50 pointer-events-none px-3 py-2 rounded-lg shadow-2xl ff-mono text-xs"
+          style={{
+            left: tip.x + 14, top: tip.y + 14,
+            background: '#050709', border: `1px solid ${COLORS.border}`,
+            boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
+          }}
+        >
+          <div className="text-[10px] uppercase tracking-wider mb-1" style={{ color: COLORS.textFaint }}>{tip.title}</div>
+          {tip.items.map((it, i) => (
+            <div key={i} className="flex items-center gap-2">
+              {it.color && <span className="w-2 h-2 rounded-full" style={{ background: it.color }} />}
+              <span style={{ color: COLORS.textMuted }}>{it.label}</span>
+              <span className="font-semibold" style={{ color: COLORS.textPrimary }}>{it.value}</span>
             </div>
-            <span className="text-2xl font-black tracking-tight text-slate-900">{text.title}</span>
+          ))}
+        </div>
+      )}
+
+      {/* NAV */}
+      <nav className="sticky top-0 z-40 backdrop-blur-md" style={{ background: 'rgba(10,14,19,0.85)', borderBottom: `1px solid ${COLORS.border}` }}>
+        <div className="max-w-6xl mx-auto px-5 py-3.5 flex justify-between items-center gap-4">
+          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${COLORS.na}, #14969E)` }}>
+              <Zap className="w-4 h-4" style={{ color: '#04211E' }} strokeWidth={2.5} />
+            </div>
+            <div className="leading-tight">
+              <div className="ff-display font-bold text-[15px] tracking-tight">{text.title}</div>
+              <div className="ff-mono text-[10px] uppercase tracking-widest" style={{ color: COLORS.textFaint }}>{text.tagline}</div>
+            </div>
           </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="flex items-center bg-slate-100 p-1 rounded-md border border-slate-200 text-xs font-bold">
-              <button onClick={() => setLang('en')} className={`px-3 py-1.5 rounded transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>EN</button>
-              <button onClick={() => setLang('ja')} className={`px-3 py-1.5 rounded transition-all ${lang === 'ja' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>日本語</button>
-            </div>
+
+          <div role="group" aria-label="Language selection" className="flex items-center rounded-lg p-1 text-xs font-semibold" style={{ background: COLORS.panelAlt, border: `1px solid ${COLORS.border}` }}>
+            <button
+              onClick={() => setLang('en')} aria-pressed={lang === 'en'}
+              className="focus-ring px-3 py-1.5 rounded-md transition-all flex items-center gap-1.5"
+              style={lang === 'en' ? { background: COLORS.na, color: '#04211E' } : { color: COLORS.textMuted }}
+            ><Globe2 className="w-3 h-3" /> English</button>
+            <button
+              onClick={() => setLang('ja')} aria-pressed={lang === 'ja'}
+              className="focus-ring px-3 py-1.5 rounded-md transition-all"
+              style={lang === 'ja' ? { background: COLORS.na, color: '#04211E' } : { color: COLORS.textMuted }}
+            >日本語</button>
           </div>
         </div>
       </nav>
 
-      {/* Hero & Settings Configuration Area */}
-      <section className="relative pt-20 pb-16 px-6 md:px-10 border-b border-slate-200 bg-white">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 pointer-events-none"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          
-          <div className="text-center mb-12">
-            <span className="bg-blue-50 text-blue-700 border border-blue-200 font-bold px-4 py-1.5 rounded-full text-xs tracking-widest uppercase mb-6 inline-block">
-              {text.heroBadge}
-            </span>
-            <h1 className="text-slate-900 text-5xl md:text-7xl font-bold tracking-tight mb-4">
-              {text.heroTitle} <span className="text-blue-600">{text.heroTitleHighlight}</span>
-            </h1>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto font-medium">{text.heroSub}</p>
-          </div>
-          
-          {/* Main Filtering Bar */}
-          <div className="bg-white p-6 rounded-2xl flex flex-col md:flex-row gap-6 items-end w-full shadow-lg border border-slate-200 max-w-4xl mx-auto relative z-20">
-            <div className="w-full md:w-1/2">
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{text.filterYear}</label>
-              <select 
-                value={year} onChange={(e) => setYear(Number(e.target.value) as 2023|2024|2025)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl text-slate-900 px-5 py-4 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 cursor-pointer font-bold appearance-none"
-              >
-                <option value={2025}>2025 (Forecast)</option>
-                <option value={2024}>2024 (Verified)</option>
-                <option value={2023}>2023 (Historical)</option>
-              </select>
+      {/* HERO */}
+      <section className="relative px-5 pt-16 pb-14 overflow-hidden" style={{ borderBottom: `1px solid ${COLORS.border}` }}>
+        <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 1px 1px, ${COLORS.border} 1px, transparent 1px)`, backgroundSize: '28px 28px' }} />
+        <div className="max-w-4xl mx-auto relative z-10 text-center">
+          <span className="ff-mono inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] uppercase tracking-widest mb-6" style={{ background: 'rgba(45,212,191,0.08)', border: `1px solid rgba(45,212,191,0.25)`, color: COLORS.na }}>
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: COLORS.na }} />
+            {text.heroBadge}
+          </span>
+          <h1 className="ff-display text-4xl sm:text-5xl font-bold tracking-tight mb-5 leading-[1.15]">
+            {text.heroTitle}<span style={{ color: COLORS.na }}>{text.heroTitleHighlight}</span>
+          </h1>
+          <p className="text-base max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: COLORS.textMuted }}>{text.heroSub}</p>
+
+          {/* Filter panel */}
+          <div className="rounded-2xl p-5 flex flex-col sm:flex-row gap-4 items-end max-w-2xl mx-auto text-left" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
+            <div className="w-full sm:w-1/2">
+              <label htmlFor="year-select" className="ff-mono block text-[10px] uppercase tracking-widest mb-2" style={{ color: COLORS.textFaint }}>{text.filterYear}</label>
+              <div className="relative">
+                <select
+                  id="year-select" value={year} onChange={(e) => setYear(Number(e.target.value))}
+                  className="focus-ring w-full rounded-lg px-3.5 py-3 outline-none cursor-pointer font-semibold text-sm appearance-none"
+                  style={{ background: COLORS.panelAlt, border: `1px solid ${COLORS.border}`, color: COLORS.textPrimary }}
+                >
+                  <option value={2025}>2025</option>
+                  <option value={2024}>2024</option>
+                  <option value={2023}>2023</option>
+                </select>
+                <ChevronDown className="w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: COLORS.textFaint }} />
+              </div>
             </div>
-            <div className="w-full md:w-1/2">
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{text.filterMetric}</label>
-              <select 
-                value={metric} onChange={(e) => setMetric(e.target.value as 'share'|'volume')}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl text-slate-900 px-5 py-4 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 cursor-pointer font-bold appearance-none"
-              >
-                <option value="volume">{text.metricVol}</option>
-                <option value="share">{text.metricShare}</option>
-              </select>
+            <div className="w-full sm:w-1/2">
+              <label htmlFor="metric-select" className="ff-mono block text-[10px] uppercase tracking-widest mb-2" style={{ color: COLORS.textFaint }}>{text.filterMetric}</label>
+              <div className="relative">
+                <select
+                  id="metric-select" value={metric} onChange={(e) => setMetric(e.target.value)}
+                  className="focus-ring w-full rounded-lg px-3.5 py-3 outline-none cursor-pointer font-semibold text-sm appearance-none"
+                  style={{ background: COLORS.panelAlt, border: `1px solid ${COLORS.border}`, color: COLORS.textPrimary }}
+                >
+                  <option value="volume">{text.metricVol}</option>
+                  <option value="share">{text.metricShare}</option>
+                </select>
+                <ChevronDown className="w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: COLORS.textFaint }} />
+              </div>
             </div>
-            <div className="w-full md:w-auto mt-auto">
-              <button onClick={scrollToDashboard} className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl px-8 py-4 shadow-lg shadow-blue-600/20 transition-all h-[58px] whitespace-nowrap">
-                {text.applyBtn}
-              </button>
-            </div>
+            <button
+              onClick={scrollToDashboard}
+              className="focus-ring w-full sm:w-auto rounded-lg px-5 py-3 text-sm font-semibold whitespace-nowrap transition-transform active:scale-[0.98]"
+              style={{ background: COLORS.na, color: '#04211E' }}
+            >{text.applyBtn}</button>
           </div>
 
-          {/* Quick Analysis Presets */}
-          <div className="max-w-4xl mx-auto mt-12">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest text-center mb-6">{text.presetTitle}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Presets */}
+          <div className="max-w-2xl mx-auto mt-10 pt-8" style={{ borderTop: `1px solid ${COLORS.borderSoft}` }}>
+            <h3 className="ff-mono text-[10px] uppercase tracking-widest mb-4" style={{ color: COLORS.textFaint }}>{text.presetTitle}</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
                 { title: text.preset1Title, sub: text.preset1Sub, y: 2025, m: 'volume' },
                 { title: text.preset2Title, sub: text.preset2Sub, y: 2024, m: 'share' },
                 { title: text.preset3Title, sub: text.preset3Sub, y: 2023, m: 'share' }
               ].map((p, idx) => (
-                <div key={idx} onClick={() => applyPreset(p.y as 2023|2024|2025, p.m as 'volume'|'share')} className="bg-white border border-slate-200 p-4 rounded-xl cursor-pointer hover:border-blue-400 hover:shadow-md transition-all group text-center">
-                  <h4 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{p.title}</h4>
-                  <p className="text-xs text-slate-500 mt-1">{p.sub}</p>
-                </div>
+                <button
+                  key={idx} onClick={() => applyPreset(p.y, p.m)}
+                  className="focus-ring text-left p-4 rounded-xl transition-colors"
+                  style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = COLORS.na}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = COLORS.border}
+                >
+                  <div className="font-semibold text-sm">{p.title}</div>
+                  <div className="text-xs mt-1" style={{ color: COLORS.textFaint }}>{p.sub}</div>
+                </button>
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* CORE DASHBOARD */}
-      <main ref={dashboardRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full flex-grow">
-        
-        {/* Context Disclaimer[span_1](start_span)[span_1](end_span) */}
-        <div className="mb-8 flex justify-end">
-          <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs py-2 px-4 rounded-lg shadow-sm font-medium">
-            {text.genAiDisclaimer}
+      {/* MAIN */}
+      <main ref={dashboardRef} className="max-w-6xl mx-auto px-5 py-14 scroll-mt-16">
+
+        {/* Disclosures */}
+        <div className="flex flex-col sm:flex-row justify-between gap-3 mb-8 text-xs">
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-lg" style={{ background: 'rgba(245,166,35,0.06)', border: `1px solid rgba(245,166,35,0.2)`, color: '#E0AD5C' }}>
+            <Info className="w-3.5 h-3.5 shrink-0" />
+            <span>{text.genAiDisclaimer}</span>
+          </div>
+          <div className="ff-mono flex items-center gap-1.5 px-3.5 py-2 rounded-lg" style={{ color: COLORS.textFaint, border: `1px solid ${COLORS.borderSoft}` }}>
+            {text.dataAsOf}: {formattedDate}
           </div>
         </div>
 
-        {/* KPI Strip */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-          {[
-            { label: text.kpi1, value: formatNumber(14300000, 'standard'), color: "bg-blue-600" },
-            { label: text.kpi2, value: text.regionAS, color: "bg-emerald-500" },
-            { label: text.kpi3, value: lang === 'en' ? "BYD" : "比亜迪", color: "bg-slate-800" }
-          ].map((card, idx) => (
-            <div key={idx} className="bg-white border border-slate-200 rounded-xl p-6 relative overflow-hidden shadow-sm">
-              <div className={`absolute top-0 left-0 w-1.5 h-full ${card.color}`}></div>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{card.label}</p>
-              <p className="text-3xl font-extrabold text-slate-900">{card.value}</p>
-            </div>
-          ))}
+        {/* KPI row */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+          <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
+            <p className="ff-mono text-[10px] uppercase tracking-widest mb-2" style={{ color: COLORS.textFaint }}>{text.kpi1Label}</p>
+            <p className="ff-display text-3xl font-bold tracking-tight">{formatNumber(combinedVolume)}</p>
+            <p className="text-xs mt-1.5" style={{ color: COLORS.textMuted }}>{text.kpi1Sub} · FY{year}</p>
+          </div>
+
+          <div className="rounded-2xl p-6 flex flex-col items-center text-center" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
+            <p className="ff-mono text-[10px] uppercase tracking-widest mb-3 self-start" style={{ color: COLORS.textFaint }}>{text.kpi2Label}</p>
+            <GaugeRing value={asiaShare} max={maxShare} color={COLORS.asia} track={COLORS.borderSoft} display={formatNumber(asiaShare, 'percent')} />
+            <p className="text-xs mt-2" style={{ color: COLORS.textMuted }}>{text.kpi2Sub} · FY{year}</p>
+          </div>
+
+          <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
+            <p className="ff-mono text-[10px] uppercase tracking-widest mb-2 flex items-center gap-1.5" style={{ color: COLORS.textFaint }}><Award className="w-3 h-3" /> {text.kpi3Label}</p>
+            <p className="ff-display text-3xl font-bold tracking-tight">{lang === 'ja' ? salesLeader.nameJa : salesLeader.name}</p>
+            <p className="text-xs mt-1.5 flex items-center gap-1" style={{ color: COLORS.textMuted }}>
+              {formatNumber(salesLeader.sales)} {text.units}
+              <span className="inline-flex items-center gap-0.5 font-semibold" style={{ color: COLORS.na }}><ArrowUpRight className="w-3 h-3" />{salesLeader.growth}%</span>
+            </p>
+          </div>
         </div>
 
-        {/* Top 2 Charts Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
-          
-          {/* Chart 1: Regional Adoption Line Chart */}
-          <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col">
-            <h3 className="text-lg font-bold text-slate-900 mb-6">{text.chart1Title}</h3>
-            <div className="relative w-full aspect-[16/9] bg-slate-50/50 rounded-xl border border-slate-100 flex items-center justify-center p-4">
-              <svg viewBox={`0 0 ${chart1Width} ${chart1Height}`} className="w-full h-full overflow-visible" onMouseLeave={() => setHoveredPoint(null)}>
-                {[0.25, 0.5, 0.75].map((ratio, tIdx) => {
-                  const yPos = chart1Height - 40 - (ratio * (chart1Height - 70));
-                  return (
-                    <g key={tIdx}>
-                      <line x1="50" y1={yPos} x2={chart1Width - 40} y2={yPos} stroke="#E2E8F0" strokeDasharray="4 4" />
-                      <text x="40" y={yPos + 4} fill="#64748B" fontSize="11" textAnchor="end" className="font-medium">
-                        {metric === 'share' ? formatNumber(ratio * maxShare, 'standard') : formatNumber(ratio * maxVolume, 'standard')}
-                      </text>
-                    </g>
-                  );
-                })}
-                <line x1="50" y1={chart1Height - 40} x2={chart1Width - 40} y2={chart1Height - 40} stroke="#CBD5E1" strokeWidth="2" />
-                
-                {chart1Lines.map((line, lIdx) => (
-                  <g key={lIdx}>
-                    <path d={line.points.map((p, pIdx) => `${pIdx === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')} fill="none" stroke={line.color} strokeWidth="3" className="transition-all duration-700 ease-in-out" />
-                    {line.points.map((p, pIdx) => (
-                      <circle 
-                        key={pIdx} cx={p.x} cy={p.y} r={hoveredPoint?.x === p.x && hoveredPoint?.y === p.y ? "7" : "4.5"}
-                        fill="#FFFFFF" stroke={line.color} strokeWidth="2.5"
-                        className="cursor-pointer transition-all duration-150"
-                        onMouseEnter={() => setHoveredPoint({ x: p.x, y: p.y, value: p.value, label: line.label, year: p.year })}
-                      />
-                    ))}
-                  </g>
-                ))}
-                {regionalGrowthData.map((d, idx) => (
-                  <text key={idx} x={(idx / (regionalGrowthData.length - 1)) * (chart1Width - 100) + 60} y={chart1Height - 15} fill="#475569" fontSize="12" fontWeight="bold" textAnchor="middle">{d.year}</text>
-                ))}
-              </svg>
+        {/* Row 1: line + bar */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
 
-              {hoveredPoint && (
-                <div className="absolute bg-white border border-slate-200 p-3 rounded-lg shadow-xl pointer-events-none z-40 transition-all duration-150 transform -translate-x-1/2 -translate-y-[130%]" style={{ left: `${((hoveredPoint.x) / chart1Width) * 100}%`, top: `${(hoveredPoint.y / chart1Height) * 100}%` }}>
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">{hoveredPoint.label} • {hoveredPoint.year}</p>
-                  <p className="text-xl font-black text-slate-900">
-                    {metric === 'share' ? formatNumber(hoveredPoint.value, 'percent') : formatNumber(hoveredPoint.value, 'standard')}
-                  </p>
-                </div>
-              )}
-            </div>
-            
-            <div className="flex flex-wrap gap-5 mt-6 pt-5 border-t border-slate-100">
+          {/* Chart 1 — line */}
+          <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
+            <h3 className="ff-display text-lg font-bold tracking-tight mb-1">{text.chart1Title}</h3>
+            <p className="text-xs mb-5" style={{ color: COLORS.textMuted }}>{text.chart1Context}</p>
+
+            <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-auto" onMouseLeave={hideTip}>
+              {[0.25, 0.5, 0.75].map((ratio, i) => {
+                const yPos = chartHeight - 46 - (ratio * (chartHeight - 76));
+                const val = metric === 'share' ? ratio * maxShare : ratio * maxVolume;
+                return (
+                  <g key={i}>
+                    <line x1="55" y1={yPos} x2={chartWidth - 20} y2={yPos} stroke={COLORS.borderSoft} strokeWidth="1" strokeDasharray="3 4" />
+                    <text x="48" y={yPos + 4} fill={COLORS.textFaint} fontSize="10" textAnchor="end" className="ff-mono">{metric === 'share' ? formatNumber(val, 'percent') : formatNumber(val)}</text>
+                  </g>
+                );
+              })}
+              <line x1="55" y1={chartHeight - 46} x2={chartWidth - 20} y2={chartHeight - 46} stroke={COLORS.border} strokeWidth="1.5" />
+
+              {chart1Lines.map((line, li) => (
+                <g key={li}>
+                  <path d={line.points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')} fill="none" stroke={line.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  {line.points.map((p, i) => (
+                    <circle
+                      key={i} cx={p.x} cy={p.y} r="4.5" fill={COLORS.bg} stroke={line.color} strokeWidth="2.5"
+                      className="cursor-pointer"
+                      onMouseEnter={(e) => showTip(e, `${line.label} · FY${p.year}`, [{ label: text.metricVol.split(' ')[0], value: metric === 'share' ? formatNumber(p.value, 'percent') : formatNumber(p.value), color: line.color }])}
+                    />
+                  ))}
+                </g>
+              ))}
+              {regionalGrowthData.map((d, i) => (
+                <text key={i} x={(i / (regionalGrowthData.length - 1)) * (chartWidth - 110) + 60} y={chartHeight - 14} fill={COLORS.textFaint} fontSize="10" fontWeight="600" textAnchor="middle" className="ff-mono">{d.year}</text>
+              ))}
+            </svg>
+
+            <div className="flex flex-wrap gap-4 mt-5 pt-4" style={{ borderTop: `1px solid ${COLORS.borderSoft}` }}>
               {chart1Lines.map(line => (
-                <div key={line.id} className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full" style={{ backgroundColor: line.color }}></span>
-                  <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">{line.label}</span>
+                <div key={line.id} className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: line.color }} />
+                  <span className="text-xs font-medium" style={{ color: COLORS.textMuted }}>{line.label}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Chart 2: Manufacturer Output Bar Chart */}
-          <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-bold text-slate-900">{text.chart2Title} ({year})</h3>
-            </div>
-            <div className="space-y-6 flex-grow flex flex-col justify-center bg-slate-50/50 p-6 rounded-xl border border-slate-100">
-              {currentManufacturers.map((mfg, idx) => {
+          {/* Chart 2 — bar */}
+          <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
+            <h3 className="ff-display text-lg font-bold tracking-tight mb-1">{text.chart2Title} — {year}</h3>
+            <p className="text-xs mb-5" style={{ color: COLORS.textMuted }}>{text.chart2Context}</p>
+
+            <div className="space-y-5">
+              {[...currentManufacturers].sort((a, b) => b.sales - a.sales).map((mfg, idx) => {
                 const barWidth = (mfg.sales / maxMfgSales) * 100;
                 const resolvedName = lang === 'ja' ? mfg.nameJa : mfg.name;
                 return (
-                  <div key={`${year}-${idx}`} className="space-y-2 group">
-                    <div className="flex justify-between items-end text-sm">
-                      <span className="text-slate-700 font-bold group-hover:text-blue-600 transition-colors">{resolvedName}</span>
-                      <span className="text-slate-500 text-xs">
-                        <strong className="text-slate-900 text-base">{formatNumber(mfg.sales, 'standard')}</strong> {text.sales}
-                      </span>
+                  <div key={`${year}-${idx}`} className="space-y-1.5">
+                    <div className="flex justify-between items-end text-xs">
+                      <span className="font-semibold">{resolvedName}</span>
+                      <span className="ff-mono" style={{ color: COLORS.textFaint }}>{formatNumber(mfg.sales)} {text.units}</span>
                     </div>
-                    <div className="w-full bg-slate-200 h-5 rounded-sm overflow-hidden">
-                      <div 
-                        className="h-full rounded-sm transition-all duration-1000 ease-out bg-emerald-500"
-                        style={{ width: `${barWidth}%` }}
-                      />
+                    <div
+                      className="w-full h-3.5 rounded-full overflow-hidden cursor-pointer"
+                      style={{ background: COLORS.borderSoft }}
+                      onMouseEnter={(e) => showTip(e, resolvedName, [
+                        { label: text.colSales, value: `${formatNumber(mfg.sales)} ${text.units}` },
+                        { label: text.colGrowth, value: `+${mfg.growth}%`, color: COLORS.na }
+                      ])}
+                      onMouseLeave={hideTip}
+                    >
+                      <div className="h-full rounded-full transition-all duration-700" style={{ width: `${barWidth}%`, background: `linear-gradient(90deg, #14969E, ${COLORS.na})` }} />
                     </div>
                   </div>
                 );
               })}
             </div>
-            <div className="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400 font-bold uppercase tracking-wider">
-              <span>0 Base</span>
-              <span>Max: {formatNumber(maxMfgSales, 'standard')}</span>
-            </div>
           </div>
-
         </div>
 
-        {/* Bottom 2 Charts Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
-          
-          {/* Chart 3: Battery Chemistry (Horizontal Stacked Bar) */}
-          <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-            <h3 className="text-lg font-bold text-slate-900 mb-6">{text.chart3Title}</h3>
-            <div className="space-y-6">
+        {/* Row 2: stacked bar + area */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+
+          {/* Chart 3 — stacked composition */}
+          <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
+            <h3 className="ff-display text-lg font-bold tracking-tight mb-1">{text.chart3Title}</h3>
+            <p className="text-xs mb-5" style={{ color: COLORS.textMuted }}>{text.chart3Context}</p>
+
+            <div className="space-y-5">
               {batteryTechData.map((d, i) => (
-                <div key={i} className="space-y-2">
-                  <div className="text-xs font-bold text-slate-500">{d.year}</div>
-                  <div className="flex w-full h-8 rounded-sm overflow-hidden text-[10px] text-white font-bold leading-8 text-center shadow-inner">
-                    <div className="bg-slate-800 transition-all duration-500" style={{ width: `${d.nmc}%` }}>{d.nmc > 10 ? 'NMC' : ''}</div>
-                    <div className="bg-blue-500 transition-all duration-500" style={{ width: `${d.lfp}%` }}>{d.lfp > 10 ? 'LFP' : ''}</div>
-                    <div className="bg-emerald-400 transition-all duration-500" style={{ width: `${d.solid}%` }}>{d.solid > 10 ? 'Solid' : ''}</div>
+                <div key={i} className="space-y-1.5">
+                  <div className="ff-mono text-[11px]" style={{ color: COLORS.textFaint }}>{text.tooltipYear} {d.year}</div>
+                  <div className="flex w-full h-7 rounded-lg overflow-hidden">
+                    {[
+                      { key: 'nmc', val: d.nmc, color: '#4B5563', label: text.batteryNMC },
+                      { key: 'lfp', val: d.lfp, color: COLORS.na, label: text.batteryLFP },
+                      { key: 'solid', val: d.solid, color: COLORS.eu, label: text.batterySolid },
+                    ].map(seg => (
+                      <div
+                        key={seg.key}
+                        className="h-full flex items-center justify-center text-[10px] font-semibold ff-mono cursor-pointer transition-opacity"
+                        style={{ width: `${seg.val}%`, background: seg.color, color: '#04211E' }}
+                        onMouseEnter={(e) => showTip(e, `${seg.label} · ${text.tooltipYear} ${d.year}`, [{ label: text.chart3Title.split(' ')[0], value: `${seg.val}%`, color: seg.color }])}
+                        onMouseLeave={hideTip}
+                      >{seg.val}%</div>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
-            <div className="flex gap-4 mt-6 pt-5 border-t border-slate-100">
-              <div className="flex items-center gap-2"><span className="w-3 h-3 bg-slate-800 rounded-sm"></span><span className="text-xs font-bold text-slate-600">NMC</span></div>
-              <div className="flex items-center gap-2"><span className="w-3 h-3 bg-blue-500 rounded-sm"></span><span className="text-xs font-bold text-slate-600">LFP</span></div>
-              <div className="flex items-center gap-2"><span className="w-3 h-3 bg-emerald-400 rounded-sm"></span><span className="text-xs font-bold text-slate-600">Solid-State</span></div>
+
+            <div className="flex flex-wrap gap-4 mt-5 pt-4" style={{ borderTop: `1px solid ${COLORS.borderSoft}` }}>
+              {batteryLegend.map(b => (
+                <div key={b.key} className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-sm" style={{ background: b.color }} />
+                  <span className="text-xs font-medium" style={{ color: COLORS.textMuted }}>{b.label}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Chart 4: Infrastructure Area Chart */}
-          <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-            <h3 className="text-lg font-bold text-slate-900 mb-6">{text.chart4Title}</h3>
-            <div className="relative w-full aspect-[16/9] bg-slate-50/50 rounded-xl border border-slate-100 p-4">
-              <svg viewBox={`0 0 ${chart1Width} ${chart1Height}`} className="w-full h-full overflow-visible">
-                <line x1="50" y1={chart1Height - 40} x2={chart1Width - 40} y2={chart1Height - 40} stroke="#CBD5E1" strokeWidth="2" />
-                <path d={infraAreaPath} fill="rgba(37, 99, 235, 0.1)" />
-                <path d={infraPath} fill="none" stroke="#2563EB" strokeWidth="3" />
-                {infraPoints.map((p, idx) => (
-                  <circle key={idx} cx={p.x} cy={p.y} r="4" fill="#2563EB" />
-                ))}
-                {infraPoints.map((p, idx) => (
-                  <text key={idx} x={p.x} y={chart1Height - 15} fill="#475569" fontSize="12" fontWeight="bold" textAnchor="middle">{p.year}</text>
-                ))}
-              </svg>
-            </div>
-          </div>
+          {/* Chart 4 — area */}
+          <div className="rounded-2xl p-6" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
+            <h3 className="ff-display text-lg font-bold tracking-tight mb-1 flex items-center gap-2"><BatteryCharging className="w-4 h-4" style={{ color: COLORS.na }} />{text.chart4Title}</h3>
+            <p className="text-xs mb-5" style={{ color: COLORS.textMuted }}>{text.chart4Context}</p>
 
+            <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-auto" onMouseLeave={hideTip}>
+              {[200000, 400000, 600000].map((tick, i) => {
+                const y = chartHeight - 46 - (tick / maxInfra) * (chartHeight - 76);
+                return (
+                  <g key={i}>
+                    <line x1="55" y1={y} x2={chartWidth - 20} y2={y} stroke={COLORS.borderSoft} strokeDasharray="3 4" />
+                    <text x="48" y={y + 4} fill={COLORS.textFaint} fontSize="10" textAnchor="end" className="ff-mono">{formatNumber(tick)}</text>
+                  </g>
+                );
+              })}
+              <line x1="55" y1={chartHeight - 46} x2={chartWidth - 20} y2={chartHeight - 46} stroke={COLORS.border} strokeWidth="1.5" />
+              <defs>
+                <linearGradient id="infraFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={COLORS.na} stopOpacity="0.25" />
+                  <stop offset="100%" stopColor={COLORS.na} stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path d={infraAreaPath} fill="url(#infraFill)" />
+              <path d={infraPath} fill="none" stroke={COLORS.na} strokeWidth="2.5" strokeLinecap="round" />
+              {infraPoints.map((p, i) => (
+                <circle
+                  key={i} cx={p.x} cy={p.y} r="4.5" fill={COLORS.bg} stroke={COLORS.na} strokeWidth="2.5"
+                  className="cursor-pointer"
+                  onMouseEnter={(e) => showTip(e, `${text.tooltipYear} ${p.year}`, [{ label: text.chart4Title, value: formatNumber(p.val), color: COLORS.na }])}
+                />
+              ))}
+              {infraPoints.map((p, i) => (
+                <text key={i} x={p.x} y={chartHeight - 14} fill={COLORS.textFaint} fontSize="10" fontWeight="600" textAnchor="middle" className="ff-mono">{p.year}</text>
+              ))}
+            </svg>
+          </div>
         </div>
 
-        {/* Data Table */}
-        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden mb-16">
-          <div className="p-6 border-b border-slate-200 bg-slate-50">
-            <h3 className="text-lg font-bold text-slate-900">{text.tableTitle} ({year})</h3>
+        {/* Table */}
+        <div className="rounded-2xl overflow-hidden" style={{ background: COLORS.panel, border: `1px solid ${COLORS.border}` }}>
+          <div className="p-6" style={{ borderBottom: `1px solid ${COLORS.borderSoft}` }}>
+            <h3 className="ff-display text-lg font-bold tracking-tight mb-0.5">{text.tableTitle} — {year}</h3>
+            <p className="text-xs" style={{ color: COLORS.textMuted }}>{text.tableContext}</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-100 text-xs text-slate-500 uppercase tracking-wider">
-                  <th className="p-4 border-b border-slate-200">{text.colRank}</th>
-                  <th className="p-4 border-b border-slate-200">{text.colMfg}</th>
-                  <th className="p-4 border-b border-slate-200">{text.colSales}</th>
-                  <th className="p-4 border-b border-slate-200">{text.colGrowth}</th>
-                  <th className="p-4 border-b border-slate-200">{text.colChem}</th>
+                <tr className="ff-mono text-[10px] uppercase tracking-widest" style={{ color: COLORS.textFaint, borderBottom: `1px solid ${COLORS.borderSoft}` }}>
+                  <th className="p-4 pl-6">{text.colRank}</th>
+                  <th className="p-4">{text.colMfg}</th>
+                  <th className="p-4">{text.colSales}</th>
+                  <th className="p-4">{text.colGrowth}</th>
+                  <th className="p-4 pr-6">{text.colChem}</th>
                 </tr>
               </thead>
-              <tbody className="text-sm font-medium text-slate-700">
-                {currentManufacturers.sort((a,b) => b.sales - a.sales).map((mfg, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                    <td className="p-4 border-b border-slate-100">#{idx + 1}</td>
-                    <td className="p-4 border-b border-slate-100 font-bold text-slate-900">{lang === 'ja' ? mfg.nameJa : mfg.name}</td>
-                    <td className="p-4 border-b border-slate-100">{formatNumber(mfg.sales, 'standard')}</td>
-                    <td className="p-4 border-b border-slate-100 text-emerald-600">+{mfg.growth}%</td>
-                    <td className="p-4 border-b border-slate-100 text-slate-500">{mfg.chemistry}</td>
+              <tbody className="text-sm">
+                {[...currentManufacturers].sort((a, b) => b.sales - a.sales).map((mfg, idx) => (
+                  <tr key={idx} className="transition-colors" style={{ borderBottom: `1px solid ${COLORS.borderSoft}` }}>
+                    <td className="p-4 pl-6 ff-mono text-xs" style={{ color: COLORS.textFaint }}>0{idx + 1}</td>
+                    <td className="p-4 font-semibold">{lang === 'ja' ? mfg.nameJa : mfg.name}</td>
+                    <td className="p-4 ff-mono">{formatNumber(mfg.sales)}</td>
+                    <td className="p-4 ff-mono font-semibold" style={{ color: COLORS.na }}>+{mfg.growth}%</td>
+                    <td className="p-4 pr-6 text-xs" style={{ color: COLORS.textMuted }}>{mfg.chemistry}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
-
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-12 px-6 text-center text-sm text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-slate-800 flex items-center justify-center">
-              <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            </div>
-            <span className="font-bold text-slate-900">{text.title}</span>
-          </div>
-          <p>SEG 3125 Analysis and Design of User Interfaces • © 2026</p>
-        </div>
+      <footer className="px-5 py-8 text-center" style={{ borderTop: `1px solid ${COLORS.border}` }}>
+        <p className="ff-mono text-[11px]" style={{ color: COLORS.textFaint }}>{text.footerNote}</p>
       </footer>
     </div>
   );
-};
+}
+
+/* Signature element: charge-ring gauge used for the Asia market-share KPI */
+function GaugeRing({ value, max, color, track, display }: any) {
+  const r = 46;
+  const c = 2 * Math.PI * r;
+  const pct = Math.min(Math.max(value / max, 0), 1);
+  const offset = c * (1 - pct);
+  return (
+    <div className="relative w-28 h-28">
+      <svg viewBox="0 0 108 108" className="w-full h-full -rotate-90">
+        <circle cx="54" cy="54" r={r} fill="none" stroke={track} strokeWidth="9" />
+        <circle
+          cx="54" cy="54" r={r} fill="none" stroke={color} strokeWidth="9" strokeLinecap="round"
+          strokeDasharray={c} strokeDashoffset={offset}
+          style={{ transition: 'stroke-dashoffset 700ms ease-out' }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="ff-mono font-bold text-xl">{display}</span>
+      </div>
+    </div>
+  );
+}
